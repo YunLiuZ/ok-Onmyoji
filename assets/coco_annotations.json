@@ -1,31 +1,553 @@
 {
     "images": [
         {
-            "id": 1,
+            "id": 2,
             "file_name": "images/0.png",
-            "width": 3840,
-            "height": 2160
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 3,
+            "file_name": "images/0.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 4,
+            "file_name": "images/1.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 5,
+            "file_name": "images/1.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 6,
+            "file_name": "images/2.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 7,
+            "file_name": "images/1.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 8,
+            "file_name": "images/0.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 9,
+            "file_name": "images/0.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 10,
+            "file_name": "images/0.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 12,
+            "file_name": "images/2.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 13,
+            "file_name": "images/0.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 14,
+            "file_name": "images/0.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 15,
+            "file_name": "images/1.png",
+            "width": 2560,
+            "height": 1440
         }
     ],
     "annotations": [
         {
             "id": 1,
-            "image_id": 1,
+            "image_id": 2,
             "category_id": 1,
             "bbox": [
-                127,
-                66,
-                58,
-                45
+                2349,
+                1218,
+                79,
+                175
             ],
-            "area": 2610,
+            "area": 13825,
+            "iscrowd": 0
+        },
+        {
+            "id": 2,
+            "image_id": 3,
+            "category_id": 2,
+            "bbox": [
+                1286,
+                1212,
+                135,
+                154
+            ],
+            "area": 20790,
+            "iscrowd": 0
+        },
+        {
+            "id": 3,
+            "image_id": 3,
+            "category_id": 4,
+            "bbox": [
+                2175,
+                1218,
+                156,
+                148
+            ],
+            "area": 23088,
+            "iscrowd": 0
+        },
+        {
+            "id": 4,
+            "image_id": 3,
+            "category_id": 3,
+            "bbox": [
+                1622,
+                831,
+                59,
+                62
+            ],
+            "area": 3658,
+            "iscrowd": 0
+        },
+        {
+            "id": 5,
+            "image_id": 3,
+            "category_id": 5,
+            "bbox": [
+                1421,
+                485,
+                184,
+                145
+            ],
+            "area": 26680,
+            "iscrowd": 0
+        },
+        {
+            "id": 6,
+            "image_id": 3,
+            "category_id": 6,
+            "bbox": [
+                1313,
+                207,
+                161,
+                216
+            ],
+            "area": 34776,
+            "iscrowd": 0
+        },
+        {
+            "id": 7,
+            "image_id": 3,
+            "category_id": 7,
+            "bbox": [
+                1061,
+                1207,
+                150,
+                161
+            ],
+            "area": 24150,
+            "iscrowd": 0
+        },
+        {
+            "id": 8,
+            "image_id": 3,
+            "category_id": 8,
+            "bbox": [
+                2255,
+                23,
+                104,
+                97
+            ],
+            "area": 10088,
+            "iscrowd": 0
+        },
+        {
+            "id": 9,
+            "image_id": 3,
+            "category_id": 9,
+            "bbox": [
+                992,
+                35,
+                317,
+                63
+            ],
+            "area": 19971,
+            "iscrowd": 0
+        },
+        {
+            "id": 10,
+            "image_id": 3,
+            "category_id": 10,
+            "bbox": [
+                1338,
+                37,
+                313,
+                62
+            ],
+            "area": 19406,
+            "iscrowd": 0
+        },
+        {
+            "id": 11,
+            "image_id": 3,
+            "category_id": 11,
+            "bbox": [
+                1689,
+                37,
+                320,
+                67
+            ],
+            "area": 21440,
+            "iscrowd": 0
+        },
+        {
+            "id": 12,
+            "image_id": 4,
+            "category_id": 12,
+            "bbox": [
+                2228,
+                1186,
+                200,
+                189
+            ],
+            "area": 37800,
+            "iscrowd": 0
+        },
+        {
+            "id": 13,
+            "image_id": 4,
+            "category_id": 13,
+            "bbox": [
+                2258,
+                239,
+                221,
+                172
+            ],
+            "area": 38012,
+            "iscrowd": 0
+        },
+        {
+            "id": 14,
+            "image_id": 5,
+            "category_id": 14,
+            "bbox": [
+                2322,
+                72,
+                141,
+                62
+            ],
+            "area": 8742,
+            "iscrowd": 0
+        },
+        {
+            "id": 15,
+            "image_id": 6,
+            "category_id": 15,
+            "bbox": [
+                2313,
+                89,
+                113,
+                88
+            ],
+            "area": 9944,
+            "iscrowd": 0
+        },
+        {
+            "id": 16,
+            "image_id": 8,
+            "category_id": 16,
+            "bbox": [
+                12,
+                7,
+                150,
+                143
+            ],
+            "area": 21450,
+            "iscrowd": 0
+        },
+        {
+            "id": 17,
+            "image_id": 8,
+            "category_id": 27,
+            "bbox": [
+                187,
+                26,
+                93,
+                95
+            ],
+            "area": 8835,
+            "iscrowd": 0
+        },
+        {
+            "id": 18,
+            "image_id": 9,
+            "category_id": 18,
+            "bbox": [
+                132,
+                1145,
+                182,
+                248
+            ],
+            "area": 45136,
+            "iscrowd": 0
+        },
+        {
+            "id": 19,
+            "image_id": 10,
+            "category_id": 19,
+            "bbox": [
+                1381,
+                1092,
+                324,
+                118
+            ],
+            "area": 38232,
+            "iscrowd": 0
+        },
+        {
+            "id": 20,
+            "image_id": 9,
+            "category_id": 20,
+            "bbox": [
+                2294,
+                177,
+                118,
+                115
+            ],
+            "area": 13570,
+            "iscrowd": 0
+        },
+        {
+            "id": 21,
+            "image_id": 12,
+            "category_id": 21,
+            "bbox": [
+                2267,
+                1273,
+                136,
+                136
+            ],
+            "area": 18496,
+            "iscrowd": 0
+        },
+        {
+            "id": 22,
+            "image_id": 12,
+            "category_id": 22,
+            "bbox": [
+                1735,
+                1276,
+                129,
+                141
+            ],
+            "area": 18189,
+            "iscrowd": 0
+        },
+        {
+            "id": 23,
+            "image_id": 13,
+            "category_id": 23,
+            "bbox": [
+                2336,
+                881,
+                170,
+                164
+            ],
+            "area": 27880,
+            "iscrowd": 0
+        },
+        {
+            "id": 24,
+            "image_id": 14,
+            "category_id": 24,
+            "bbox": [
+                389,
+                400,
+                202,
+                262
+            ],
+            "area": 52924,
+            "iscrowd": 0
+        },
+        {
+            "id": 25,
+            "image_id": 15,
+            "category_id": 25,
+            "bbox": [
+                960,
+                372,
+                643,
+                191
+            ],
+            "area": 122813,
+            "iscrowd": 0
+        },
+        {
+            "id": 26,
+            "image_id": 7,
+            "category_id": 26,
+            "bbox": [
+                551,
+                42,
+                489,
+                138
+            ],
+            "area": 67482,
             "iscrowd": 0
         }
     ],
     "categories": [
         {
             "id": 1,
-            "name": "this_is_a_place_holder",
+            "name": "Home_Scroll_Close",
+            "supercategory": ""
+        },
+        {
+            "id": 2,
+            "name": "Home_Store",
+            "supercategory": ""
+        },
+        {
+            "id": 3,
+            "name": "Home_Sign",
+            "supercategory": ""
+        },
+        {
+            "id": 4,
+            "name": "Home_Shikigami_Chronicles",
+            "supercategory": ""
+        },
+        {
+            "id": 5,
+            "name": "Home_Town",
+            "supercategory": ""
+        },
+        {
+            "id": 6,
+            "name": "Home_Explore",
+            "supercategory": ""
+        },
+        {
+            "id": 7,
+            "name": "YinYang_Lodge",
+            "supercategory": ""
+        },
+        {
+            "id": 8,
+            "name": "Home_Email",
+            "supercategory": ""
+        },
+        {
+            "id": 9,
+            "name": "Gold_Coins",
+            "supercategory": ""
+        },
+        {
+            "id": 10,
+            "name": "Magatama",
+            "supercategory": ""
+        },
+        {
+            "id": 11,
+            "name": "Stamina",
+            "supercategory": ""
+        },
+        {
+            "id": 12,
+            "name": "Sign_Button",
+            "supercategory": ""
+        },
+        {
+            "id": 13,
+            "name": "Sign_Daily_Button",
+            "supercategory": ""
+        },
+        {
+            "id": 14,
+            "name": "Sign_Daily_Skip",
+            "supercategory": ""
+        },
+        {
+            "id": 15,
+            "name": "Daily_New_Cancel",
+            "supercategory": ""
+        },
+        {
+            "id": 16,
+            "name": "Back",
+            "supercategory": ""
+        },
+        {
+            "id": 18,
+            "name": "Email_Finish",
+            "supercategory": ""
+        },
+        {
+            "id": 19,
+            "name": "Confirm",
+            "supercategory": ""
+        },
+        {
+            "id": 20,
+            "name": "Cancel_Old",
+            "supercategory": ""
+        },
+        {
+            "id": 21,
+            "name": "Gift_Store",
+            "supercategory": ""
+        },
+        {
+            "id": 22,
+            "name": "Grocery_Store",
+            "supercategory": ""
+        },
+        {
+            "id": 23,
+            "name": "Gift_Daily",
+            "supercategory": ""
+        },
+        {
+            "id": 24,
+            "name": "Gift_Daily_Finish",
+            "supercategory": ""
+        },
+        {
+            "id": 25,
+            "name": "Gift_Finish",
+            "supercategory": ""
+        },
+        {
+            "id": 26,
+            "name": "Daliy_Sign_Success",
+            "supercategory": ""
+        },
+        {
+            "id": 27,
+            "name": "Home_Button",
             "supercategory": ""
         }
     ]

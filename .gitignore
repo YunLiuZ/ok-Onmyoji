@@ -33,7 +33,6 @@ thread_dumps.txt
 
 # Distribution / packaging
 .Python
-test/
 logs/
 build/
 develop-eggs/
@@ -67,4 +66,4 @@ pip-delete-this-directory.txt
 autohelper
 working_images/
 i18n/i18n/
-tests/images/
+

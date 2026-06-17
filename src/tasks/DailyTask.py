@@ -1,8 +1,9 @@
 from ok import og
 from src.tasks.MyBaseTask import MyBaseTask
+from src.tasks.BaseOmjTask import BaseOmjTask
 
 
-class DailyTask(MyBaseTask):
+class DailyTask(BaseOmjTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -21,19 +22,19 @@ class DailyTask(MyBaseTask):
         3. 点击一键完成 Sign_Button
         4. 分支判断：
            - 分支A: 检测到 Sign_Daily_Skip → 点击跳过 →
-                    Daily_New_Cancel → Daily_Sign_Successl → Home_Button
-           - 分支B: 直接检测到 Daily_Sign_Successl → Home_Button
+                    Daily_New_Cancel → Daily_Sign_Success → Home_Button
+           - 分支B: 直接检测到 Daily_Sign_Success → Home_Button
         """
         # 1. 确认在主页，不在主页则跳过
-        if not self.in_home():
-            self.log_warning("不在主页，跳过签到")
-            return
-
+        if not self.In_Home():
+            self.log_info("不在主页")
+            if self.Back_Home() is not True:
+                return
         # 2. 等待签到入口出现并点击
-        if not self.wait_click_feature('Home_Sign', threshold=0.6,
+        if not self.wait_click_feature('Home_Sign', threshold=0.6,box=self.box_of_screen(0.4, 0.5, 0.7, 0.7),
                                         raise_if_not_found=False, time_out=3):
             self.log_warning("找不到签到入口 Home_Sign")
-            return
+            self.click_relative(0.64,0.6)
         self.info_set("步骤", "进入签到页面")
         # 3. 等待一键完成按钮出现并点击
         if not self.wait_click_feature('Sign_Button', threshold=0.6,
@@ -57,9 +58,9 @@ class DailyTask(MyBaseTask):
                 return
 
             # 等待签到成功出现并点击
-            if not self.wait_click_feature('Daily_Sign_Successl', threshold=0.6,
+            if not self.wait_click_feature('Daily_Sign_Success', threshold=0.6,
                                             raise_if_not_found=False, time_out=3):
-                self.log_warning("找不到签到成功 Daily_Sign_Successl")
+                self.log_warning("找不到签到成功 Daily_Sign_Success")
                 return
 
             # 返回主页
@@ -69,9 +70,9 @@ class DailyTask(MyBaseTask):
                 return
         else:
             # 分支B：直接检测到签到成功
-            if not self.wait_click_feature('Daily_Sign_Successl', threshold=0.6,
+            if not self.wait_click_feature('Daily_Sign_Success', threshold=0.6,
                                             raise_if_not_found=False, time_out=3):
-                self.log_warning("找不到签到成功 Daily_Sign_Successl")
+                self.log_warning("找不到签到成功 Daily_Sign_Success")
                 return
 
             # 返回主页
@@ -89,7 +90,7 @@ class DailyTask(MyBaseTask):
         2. Home_Store → Gift_Store → Gift_Daily → Gift_Daily_Fnish → Gift_Fnish → Home_Button
         """
         # 1. 确认在主页，不在主页则跳过
-        if not self.in_home():
+        if not self.In_Home():
             self.log_warning("不在主页，跳过礼包屋签到")
             return
 

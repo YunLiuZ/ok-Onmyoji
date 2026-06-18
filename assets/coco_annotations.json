@@ -50,7 +50,7 @@
         },
         {
             "id": 10,
-            "file_name": "images/0.png",
+            "file_name": "images/1.png",
             "width": 2560,
             "height": 1440
         },
@@ -75,6 +75,24 @@
         {
             "id": 15,
             "file_name": "images/1.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 16,
+            "file_name": "images/2.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 17,
+            "file_name": "images/2.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 18,
+            "file_name": "images/3.png",
             "width": 2560,
             "height": 1440
         }
@@ -417,6 +435,97 @@
             ],
             "area": 67482,
             "iscrowd": 0
+        },
+        {
+            "id": 27,
+            "image_id": 16,
+            "category_id": 17,
+            "bbox": [
+                1015,
+                156,
+                523,
+                102
+            ],
+            "area": 53346,
+            "iscrowd": 0
+        },
+        {
+            "id": 28,
+            "image_id": 16,
+            "category_id": 28,
+            "bbox": [
+                717,
+                1158,
+                438,
+                127
+            ],
+            "area": 55626,
+            "iscrowd": 0
+        },
+        {
+            "id": 29,
+            "image_id": 10,
+            "category_id": 29,
+            "bbox": [
+                879,
+                1090,
+                336,
+                120
+            ],
+            "area": 40320,
+            "iscrowd": 0
+        },
+        {
+            "id": 30,
+            "image_id": 17,
+            "category_id": 31,
+            "bbox": [
+                678,
+                147,
+                161,
+                101
+            ],
+            "area": 16261,
+            "iscrowd": 0
+        },
+        {
+            "id": 31,
+            "image_id": 18,
+            "category_id": 30,
+            "bbox": [
+                2166,
+                180,
+                328,
+                1131
+            ],
+            "area": 370968,
+            "iscrowd": 0
+        },
+        {
+            "id": 32,
+            "image_id": 18,
+            "category_id": 32,
+            "bbox": [
+                1049,
+                278,
+                257,
+                1101
+            ],
+            "area": 282957,
+            "iscrowd": 0
+        },
+        {
+            "id": 33,
+            "image_id": 17,
+            "category_id": 33,
+            "bbox": [
+                118,
+                14,
+                347,
+                97
+            ],
+            "area": 33659,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -501,6 +610,11 @@
             "supercategory": ""
         },
         {
+            "id": 17,
+            "name": "Personalization_Index",
+            "supercategory": ""
+        },
+        {
             "id": 18,
             "name": "Email_Finish",
             "supercategory": ""
@@ -548,6 +662,36 @@
         {
             "id": 27,
             "name": "Home_Button",
+            "supercategory": ""
+        },
+        {
+            "id": 28,
+            "name": "Personalization_Close",
+            "supercategory": ""
+        },
+        {
+            "id": 29,
+            "name": "Cancel",
+            "supercategory": ""
+        },
+        {
+            "id": 30,
+            "name": "Home_Shikigami_Group",
+            "supercategory": ""
+        },
+        {
+            "id": 31,
+            "name": "Home_Shikigami_Presets",
+            "supercategory": ""
+        },
+        {
+            "id": 32,
+            "name": "Home_Shikigami_Group_Name",
+            "supercategory": ""
+        },
+        {
+            "id": 33,
+            "name": "Home_Shikigami_Detece_Name",
             "supercategory": ""
         }
     ]

@@ -242,3 +242,1667 @@ msgstr "请只选择可用的多选值。"
 
 msgid "Select only available drop-down option values."
 msgstr "请只选择可用的下拉框选项值。"
+
+# ==============================================================================
+# ===== BEGIN: merged from i18n_omj.zip (Qt TS/XML -> gettext PO) =====
+# ===== 下面内容为本次追加，便于后续查找和修改 =====
+# ==============================================================================
+#. Qt context: ItemsOriginal
+msgid "home"
+msgstr "主页"
+
+#. Qt context: ItemsFooter
+msgid "add"
+msgstr "新增"
+
+#. Qt context: ItemsFooter
+msgid "about"
+msgstr "关于"
+
+#. Qt context: ItemsFooter
+msgid "settings"
+msgstr "设置"
+
+#. Qt context: O_Settings
+msgid "Dark Mode"
+msgstr "夜间模式"
+
+#. Qt context: O_Settings
+msgid "System"
+msgstr "系统"
+
+#. Qt context: O_Settings
+msgid "Light"
+msgstr "明亮"
+
+#. Qt context: O_Settings
+msgid "Dark"
+msgstr "暗夜"
+
+#. Qt context: O_Settings
+msgid "navigation_view_display_mode"
+msgstr "导航视图显示模式"
+
+#. Qt context: O_Settings
+msgid "Open"
+msgstr "展开"
+
+#. Qt context: O_Settings
+msgid "Compact"
+msgstr "紧凑"
+
+#. Qt context: O_Settings
+msgid "Minimal"
+msgstr "最小化"
+
+#. Qt context: O_Settings
+msgid "Auto"
+msgstr "自动"
+
+#. Qt context: O_Settings
+msgid "Theme color"
+msgstr "主题颜色"
+
+#. Qt context: O_Settings
+msgid "Native text rendering"
+msgstr "原生文本渲染"
+
+#. Qt context: O_Settings
+msgid "Locale"
+msgstr "语言环境"
+
+#. Qt context: O_Settings
+msgid "Dpi Strategy"
+msgstr "分辨率DPI缩放策略"
+
+#. Qt context: O_Settings
+msgid "default"
+msgstr "默认不缩放"
+
+#. Qt context: O_Settings
+msgid "floor"
+msgstr "始终不缩放"
+
+#. Qt context: O_Settings
+msgid "ceil"
+msgstr "始终缩放"
+
+#. Qt context: O_Settings
+msgid "round"
+msgstr "设备像素比0.5及以上的，进行缩放"
+
+#. Qt context: O_Settings
+msgid "round_prefer_floor"
+msgstr "设备像素比0.75及以上的，进行缩放"
+
+#. Qt context: O_Home, FluTreeView
+msgid "Home"
+msgstr "主页"
+
+#. Qt context: O_Home, FluTreeView
+msgid "Update"
+msgstr "更新"
+
+#. Qt context: ScriptView, FluTreeView
+msgid "Overview"
+msgstr "总览"
+
+#. Qt context: FluTreeView
+msgid "TaskList"
+msgstr "任务总览"
+
+#. Qt context: FluTreeView
+msgid "Script"
+msgstr "脚本"
+
+#. Qt context: FluTreeView
+msgid "General"
+msgstr "通用"
+
+#. Qt context: FluTreeView
+msgid "Restart"
+msgstr "重启"
+
+#. Qt context: FluTreeView
+msgid "Tools"
+msgstr "工具"
+
+#. Qt context: FluTreeView
+msgid "Image Rule"
+msgstr "截图规范"
+
+#. Qt context: FluTreeView
+msgid "Ocr Rule"
+msgstr "OCR规范"
+
+#. Qt context: FluTreeView
+msgid "Click Rule"
+msgstr "点击规范"
+
+#. Qt context: FluTreeView
+msgid "Long Click Rule"
+msgstr "长按规范"
+
+#. Qt context: FluTreeView
+msgid "Swipe Rule"
+msgstr "滑动规范"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Daily Task"
+msgstr "日常任务"
+
+#. Qt context: FluTreeView, TaskList
+msgid "AreaBoss"
+msgstr "地狱鬼王"
+
+#. Qt context: FluTreeView, TaskList
+msgid "GoldYoukai"
+msgstr "金币妖怪"
+
+#. Qt context: FluTreeView, TaskList
+msgid "ExperienceYoukai"
+msgstr "经验妖怪"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Nian"
+msgstr "年兽"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Soul Zones"
+msgstr "御魂副本"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Orochi"
+msgstr "八岐大蛇"
+
+#. Qt context: FluTreeView, TaskList
+msgid "OrochiMoans"
+msgstr "御魂悲鸣"
+
+#. Qt context: FluTreeView, TaskList
+msgid "OrochiJudgement"
+msgstr "御魂神罚"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Sougenbi"
+msgstr "业原火"
+
+#. Qt context: FluTreeView, TaskList
+msgid "FallenSun"
+msgstr "日轮之城"
+
+#. Qt context: FluTreeView, TaskList
+msgid "EternitySea"
+msgstr "永生之海"
+
+#. Qt context: FluTreeView, TaskList
+msgid "GlobalGame"
+msgstr "全局游戏设置"
+
+#. Qt context: FluTreeView, TaskList
+msgid "RealmRaid"
+msgstr "个人突破"
+
+#. Qt context: FluTreeView, TaskList
+msgid "RyouToppa"
+msgstr "寮突破"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Dokan"
+msgstr "道馆"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Exploration"
+msgstr "探索"
+
+#. Qt context: FluTreeView, TaskList
+msgid "List Rule"
+msgstr "列表规则"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Activity Task"
+msgstr "限时活动"
+
+#. Qt context: FluTreeView, TaskList
+msgid "ActivityShikigami"
+msgstr "当期式神爬塔"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Liver Emperor Exclusive"
+msgstr "肝帝专属"
+
+#. Qt context: FluTreeView, TaskList
+msgid "BondlingFairyland"
+msgstr "契灵之境"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Weekly Task"
+msgstr "每周任务"
+
+#. Qt context: FluTreeView, TaskList
+msgid "TrueOrochi"
+msgstr "真·八岐大蛇"
+
+#. Qt context: FluTreeView, TaskList
+msgid "KekkaiUtilize"
+msgstr "结界蹭卡"
+
+#. Qt context: FluTreeView, TaskList
+msgid "KekkaiActivation"
+msgstr "结界挂卡"
+
+#. Qt context: FluTreeView, TaskList
+msgid "DemonEncounter"
+msgstr "封魔之时"
+
+#. Qt context: FluTreeView, TaskList
+msgid "DailyTrifles"
+msgstr "每日琐事"
+
+#. Qt context: FluTreeView, TaskList
+msgid "TalismanPass"
+msgstr "花合战"
+
+#. Qt context: FluTreeView, TaskList
+msgid "SoulsTidy"
+msgstr "御魂整理"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Pets"
+msgstr "小猫咪"
+
+#. Qt context: FluTreeView, TaskList
+msgid "EvoZone"
+msgstr "觉醒副本"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Guild"
+msgstr "阴阳寮"
+
+#. Qt context: FluTreeView, TaskList
+msgid "RichMan"
+msgstr "大富翁"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Secret"
+msgstr "秘闻之境"
+
+#. Qt context: FluTreeView, TaskList
+msgid "WeeklyTrifles"
+msgstr "每周琐事"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Delegation"
+msgstr "式神委派"
+
+#. Qt context: FluTreeView, TaskList
+msgid "GoryouRealm"
+msgstr "御灵之境"
+
+#. Qt context: FluTreeView, TaskList
+msgid "CollectiveMissions"
+msgstr "集体任务"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Hunt"
+msgstr "狩猎战"
+
+#. Qt context: FluTreeView, TaskList
+msgid "MysteryShop"
+msgstr "神秘商店"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Duel"
+msgstr "斗技"
+
+#. Qt context: FluTreeView, TaskList
+msgid "WantedQuests"
+msgstr "悬赏封印"
+
+#. Qt context: FluTreeView, TaskList
+msgid "Tako"
+msgstr "石距"
+
+#. Qt context: FluTreeView, TaskList
+msgid "AutoCheckinBigGod"
+msgstr "大神签到"
+
+#. Qt context: Args
+msgid "Setting"
+msgstr "设置"
+
+#. Qt context: Args
+msgid "Device"
+msgstr "模拟器"
+
+#. Qt context: Args
+msgid "Serial"
+msgstr "模拟器 Serial"
+
+#. Qt context: Args
+msgid "Handle"
+msgstr "句柄 Handle"
+
+#. Qt context: Args
+msgid "package_name_help"
+msgstr "模拟器上装有多个游戏客户端时，需要手动选择服务器"
+
+#. Qt context: Args
+msgid "PackageName"
+msgstr "游戏客户端"
+
+#. Qt context: Args
+msgid "ScreenshotMethod"
+msgstr "模拟器截屏方案"
+
+#. Qt context: Args
+msgid "ControlMethod"
+msgstr "模拟器控制方案"
+
+#. Qt context: Args
+msgid "serial_help"
+msgstr "常见的模拟器 Serial 可以查询下方列表\n填 \"auto\" 自动检测模拟器，多个模拟器正在运行或使用不支持自动检测的模拟器时无法使用 \"auto\"，必须手动填写\n\n模拟器默认 Serial:\n[MuMu模拟器12]: 127.0.0.1:16384 \n[MuMu模拟器]: 127.0.0.1:7555 \n[雷电模拟器](全系列通用): emulator-5554 或 127.0.0.1:5555\n\n如果没有提及的那可能是还没有测试或者不推荐使用，可以自行尝试\n如果你使用了模拟器的多开功能，它们的 Serial 将不是默认的，可以在 console.bat 中执行 `adb devices` 查询，或根据模拟器官方的教程填写'"
+
+#. Qt context: Args
+msgid "handle_help"
+msgstr "填 \"auto\" 自动检测模拟器，多个模拟器正在运行或使用不支持自动检测的模拟器时无法使用 \"auto\"，必须手动填写\n输入为句柄标题或者是句柄号，每次启动模拟器时句柄号会变化。清空表示不使用window的操作方式。\n\n句柄标题 Handle:\n[MuMu模拟器12]: \"MuMu模拟器12\"\n[MuMu模拟器]: \"MuMu模拟器\" \n[雷电模拟器](全系列通用): \"雷电模拟器\"\n\n句柄号 Handle:\n某些模拟器多开时具有相同的句柄标题（说的就是MuMu），此时需要手动获取模拟器的句柄号手动设置。\n获取工具请查阅文档：[模拟器支持] "
+
+#. Qt context: Args
+msgid "screenshot_method_help"
+msgstr "使用自动选择时，将执行一次性能测试并自动更改为最快的截图方案。一般情况下的速度: \nwindow_background >>> DroidCast_raw >  ADB_nc >> DroidCast > uiautomator2 ~= ADB\n使用window_background来截图是10ms左右，对比DroidCast_raw是100ms左右（仅限作者的电脑）。但是window_background有一个致命的缺点是模拟器不可以最小化，望周知"
+
+#. Qt context: Args
+msgid "control_method_help"
+msgstr "速度: window_message ~= minitouch > Hermit >>> uiautomator2 ~= ADB\n控制方式是模拟人类的速度，也不是越快越好 使用(window_message)会偶尔出现失效的情况"
+
+#. Qt context: Args
+msgid "Adb Restart"
+msgstr "在检测不到设备的时候尝试重启adb"
+
+#. Qt context: Args
+msgid "Error"
+msgstr "出错"
+
+#. Qt context: Args
+msgid "Handle Error"
+msgstr "启用异常处理"
+
+#. Qt context: Args
+msgid "handle_error_help"
+msgstr "处理部分异常，运行出错时撤退"
+
+#. Qt context: Args
+msgid "Save Error"
+msgstr "出错时，保存 Log 和截图"
+
+#. Qt context: Args
+msgid "Screenshot Length"
+msgstr "出错时，保留最后 X 张截图"
+
+#. Qt context: Args
+msgid "Optimization"
+msgstr "优化"
+
+#. Qt context: Args
+msgid "Screenshot Interval"
+msgstr "放慢截图速度至 X 秒一张"
+
+#. Qt context: Args
+msgid "Combat Screenshot Interval"
+msgstr "战斗中放慢截图速度至 X 秒一张"
+
+#. Qt context: Args
+msgid "Task Hoarding Duration"
+msgstr "囤积任务 X 分钟"
+
+#. Qt context: Args
+msgid "WhenTaskQueueEmpty"
+msgstr "当任务队列清空后"
+
+#. Qt context: Args
+msgid "screenshot_interval_help"
+msgstr "执行两次截图之间的最小间隔，限制在 0.1 ~ 0.3，对于高配置电脑能降低 CPU 占用"
+
+#. Qt context: Args
+msgid "combat_screenshot_interval_help"
+msgstr "执行两次截图之间的最小间隔，限制在 0.1 ~ 1.0，能降低战斗时的 CPU 占用"
+
+#. Qt context: Args
+msgid "task_hoarding_duration_help"
+msgstr "能在收菜期间降低操作游戏的频率,任务触发后，等待 X 分钟，再一次性执行囤积的任务"
+
+#. Qt context: Args
+msgid "when_task_queue_empty_help"
+msgstr "无任务时关闭游戏，能在收菜期间降低 CPU 占用，'goto_home'不可选，这项是为了兼容老代码"
+
+#. Qt context: Args
+msgid "Scheduler"
+msgstr "任务调度"
+
+#. Qt context: Args
+msgid "Enable"
+msgstr "启用该功能"
+
+#. Qt context: Args
+msgid "Next Run"
+msgstr "下一次运行时间"
+
+#. Qt context: Args
+msgid "Priority"
+msgstr "任务优先级"
+
+#. Qt context: Args
+msgid "Success Interval"
+msgstr "执行任务成功后设定下次执行的间隔时间"
+
+#. Qt context: Args
+msgid "Failure Interval"
+msgstr "执行任务失败后设定下次执行的间隔时间"
+
+#. Qt context: Args
+msgid "Server Update"
+msgstr "强制设定服务时间"
+
+#. Qt context: Args
+msgid "enable_help"
+msgstr "将这个任务加入调度器"
+
+#. Qt context: Args
+msgid "next_run_help"
+msgstr "会根据下面的间隔时间自动计算时间，清空后回车即可设置为当前"
+
+#. Qt context: Args
+msgid "priority_help"
+msgstr "如果设置调度规则为基于优先级，则该选项有效\n默认为5，数字越低优先级越高，可取[1~15],如果同优先级,则按照先来后到规则进行调度"
+
+#. Qt context: Args
+msgid "interval_days_help"
+msgstr "可取[0~7]"
+
+#. Qt context: Args
+msgid "interval_hours_help"
+msgstr "可取[0~24]"
+
+#. Qt context: Args
+msgid "interval_minutes_help"
+msgstr "可取[0~60]"
+
+#. Qt context: Args
+msgid "success_interval_help"
+msgstr "一般默认，时间格式:\"[days] [hours]:[minutes]:[seconds]\""
+
+#. Qt context: Args
+msgid "failure_interval_help"
+msgstr "一般默认即可，时间格式同上，不按照格式输入会无法正确设置"
+
+#. Qt context: Args
+msgid "server_update_help"
+msgstr "如果设定不是默认的 \"09:00:00\",该任务每次执行完毕后会强制设定下次运行时间为第二天的设定值\n格式 hh:mm:ss "
+
+#. Qt context: Args
+msgid "GeneralBattleConfig"
+msgstr "通用战斗"
+
+#. Qt context: Args
+msgid "Lock Team Enable"
+msgstr "锁定阵容"
+
+#. Qt context: Args
+msgid "Preset Enable"
+msgstr "启用切换预设队伍"
+
+#. Qt context: Args
+msgid "Preset Group"
+msgstr "第 X 个预设组"
+
+#. Qt context: Args
+msgid "Preset Team"
+msgstr "第 X 个预设队伍"
+
+#. Qt context: Args
+msgid "Buff Enable"
+msgstr "启用加成"
+
+#. Qt context: Args
+msgid "Buff Awake Click"
+msgstr "开启觉醒加成"
+
+#. Qt context: Args
+msgid "Buff Soul Click"
+msgstr "开启御魂加成"
+
+#. Qt context: Args
+msgid "Buff Gold 50 Click"
+msgstr "开启金币加成50%"
+
+#. Qt context: Args
+msgid "Buff Gold 100 Click"
+msgstr "开启金币加成100%"
+
+#. Qt context: Args
+msgid "Buff Exp 50 Click"
+msgstr "开启经验加成50%"
+
+#. Qt context: Args
+msgid "Buff Exp 100 Click"
+msgstr "开启经验加成100%"
+
+#. Qt context: Args
+msgid "Green Enable"
+msgstr "启用我方绿标"
+
+#. Qt context: Args
+msgid "GreenMarkType"
+msgstr "设置第 X 个式神为绿标"
+
+#. Qt context: Args
+msgid "Random Click Swipt Enable"
+msgstr "战斗时随机点击或者随机滑动"
+
+#. Qt context: Args
+msgid "lock_team_enable_help"
+msgstr "如果锁定阵容将无法启用预设队伍、加成功能"
+
+#. Qt context: Args
+msgid "preset_enable_help"
+msgstr "将会在第一次战斗的时候切换队伍预设"
+
+#. Qt context: Args
+msgid "preset_group_help"
+msgstr "可选[1~7]"
+
+#. Qt context: Args
+msgid "preset_team_help"
+msgstr "可选[1~5]"
+
+#. Qt context: Args
+msgid "buff_enable_help"
+msgstr "在准备阶段开启加成不太符合直觉，暂时还未实现，而且挺多的战斗是不允许准备阶段开启加成的"
+
+#. Qt context: Args
+msgid "green_enable_help"
+msgstr "在战斗开始的一瞬间点击绿标，无反馈点击"
+
+#. Qt context: Args
+msgid "green_mark_help"
+msgstr "可选[左一, 左二, 左三, 左四, 左五, 主阴阳师]"
+
+#. Qt context: Args
+msgid "random_click_swipt_enable_help"
+msgstr "防封优化，每三分钟的战斗可能触发2~5次，请注意这个与绿标功能冲突，可能会乱点绿标"
+
+#. Qt context: Args
+msgid "Boss Number"
+msgstr "挑战鬼王数量"
+
+#. Qt context: Args
+msgid "RaidConfig"
+msgstr "个人突破"
+
+#. Qt context: Args
+msgid "RaidMode"
+msgstr "挑战模式"
+
+#. Qt context: Args
+msgid "AttackNumber"
+msgstr "挑战次数"
+
+#. Qt context: Args
+msgid "raid_mode_help"
+msgstr "默认为退四打九，退四打九指每次执行前都会退出四次，然后在进攻九次"
+
+#. Qt context: Args
+msgid "Emergency"
+msgstr "突发检测"
+
+#. Qt context: Args
+msgid "FriendInvitation"
+msgstr "当出现协作邀请时"
+
+#. Qt context: Args
+msgid "Invitation Detect Interval"
+msgstr "检测间隔"
+
+#. Qt context: Args
+msgid "WhenNetworkAbnormal"
+msgstr "当网络异常时"
+
+#. Qt context: Args
+msgid "WhenNetworkError"
+msgstr "当网络出错需要重新连接服务器时"
+
+#. Qt context: Args
+msgid "Home Client Clear"
+msgstr "启用庭院客户端清空缓存"
+
+#. Qt context: Args
+msgid "friend_invitation_help"
+msgstr "默认全部接受"
+
+#. Qt context: Args
+msgid "invitation_detect_interval_help"
+msgstr "默认每隔10秒检测一次是否有协作"
+
+#. Qt context: Args
+msgid "when_network_abnormal_help"
+msgstr "默认会先等待10S"
+
+#. Qt context: Args
+msgid "when_network_error_help"
+msgstr "重启游戏"
+
+#. Qt context: Args
+msgid "home_client_clear_help"
+msgstr "有时会出现进入庭院要求清理缓存"
+
+#. Qt context: Args
+msgid "ShikigamiConfig"
+msgstr "活动"
+
+#. Qt context: Args
+msgid "Limit Time"
+msgstr "限制运行时间"
+
+#. Qt context: Args
+msgid "Limit Count"
+msgstr "限制挑战次数"
+
+#. Qt context: Args
+msgid "limit_time_help"
+msgstr "时间格式:\"[hours]:[minutes]:[seconds]\"\n注意没有空格，使用英文的冒号 : 不按照格式输入会无法正确设置"
+
+#. Qt context: Args
+msgid "limit_count_help"
+msgstr "两个限制需要同时设置，最先达到就会退出。\n建议执行时间设置成一个小时足够长，此时基于次数来判定设置为100次"
+
+#. Qt context: Args
+msgid "GeneralClimb"
+msgstr "通用爬塔"
+
+#. Qt context: Args
+msgid "Ap Game Max"
+msgstr "活动每日使用体力挑战的最大次数"
+
+#. Qt context: Args
+msgid "ap_game_max_help"
+msgstr "保持默认300即可"
+
+#. Qt context: Args
+msgid "ApMode"
+msgstr "挂体力模式"
+
+#. Qt context: Args
+msgid "ap_mode_help"
+msgstr "设置是挂活动的次数(ap_activity)还是游戏的体力(ap_game)"
+
+#. Qt context: Args
+msgid "Activity Toggle"
+msgstr "挂完活动次数后切换到体力模式"
+
+#. Qt context: Args
+msgid "Buy Ap Activity"
+msgstr "游戏体力不足是否需要话勾玉购买"
+
+#. Qt context: Args
+msgid "buy_ap_activity_help"
+msgstr "该设置只有是设定为活动次数时有效"
+
+#. Qt context: Args
+msgid "activity_toggle_help"
+msgstr "该设置只有是设定为活动次数时有效"
+
+#. Qt context: Args
+msgid "dokan_attack_priority_help"
+msgstr "道馆攻击优先顺序"
+
+#. Qt context: Args
+msgid "dokan_auto_cheering_while_cd_help"
+msgstr "失败CD后自动加油"
+
+#. Qt context: Args
+msgid "anti_detect_click_fixed_random_area_help"
+msgstr "防封：使用固定的随机区域进行随机点击，若为False将自动识别当前画面中的最大纯色区域作为随机点击区域"
+
+#. Qt context: Args
+msgid "InviteConfig"
+msgstr "邀请"
+
+#. Qt context: Args
+msgid "InviteNumber"
+msgstr "邀请人数"
+
+#. Qt context: Args
+msgid "Friend 1"
+msgstr "第一个队友名字"
+
+#. Qt context: Args
+msgid "Friend 2"
+msgstr "第二个队友名字"
+
+#. Qt context: Args
+msgid "FindMode"
+msgstr "寻找队友模式"
+
+#. Qt context: Args
+msgid "Wait Time"
+msgstr "等待时间"
+
+#. Qt context: Args
+msgid "invite_number_help"
+msgstr "可选1或者2，为1时只会邀请第一个队友"
+
+#. Qt context: Args
+msgid "friend_name_help"
+msgstr "输入队友的名字必须是全称，这一项是基于OCR来识别，如果名字过于离谱建议画200勾玉改一个正常点的名字"
+
+#. Qt context: Args
+msgid "friend_2_name_help"
+msgstr "同上"
+
+#. Qt context: Args
+msgid "find_mode_help"
+msgstr "默认会从上方列表自动寻找\n顺序是'好友' -> '最近' -> '聊友' -> '跨区'，当然建议选择‘recent_friend’这样会快点"
+
+#. Qt context: Args
+msgid "wait_time_help"
+msgstr "保持默认一分钟就好，期间每隔20s邀请一次"
+
+#. Qt context: Args
+msgid "Default Invite"
+msgstr "战斗结束后勾选默认邀请"
+
+#. Qt context: Args
+msgid "default_invite_help"
+msgstr " "
+
+#. Qt context: Args
+msgid "OrochiConfig"
+msgstr "副本"
+
+#. Qt context: Args
+msgid "UserStatus"
+msgstr "身份"
+
+#. Qt context: Args
+msgid "Layer"
+msgstr "挑战层数"
+
+#. Qt context: Args
+msgid "Soul Buff Enable"
+msgstr "开启御魂加成"
+
+#. Qt context: Args
+msgid "user_status_help"
+msgstr "可选队长、队员、单独刷（野队还不打算实现）"
+
+#. Qt context: Args
+msgid "layer_help"
+msgstr " "
+
+#. Qt context: Args
+msgid "soul_buff_enable_help"
+msgstr "会在庭院开始的时候设置加成"
+
+#. Qt context: Args
+msgid "BondlingConfig"
+msgstr "契灵"
+
+#. Qt context: Args
+msgid "BondlingMode"
+msgstr "设置战斗策略"
+
+#. Qt context: Args
+msgid "Bondling Stone Enable"
+msgstr "是否使用契石召唤契灵"
+
+#. Qt context: Args
+msgid "BondlingClass"
+msgstr "使用契石时选择召唤类型"
+
+#. Qt context: Args
+msgid "bondling_mode_help"
+msgstr "mode_1是指进行探查，刷到五个契灵后结束\nmode_2策略是刷到五个契灵后一直进行结契战斗，但是选择低级盘来结契失败获取材料\nmode_3策略是刷到五个契灵后开始结契，选择高级、中级盘来进行捕获"
+
+#. Qt context: Args
+msgid "bondling_stone_enable_help"
+msgstr "会优先开启契石，之后才是探查"
+
+#. Qt context: Args
+msgid "BondlingSwitchSoul"
+msgstr "自动切换御魂"
+
+#. Qt context: Args
+msgid "Auto Switch Soul"
+msgstr "是否启用"
+
+#. Qt context: Args
+msgid "Tomb Guard Switch"
+msgstr "设置镇墓兽的御魂装配分组"
+
+#. Qt context: Args
+msgid "Snowball Switch"
+msgstr "设置茨球的御魂装配分组"
+
+#. Qt context: Args
+msgid "Little Kuro Switch"
+msgstr "设置小黑的御魂装配分组"
+
+#. Qt context: Args
+msgid "Azure Basan Switch"
+msgstr "设置火灵的御魂装配分组"
+
+#. Qt context: Args
+msgid "auto_switch_soul_help"
+msgstr "如果你有5套独立阵容，那么这一项无需开启\n否则你可以开启这一项御魂轮换（探查是默认不需要轮换的）"
+
+#. Qt context: Args
+msgid "tomb_guard_switch_help"
+msgstr "初始值是不合适的，你需要根据自己的情况设置\n\"1,2\"表示第一个预设组，第二个队伍\n请使用英文输入法下的逗号\n预设组支持[1-7], 预设队伍支持[1-4]"
+
+#. Qt context: Args
+msgid "snowball_switch_help"
+msgstr " "
+
+#. Qt context: Args
+msgid "little_kuro_switch_help"
+msgstr " "
+
+#. Qt context: Args
+msgid "azure_basan_switch_help"
+msgstr " "
+
+#. Qt context: Args
+msgid "bondling_stone_class_help"
+msgstr " "
+
+#. Qt context: Args
+msgid "HarvestConfig"
+msgstr "收获奖励"
+
+#. Qt context: Args
+msgid "harvest_enable_help"
+msgstr "这个一个部分是为了在登录游戏时，自动点击赠送的奖励。是必选项，列出来是给各位阴阳师大大知道有这个东西。欢迎补充如果缺少"
+
+#. Qt context: Args
+msgid "Enable Jade"
+msgstr "永久勾玉卡"
+
+#. Qt context: Args
+msgid "Enable Sign"
+msgstr "每日签到"
+
+#. Qt context: Args
+msgid "Enable Sign 999"
+msgstr "签到999天后的签到福袋"
+
+#. Qt context: Args
+msgid "Enable Mail"
+msgstr "邮件"
+
+#. Qt context: Args
+msgid "Enable Soul"
+msgstr "御魂或者觉醒加成"
+
+#. Qt context: Args
+msgid "Enable Ap"
+msgstr "体力"
+
+#. Qt context: Args
+msgid "UtilizeScheduler"
+msgstr "任务调度"
+
+#. Qt context: Args
+msgid "UtilizeConfig"
+msgstr "寄养"
+
+#. Qt context: Args
+msgid "UtilizeRule"
+msgstr "寄养规则"
+
+#. Qt context: Args
+msgid "Auto Switch Sort"
+msgstr "切换好友列表以游戏刷新高星排序"
+
+#. Qt context: Args
+msgid "ShikigamiClass"
+msgstr "寄养式神类型"
+
+#. Qt context: Args
+msgid "Shikigami Order"
+msgstr "选中第几个式神寄养"
+
+#. Qt context: Args
+msgid "Guild Ap Enable"
+msgstr "顺路收取寮补给"
+
+#. Qt context: Args
+msgid "Guild Assets Enable"
+msgstr "顺路收取寮资金"
+
+#. Qt context: Args
+msgid "Box Ap Enable"
+msgstr "顺路收取体力盒子"
+
+#. Qt context: Args
+msgid "Box Exp Enable"
+msgstr "顺路收取经验盒子"
+
+#. Qt context: Args
+msgid "utilize_rule_help"
+msgstr "挑选结界卡的规则，使用默认default即可，具体规则看文档[任务列表]，不可以选auto,已经弃置了。"
+
+#. Qt context: Args
+msgid "auto_switch_sort_help"
+msgstr "会自动寻找最优的坑位"
+
+#. Qt context: Args
+msgid "shikigami_class_help"
+msgstr "选择的式神类别（寄养默认选择N卡，且不建议选别的）"
+
+#. Qt context: Args
+msgid "shikigami_order_help"
+msgstr "从左开始选第几个式神"
+
+#. Qt context: Args
+msgid "guild_ap_enable_help"
+msgstr "必选项"
+
+#. Qt context: Args
+msgid "guild_assets_enable_help"
+msgstr "必选项"
+
+#. Qt context: Args
+msgid "box_ap_enable_help"
+msgstr "必选项"
+
+#. Qt context: Args
+msgid "box_exp_enable_help"
+msgstr "必选项"
+
+#. Qt context: Args
+msgid "SelectFriendList"
+msgstr "选择同区还是跨区好友"
+
+#. Qt context: Args
+msgid "select_friend_list_help"
+msgstr "由于该死的游戏制作水准，无论任何方式都不可以稳定的对结界卡进行排序，需要从头到尾遍历一遍。\n且切换好友列表时候会丢失原先选定的好友卡，为此同时选择两个好友列表的最优解是会花费更多的时间，不打算支持"
+
+#. Qt context: Args
+msgid "Box Exp Waste"
+msgstr "从盒子提取经验时浪费一部分"
+
+#. Qt context: Args
+msgid "box_exp_waste_help"
+msgstr "某些时候寄养上存在满级的式神，收取经验盒子时会有提示，对于挂机玩家这点经验微不足道。如果不使能这一选项，将跳过收取经验盒子"
+
+#. Qt context: Args
+msgid "ActivationScheduler"
+msgstr "任务调度"
+
+#. Qt context: Args
+msgid "ActivationConfig"
+msgstr "寄养"
+
+#. Qt context: Args
+msgid "Card Rule"
+msgstr "放卡规则"
+
+#. Qt context: Args
+msgid "Exchange Max"
+msgstr "收取经验后更换下来满级的式神"
+
+#. Qt context: Args
+msgid "Exchange Before"
+msgstr "收取经验前更换下来满级的式神"
+
+#. Qt context: Args
+msgid "card_rule_help"
+msgstr "保持默认auto即可，具体的规则请翻阅文档[任务列表]"
+
+#. Qt context: Args
+msgid "exchange_before_help"
+msgstr "必选项"
+
+#. Qt context: Args
+msgid "exchange_max_help"
+msgstr "必选项"
+
+#. Qt context: Args
+msgid "TrueOrochiScheduler"
+msgstr "任务调度"
+
+#. Qt context: Args
+msgid "TrueOrochiConfig"
+msgstr "任务"
+
+#. Qt context: Args
+msgid "Find True Orochi"
+msgstr "挑战御魂十层触发真蛇"
+
+#. Qt context: Args
+msgid "Green Mark Type"
+msgstr "绿标哪一个"
+
+#. Qt context: Args
+msgid "find_true_orochi_help"
+msgstr "启用这一项，没有出现八岐大蛇时会单独挑战十层十次，如果还不出现判断失败，将会设置失败时的间隔到下一次来进行开启任务\n如果不启用这一项，没有发现真蛇时直接判定运行失败"
+
+#. Qt context: Args
+msgid "green_mark_type_help"
+msgstr " "
+
+#. Qt context: Args
+msgid "Current Success"
+msgstr "本周已经挑战成功的次数"
+
+#. Qt context: Args
+msgid "current_success_help"
+msgstr "请不要手动修改这一项，是为了给机器计数的，机器会自动修改"
+
+#. Qt context: Args
+msgid "ScheduleRule"
+msgstr "选择任务调度规则"
+
+#. Qt context: Args
+msgid "schedule_rule_help"
+msgstr "这里所指的调度的对象是指Pending中的，Waiting中的任务不属于。\n基于过滤器(Filter)的调度：默认的选项，任务的执行顺序会根据开发时所确定的顺序来调度，一般是最优解\n基于先来后到(FIFO)的调度：是会按照下次执行时间进行排序，靠前的先执行\n基于优先级(Priority)的调度：高优先级先于低优先级执行，同优先级按照先来后到顺序"
+
+#. Qt context: Args
+msgid "SwitchSoulConfig"
+msgstr "执行任务前切换御魂"
+
+#. Qt context: Args
+msgid "Switch Group Team"
+msgstr "御魂装配分组设置"
+
+#. Qt context: Args
+msgid "switch_group_team_help"
+msgstr "初始值是不合适的，你需要根据自己的情况设置\n\"1,2\"表示第一个预设组，第二个队伍\n请使用英文输入法下的逗号\n预设组支持[1-7], 预设队伍支持[1-4]"
+
+#. Qt context: Args
+msgid "Group Name"
+msgstr "御魂分组名"
+
+#. Qt context: Args
+msgid "Team Name"
+msgstr "队伍名"
+
+#. Qt context: Args
+msgid "Enable Switch By Name"
+msgstr "通过OCR来切换御魂预设"
+
+#. Qt context: Args
+msgid "enable_switch_by_name_help"
+msgstr "这是切换御魂的另一种方式，对比上方的方式而言支持更多的预设，但是同样的你还确保预设队伍是锁定状态的"
+
+#. Qt context: Args
+msgid "Notify Enable"
+msgstr "启用消息推送"
+
+#. Qt context: Args
+msgid "Notify Config"
+msgstr "推送配置"
+
+#. Qt context: Args
+msgid "notify_config_help"
+msgstr "输入为yaml格式，\":\"冒号后有一个空格，具体请翻阅文档[消息推送]"
+
+#. Qt context: Args
+msgid "Number Attack"
+msgstr "挑战次数"
+
+#. Qt context: Args
+msgid "Exit Four"
+msgstr "当进攻到左上角第一个的时候先退四次再进攻"
+
+#. Qt context: Args
+msgid "Order Attack"
+msgstr "挑战顺序"
+
+#. Qt context: Args
+msgid "WhenAttackFail"
+msgstr "挑战失败时"
+
+#. Qt context: Args
+msgid "Three Refresh"
+msgstr "每三次就刷新"
+
+#. Qt context: Args
+msgid "Number Base"
+msgstr "突破卷数量大于等于 X 时才会挑战"
+
+#. Qt context: Args
+msgid "number_attack_help"
+msgstr "默认30，可选范围[1~30]，没有挑战卷自动退出任务（标记为成功）"
+
+#. Qt context: Args
+msgid "exit_four_help"
+msgstr "为了支持打九退四，保证稳定57级"
+
+#. Qt context: Args
+msgid "order_attack_help"
+msgstr "使用过滤器，保持默认即可"
+
+#. Qt context: Args
+msgid "when_attack_fail_help"
+msgstr "Exit：直接退出任务，标记为失败\nContinue：挑战其他的直至没有可挑战的才刷新\nRefresh：直接刷新，如果刷新操作进入CD，将标记为失败并退出"
+
+#. Qt context: Args
+msgid "three_refresh_help"
+msgstr "挑战进度到三，领取奖励后就刷新，如果刷新操作进入CD，将标记为失败并退出"
+
+#. Qt context: Args
+msgid "number_base_help"
+msgstr "旨在检查突破卷数量，如果当前的数量没有大于等于这个值，将标记为成功并退出"
+
+#. Qt context: Args
+msgid "SougenbiConfig"
+msgstr "业原火"
+
+#. Qt context: Args
+msgid "SougenbiClass"
+msgstr "挑战类型"
+
+#. Qt context: Args
+msgid "DailyTriflesConfig"
+msgstr "琐事"
+
+#. Qt context: Args
+msgid "One Summon"
+msgstr "每日召唤"
+
+#. Qt context: Args
+msgid "Guild Wish"
+msgstr "寮祈愿（还不知道可以写什么）"
+
+#. Qt context: Args
+msgid "Friend Love"
+msgstr "友情点"
+
+#. Qt context: Args
+msgid "Store Sign"
+msgstr "商店签到"
+
+#. Qt context: Args
+msgid "store_sign_help"
+msgstr "就那个签到50次得黑蛋的"
+
+#. Qt context: Args
+msgid "ThousandThings"
+msgstr "千物宝箱"
+
+#. Qt context: Args
+msgid "Mystery Amulet"
+msgstr "神秘咒符"
+
+#. Qt context: Args
+msgid "Black Daruma Fragment"
+msgstr "御行达摩碎片"
+
+#. Qt context: Args
+msgid "AP"
+msgstr "体力"
+
+#. Qt context: Args
+msgid "ap_help"
+msgstr "默认买两次不够就不买"
+
+#. Qt context: Args
+msgid "Consignment"
+msgstr "寄售屋"
+
+#. Qt context: Args
+msgid "Buy Sale Ticket"
+msgstr "兑换一百张寄售券"
+
+#. Qt context: Args
+msgid "buy_sale_ticket_help"
+msgstr "等凑够了再去换"
+
+#. Qt context: Args
+msgid "Scales"
+msgstr "御魂礼盒"
+
+#. Qt context: Args
+msgid "Orochi Scales"
+msgstr "朴素御魂"
+
+#. Qt context: Args
+msgid "orochi_scales_help"
+msgstr "可选[0~40]"
+
+#. Qt context: Args
+msgid "Demon Souls"
+msgstr "首领御魂"
+
+#. Qt context: Args
+msgid "demon_souls_help"
+msgstr "可选[0~50]"
+
+#. Qt context: Args
+msgid "DemonClass"
+msgstr "首领御魂类型"
+
+#. Qt context: Args
+msgid "demon_class_help"
+msgstr "不支持多个首领"
+
+#. Qt context: Args
+msgid "Demon Position"
+msgstr "首领御魂号位"
+
+#. Qt context: Args
+msgid "demon_position_help"
+msgstr "不支持多号位"
+
+#. Qt context: Args
+msgid "Picture Book Scrap"
+msgstr "海汐御魂"
+
+#. Qt context: Args
+msgid "picture_book_scrap_help"
+msgstr "可选[0~30]"
+
+#. Qt context: Args
+msgid "Picture Book Rule"
+msgstr "选择御魂优先级"
+
+#. Qt context: Args
+msgid "picture_book_rule_help"
+msgstr "使用auto即可"
+
+#. Qt context: Args
+msgid "SpecialRoom"
+msgstr "[杂货铺]特殊购买"
+
+#. Qt context: Args
+msgid "Totem Pass"
+msgstr "御灵券(40张)"
+
+#. Qt context: Args
+msgid "Low Bondling Discs"
+msgstr "百物式盘"
+
+#. Qt context: Args
+msgid "low_bondling_discs_special"
+msgstr "契灵低级盘，可选[0~100]"
+
+#. Qt context: Args
+msgid "Medium Bondling Discs"
+msgstr "千咒式盘"
+
+#. Qt context: Args
+msgid "medium_bondling_discs_special"
+msgstr "契灵中级盘，可选[0~100]"
+
+#. Qt context: Args
+msgid "mystery_amulet_help_honor"
+msgstr "默认买两个"
+
+#. Qt context: Args
+msgid "black_daruma_scrap_help_honor"
+msgstr "默认买两个"
+
+#. Qt context: Args
+msgid "HonorRoom"
+msgstr "[杂货铺]荣誉购买"
+
+#. Qt context: Args
+msgid "FriendshipPoints"
+msgstr "[杂货铺]友情点购买"
+
+#. Qt context: Args
+msgid "White Daruma"
+msgstr "奉为达摩"
+
+#. Qt context: Args
+msgid "Red Daruma"
+msgstr "招福达摩"
+
+#. Qt context: Args
+msgid "Broken Amulet"
+msgstr "破碎的咒符"
+
+#. Qt context: Args
+msgid "MedalRoom"
+msgstr "[杂货铺]勋章购买"
+
+#. Qt context: Args
+msgid "AP 100"
+msgstr "体力100"
+
+#. Qt context: Args
+msgid "Random Soul"
+msgstr "随机御魂"
+
+#. Qt context: Args
+msgid "Challenge Pass"
+msgstr "挑战券"
+
+#. Qt context: Args
+msgid "challenge_pass_help"
+msgstr "可选[0~10]"
+
+#. Qt context: Args
+msgid "Charisma"
+msgstr "[杂货铺]魅力值购买"
+
+#. Qt context: Args
+msgid "Shrine"
+msgstr "神龛"
+
+#. Qt context: Args
+msgid "White Daruma Five"
+msgstr "五星奉为达摩"
+
+#. Qt context: Args
+msgid "White Daruma Four"
+msgstr "四星奉为达摩"
+
+#. Qt context: Args
+msgid "Bondlings"
+msgstr "契忆商店"
+
+#. Qt context: Args
+msgid "random_soul_help"
+msgstr "可选[0~100]"
+
+#. Qt context: Args
+msgid "Bondling Stone"
+msgstr "鸣契石"
+
+#. Qt context: Args
+msgid "bondling_stone_help"
+msgstr "可选[0~10]"
+
+#. Qt context: Args
+msgid "high_bondling_discs_help"
+msgstr "可选[0~50]"
+
+#. Qt context: Args
+msgid "High Bondling Discs"
+msgstr "万象式盘"
+
+#. Qt context: Args
+msgid "medium_bondling_discs_help"
+msgstr "可选[0~20]"
+
+#. Qt context: Args
+msgid "GuildStore"
+msgstr "{寮]功勋商店"
+
+#. Qt context: Args
+msgid "Skin Ticket"
+msgstr "皮肤券"
+
+#. Qt context: Args
+msgid "skin_ticket_help"
+msgstr "可选[0~5]"
+
+#. Qt context: Args
+msgid "Black Daruma Scrap"
+msgstr "御行达摩碎片"
+
+#. Qt context: Args
+msgid "Black Daruma"
+msgstr "御行达摩"
+
+#. Qt context: Args
+msgid "Share Collect"
+msgstr "图鉴分享"
+
+#. Qt context: Args
+msgid "Share Area Boss"
+msgstr "地鬼分享"
+
+#. Qt context: Args
+msgid "Share Secret"
+msgstr "秘闻分享"
+
+#. Qt context: Args
+msgid "share_collect_help"
+msgstr "每周一张票、不要白不要"
+
+#. Qt context: Args
+msgid "share_area_boss_help"
+msgstr "没什么建议，勾上就对了"
+
+#. Qt context: Args
+msgid "share_secret_help"
+msgstr "建议在秘闻结束后再来执行这个任务"
+
+#. Qt context: Args
+msgid "trifles_broken_amulet_help"
+msgstr "建议设置较大的数值以每周清空"
+
+#. Qt context: Args
+msgid "Trifles"
+msgstr "启用"
+
+#. Qt context: Args
+msgid "SecretConfig"
+msgstr "秘闻"
+
+#. Qt context: Args
+msgid "Secret Gold 50"
+msgstr "金币加成50%"
+
+#. Qt context: Args
+msgid "Secret Gold 100"
+msgstr "金币加成100%"
+
+#. Qt context: Args
+msgid "Layer 10"
+msgstr "挑战十层"
+
+#. Qt context: Args
+msgid "Layer 9"
+msgstr "挑战九层"
+
+#. Qt context: Args
+msgid "secret_gold_50_help"
+msgstr "这将会在低层[1-5]自动打开加成并且自动关闭加成"
+
+#. Qt context: Args
+msgid "secret_gold_100_help"
+msgstr "同上"
+
+#. Qt context: Args
+msgid "layer_10_help"
+msgstr "考虑到练度，这将不是默认打开的"
+
+#. Qt context: Args
+msgid "TalismanConfig"
+msgstr "花合战"
+
+#. Qt context: Args
+msgid "LevelReward"
+msgstr "选择礼盒"
+
+#. Qt context: Args
+msgid "PetsConfig"
+msgstr "宠物"
+
+#. Qt context: Args
+msgid "Pets Happy"
+msgstr "其乐融融"
+
+#. Qt context: Args
+msgid "Pets Feast"
+msgstr "饕餮大餐"
+
+#. Qt context: Args
+msgid "GoldYoukaiConfig"
+msgstr "金币妖怪"
+
+#. Qt context: Args
+msgid "ShopConfig"
+msgstr "购买"
+
+#. Qt context: Args
+msgid "Shop Kaiko 3"
+msgstr "三星太鼓"
+
+#. Qt context: Args
+msgid "Shop Kaiko 4"
+msgstr "四星太鼓"
+
+#. Qt context: Args
+msgid "ShareConfig"
+msgstr "分享"
+
+#. Qt context: Args
+msgid "Share Friend 1"
+msgstr "第一个好友名字"
+
+#. Qt context: Args
+msgid "share_friend_1_help"
+msgstr "使用OCR来识别，留空表示不使用"
+
+#. Qt context: Args
+msgid "Share Friend 2"
+msgstr "第二个好友名字"
+
+#. Qt context: Args
+msgid "Share Friend 3"
+msgstr "第三个好友名字"
+
+#. Qt context: Args
+msgid "Share Friend 4"
+msgstr "第四个好友名字"
+
+#. Qt context: Args
+msgid "Share Friend 5"
+msgstr "第五个好友名字"
+
+#. Qt context: Args
+msgid "GoryouConfig"
+msgstr "御灵"
+
+#. Qt context: Args
+msgid "GoryouClass"
+msgstr "御灵类型"
+
+#. Qt context: Args
+msgid "goryou_class_help"
+msgstr "闭着眼睛选，自动支持到当天的类型。不支持选择层数是因为正常人都会打第三层"
+
+#. Qt context: Args
+msgid "DuelConfig"
+msgstr "自动斗技"
+
+#. Qt context: Args
+msgid "Switch All Soul"
+msgstr "一键切换斗技御魂"
+
+#. Qt context: Args
+msgid "Target Score"
+msgstr "达到 X 分数后会结束任务"
+
+#. Qt context: Args
+msgid "switch_all_soul_help"
+msgstr "你应当先进行式神御魂的导入"
+
+#. Qt context: Args
+msgid "Honor Full Exit"
+msgstr "刷满荣誉就退出"
+
+#. Qt context: Args
+msgid "target_score_help"
+msgstr "3000以上表示为名士（也是自动斗技的最高）"
+
+#. Qt context: Args
+msgid "honor_full_exit_help"
+msgstr "这无需关心本周荣誉的上限是什么"
+
+#. Qt context: Args
+msgid "SimpleTidy"
+msgstr "简易御魂清理"
+
+#. Qt context: Args
+msgid "Greed Maneki"
+msgstr "贪吃鬼喂食+未升级的御魂奉纳"
+
+#. Qt context: Args
+msgid "greed_maneki_help"
+msgstr "建议四星及一下的吃掉，五星的留给贪吃鬼"
+
+#. Qt context: Args
+msgid "DelegationConfig"
+msgstr "委派"
+
+#. Qt context: Args
+msgid "Bird Feather"
+msgstr "鸟之羽"
+
+#. Qt context: Args
+msgid "bird_feather_help"
+msgstr "50体力->20片大蛇的逆鳞"
+
+#. Qt context: Args
+msgid "Find Earring"
+msgstr "寻找耳环"
+
+#. Qt context: Args
+msgid "find_earring_help"
+msgstr "300体力->金币28万"
+
+#. Qt context: Args
+msgid "Cat Boss"
+msgstr "猫老大"
+
+#. Qt context: Args
+msgid "cat_boss_help"
+msgstr "300体力->四星白蛋"
+
+#. Qt context: Args
+msgid "Miyoshino"
+msgstr "接送弥助"
+
+#. Qt context: Args
+msgid "miyoshino_help"
+msgstr "100体力->三星结界卡"
+
+#. Qt context: Args
+msgid "Strange Trace"
+msgstr "奇怪的痕迹"
+
+#. Qt context: Args
+msgid "strange_trace_help"
+msgstr "100体力->金币九万八"
+
+#. Qt context: Args
+msgid "Miyoshino Painting"
+msgstr "弥助的画"
+
+#. Qt context: Args
+msgid "miyoshino_painting_help"
+msgstr "300体力->六星变异卡"
+
+#. Qt context: Args
+msgid "WantedQuestsConfig"
+msgstr "悬赏"
+
+#. Qt context: Args
+msgid "Before End"
+msgstr "强制设定悬赏刷新前 X 分钟执行"
+
+#. Qt context: Args
+msgid "before_end_help"
+msgstr "默认'00:00:00'表示不使用这个功能，不可取负值，建议最后一小时才执行悬赏'01:00:00'"
+
+#. Qt context: Args
+msgid "Time Of Mystery"
+msgstr "强制设定出现神秘商店当天的执行时间"
+
+#. Qt context: Args
+msgid "time_of_mystery_help"
+msgstr "限定[00:00:01-23:30:00],这将使你无视掉调度器的Interval。保持默认'00:00:00'表示不使用"
+
+#. Qt context: Args
+msgid "TakoConfig"
+msgstr "石距加成"
+
+# ==============================================================================
+# ===== END: merged from i18n_omj.zip =====
+# ==============================================================================

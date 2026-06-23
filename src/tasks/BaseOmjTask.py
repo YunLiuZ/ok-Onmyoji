@@ -31,11 +31,60 @@ class BaseOmjTask(BaseTask):
 
 
     def In_Home(self):
-        return self.find_one(
-            ['Home_Town', 'Home_Store', 'Home_Sign'],
-            threshold=0.8,box=self.box_of_screen(0,0,1,1)
-        ) is not None
+        town = self.find_one('Home_Town', threshold=0.8, box=self.B('Home_Town'))
+        store = self.find_one('Home_Store', threshold=0.8, box=self.B('Home_Store'))
+        if town and store:
+            return True
+        if store and not town:
+            self.reset()
+        return False
 
+    def reset(self):
+        """从商店返回主页。"""
+        self.log_info("只找到 Home_Store，尝试返回主页")
+        self.wait_click_feature('Home_Button', threshold=0.8, box=self.B('Home_Button'))
+
+    def in_store(self):
+        self.log_info('进入判断')
+        if self.find_one(
+            ['Gift_Store','Grocery_Store'],
+            threshold=0.8,box=self.box_of_screen(0, 0.8, 1, 1)
+        ):
+            self.log_info('in store')
+            self.sleep(1)
+            return True
+        return False
+       
+
+    def Find_And_Click_Home(self, text: str) -> bool:
+        """OCR 底部区域 (0, 0.8 ~ 1, 1)，匹配到 text 则点击。"""
+        results = self.ocr(0, 0.8, 1, 1, match=text)
+        if results:
+            self.click_box(results[0], after_sleep=0.5)
+            self.log_info(f"OCR 识别到 '{results[0].name}' 并点击")
+            self.log_warning(f"OCR 识别到 '{results[0].name}' 并点击")
+            self.sleep(2)
+            return True
+        return False
+
+    def B(self, name: str):
+        """快捷获取特征搜索 Box：self.B('Home_Sign') → Box 对象。"""
+        from src.feature_boxes import BOX
+        coords = BOX.get(name, BOX["full"])
+        return self.box_of_screen(*coords)
+
+    def click_nth(self, axis: str, fixed: float, pos_map: dict, n: int, label: str = ""):
+        """点击列表中第 n 项。
+        axis='x': X 固定，Y 从 pos_map 查（纵向列表）
+        axis='y': Y 固定，X 从 pos_map 查（横向列表）
+        """
+        coord = pos_map.get(n)
+        if coord is None:
+            self.log_warning(f"第 {n} 个{label} 不在坐标表中")
+            return
+        x, y = (fixed, coord) if axis == 'x' else (coord, fixed)
+        self.click_relative(x, y, after_sleep=1)
+        self.log_info(f"选择第 {n} 个{label}")
 
     def Back_Home(self):
         self.log_info('进入backhome')
@@ -53,7 +102,14 @@ class BaseOmjTask(BaseTask):
             ):
                 self.click(home_button, after_sleep=3)
                 self.log_info('点击Home_Button')
+                if self.In_Home():
+                    return
+            if Back := self.find_one(['Cancel_Old','Daily_New_Cancel'],box=self.box_of_screen(0,0,1,1),threshold=0.8):
+                self.click(Back, after_sleep=2)
+                self.log_info('关闭了某个窗口')
                 return
+            self.log_info('什么都没点击')
+
             if back_button:= self.find_one(
                 'Back',
                 box=search_box,
@@ -61,14 +117,8 @@ class BaseOmjTask(BaseTask):
             ):
                 self.click(back_button, after_sleep=3)
                 self.log_info('点击Back')
-                return
-            
-            if Back := self.find_one(['Cancel_Old','Daily_New_Cancel'],box=self.box_of_screen(0.5,0,1,0.7),threshold=0.8):
-                self.click(Back, after_sleep=2)
-                self.log_info('关闭了某个窗口!')
-                return
-            self.log_info('什么都没点击')
-
+                if self.In_Home():
+                    return
         return self.wait_until(
             self.In_Home,
             time_out=20,

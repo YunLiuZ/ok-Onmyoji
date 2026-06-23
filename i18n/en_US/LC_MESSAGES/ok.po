@@ -242,3 +242,75 @@ msgstr ""
 
 msgid "Select only available drop-down option values."
 msgstr ""
+
+# ==============================================================================
+# ===== BEGIN: merged from i18n_omj.zip (Qt TS/XML -> gettext PO) =====
+# ===== 下面内容为本次追加，便于后续查找和修改 =====
+# ==============================================================================
+#. Qt context: ItemsOriginal
+msgid "home"
+msgstr "home"
+
+#. Qt context: ItemsFooter
+msgid "add"
+msgstr "add"
+
+#. Qt context: ItemsFooter
+msgid "about"
+msgstr "about"
+
+#. Qt context: ItemsFooter
+msgid "settings"
+msgstr "settings"
+
+#. Qt context: O_Settings
+msgid "Dark Mode"
+msgstr "Dark Mode"
+
+#. Qt context: O_Settings
+msgid "System"
+msgstr "System"
+
+#. Qt context: O_Settings
+msgid "Light"
+msgstr "Light"
+
+#. Qt context: O_Settings
+msgid "Dark"
+msgstr "Dark"
+
+#. Qt context: O_Settings
+msgid "navigation_view_display_mode"
+msgstr "Navigation view display mode"
+
+#. Qt context: O_Settings
+msgid "Open"
+msgstr "Open"
+
+#. Qt context: O_Settings
+msgid "Compact"
+msgstr "Compact"
+
+#. Qt context: O_Settings
+msgid "Minimal"
+msgstr "Minimal"
+
+#. Qt context: O_Settings
+msgid "Auto"
+msgstr "Auto"
+
+#. Qt context: O_Settings
+msgid "Theme color"
+msgstr "Theme color"
+
+#. Qt context: O_Settings
+msgid "Native text rendering"
+msgstr "Native text rendering"
+
+#. Qt context: O_Settings
+msgid "Locale"
+msgstr "Locale"
+
+# ==============================================================================
+# ===== END: merged from i18n_omj.zip =====
+# ==============================================================================

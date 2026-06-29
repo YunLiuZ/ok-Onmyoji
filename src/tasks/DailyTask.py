@@ -56,6 +56,12 @@ class DailyTask(BaseOmjTask):
         else:
             self.info_set("确认弹窗", "无")
 
+        # 3. 五日签到
+        if not self.wait_click_feature('Battle_Finish', threshold=0.7,
+                                        box=self.box_of_screen(0.3,0.3,0.8,0.8),
+                                        raise_if_not_found=False, time_out=3, after_sleep=1):
+            self.log_warning("没有五日")
+
         # 每日签到的弹窗
         if not self.wait_click_feature('Cancel_Old', threshold=0.7,
                                         box=self.B('Cancel_Old'),
@@ -116,7 +122,7 @@ class DailyTask(BaseOmjTask):
                                         raise_if_not_found=False, time_out=3, after_sleep=1):
                 self.log_info("找不到Home_Store")
 
-        self.Find_And_Click_Home('礼包屋')
+        self.ocr_and_click('礼包',box=self.B('Gift_Store'))
         if not self.wait_click_feature('Gift_Daily', threshold=0.7,
                                         box=self.B('Gift_Daily'),
                                         raise_if_not_found=False, time_out=3, after_sleep=1):
@@ -125,10 +131,8 @@ class DailyTask(BaseOmjTask):
                                         box=self.B('Gift_Daily_Finish'),
                                         raise_if_not_found=False, time_out=3, after_sleep=1):
             self.log_info("找不到Gift_Daily_Finish")
-        if not self.wait_click_feature('Gift_Finish', threshold=0.7,
-                                        box=self.B('Gift_Finish'),
-                                        raise_if_not_found=False, time_out=6, after_sleep=1):
-            self.log_info("找不到Gift_Finish")
+        if self.ocr_and_click(['获得','奖励'],box=self.box_of_screen(0.35,0.24,0.65,0.37)):
+            self.click(0,0,0.1,0.1,after_sleep=0.5)
 
         self.wait_click_feature('Home_Button', threshold=0.7,
                                 box=self.B('Home_Button'),

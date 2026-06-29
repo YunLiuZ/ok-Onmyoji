@@ -67,7 +67,7 @@ class GameEventsBattleTask(BaseBattleTask):
             
 
     def Battle_process(self):
-        if text := self.wait_click_ocr(['挑战'],box=self.box_of_screen(0.88,0.83,0.95,0.91)):
+        if text := self.wait_click_ocr(['挑战'],True,box=self.box_of_screen(0.88,0.83,0.95,0.91)):
                 print(text)
         self.sleep(12)
         self.log_info(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))

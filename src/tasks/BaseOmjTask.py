@@ -27,7 +27,10 @@ class BaseOmjTask(BaseTask):
         else:
             super().__setattr__(name, value)
 
-
+    def in_home_and_back(self):
+        if not self.In_Home():
+            self.Back_Home()
+        
     def In_Home(self):
         town = self.find_one('Home_Town', threshold=0.8, box=self.B('Home_Town'))
         if town:
@@ -113,6 +116,7 @@ class BaseOmjTask(BaseTask):
             return
         x, y = (fixed, coord) if axis == 'x' else (coord, fixed)
         self.click_relative(x, y, after_sleep=1)
+        print(x,y)
         self.log_info(f"选择第 {n} 个{label}")
 
     def Back_Home(self):
@@ -125,20 +129,25 @@ class BaseOmjTask(BaseTask):
                 box=self.B('Home_Button'),
                 threshold=0.8
             ):
-                self.click(home_button, after_sleep=3)
+                self.click(home_button, after_sleep=1)
                 self.log_info('点击Home_Button')
                 if self.In_Home():
                     return
-            if Back := self.find_one(['Cancel_Old','Daily_New_Cancel'],box=self.box_of_screen(0,0,1,1),threshold=0.8):
-                self.click(Back, after_sleep=2)
+            if Back1 := self.find_one('Daily_New_Cancel',box=self.box_of_screen(0.5,0,1,0.5),threshold=0.8):
+                self.click(Back1, after_sleep=0.5)
+                self.log_info('关闭了某个窗口')
+                return
+            self.log_info('什么都没点击')
+            if Back2 := self.find_one('Cancel_Old',box=self.box_of_screen(0.5,0,1,0.5),threshold=0.8):
+                self.click(Back2, after_sleep=0.5)
                 self.log_info('关闭了某个窗口')
                 return
             self.log_info('什么都没点击')
 
             if back_button:= self.find_one(
                 'Back',
-                box=search_box,
-                threshold=0.6
+                box=self.B('Back'),
+                threshold=0.8
             ):
                 self.click(back_button, after_sleep=3)
                 self.log_info('点击Back')
@@ -146,7 +155,7 @@ class BaseOmjTask(BaseTask):
                     return
         return self.wait_until(
             self.In_Home,
-            time_out=20,
+            time_out=30,
             post_action=try_back,
             raise_if_not_found=False
         )

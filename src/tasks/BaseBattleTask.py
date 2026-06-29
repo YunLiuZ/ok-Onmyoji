@@ -48,14 +48,30 @@ class BaseBattleTask(BaseOmjTask):
             self.log_info(f"点击预设队伍 {self.config['Preset Team']} at (0.77, {rel_y:.3f})")
     
     def SwitchSoul_by_num(self,group:int,team:int):
-        """按编号切换预设队伍（从 config 读取 Preset Group / Preset Team）。"""
-        self.In_Home()
-        self.Find_And_Click_Home('式神录')
+        """按编号切换预设队伍（从 config 读取 Preset Group / Preset Team)。"""
+        self.in_home_and_back()
+        self.ocr_and_click('式神',box=self.B('Home_Shikigami_Chronicles'))
+
         self.wait_click_ocr(match='预设',
-                            box=self.get_box_by_name('Home_Shikigami_Presets'))
+                            box=self.B('Home_Shikigami_Presets'),time_out=3,after_sleep=1)
 
         group_rows = {1: 0.17, 2: 0.27, 3: 0.35, 4: 0.47, 5: 0.56, 6: 0.67, 7: 0.75}
         self.click_nth('x', 0.91, group_rows, group, "预设组")
 
         team_rows = {1: 0.22, 2: 0.44, 3: 0.64, 4: 0.85}
         self.click_nth('x', 0.77, team_rows, team, "预设队伍")
+
+        self.sleep(1)
+        if text := self.ocr('确认',box=self.box_of_screen(0.50,0.53,0.66,0.63)):
+            self.click(text[0],after_sleep=0.5)
+        if text := self.ocr('确认',box=self.box_of_screen(0.50,0.53,0.66,0.63)):
+            self.click(text[0],after_sleep=0.5)
+        if not self.wait_click_feature('Back', threshold=0.7,
+                                        box=self.B('Back'),
+                                        raise_if_not_found=False, time_out=3, after_sleep=1):
+        
+            self.log_info('回家')
+        self.in_home_and_back()
+
+
+

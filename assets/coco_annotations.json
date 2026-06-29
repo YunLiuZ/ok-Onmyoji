@@ -316,12 +316,12 @@
             "image_id": 8,
             "category_id": 16,
             "bbox": [
-                12,
-                7,
-                150,
-                143
+                44,
+                42,
+                74,
+                74
             ],
-            "area": 21450,
+            "area": 5476,
             "iscrowd": 0
         },
         {
@@ -713,7 +713,7 @@
         },
         {
             "id": 26,
-            "name": "Daily_Sign_Success",
+            "name": "Daliy_Sign_Success",
             "supercategory": ""
         },
         {

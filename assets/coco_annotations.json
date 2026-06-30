@@ -137,6 +137,12 @@
             "file_name": "images/1.png",
             "width": 2560,
             "height": 1440
+        },
+        {
+            "id": 29,
+            "file_name": "images/0.png",
+            "width": 2560,
+            "height": 1440
         }
     ],
     "annotations": [
@@ -659,6 +665,19 @@
             ],
             "area": 11664,
             "iscrowd": 0
+        },
+        {
+            "id": 41,
+            "image_id": 29,
+            "category_id": 41,
+            "bbox": [
+                66,
+                1299,
+                37,
+                47
+            ],
+            "area": 1739,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -860,6 +879,11 @@
         {
             "id": 40,
             "name": "Member_Confirm_No",
+            "supercategory": ""
+        },
+        {
+            "id": 41,
+            "name": "Lock_Team",
             "supercategory": ""
         }
     ]

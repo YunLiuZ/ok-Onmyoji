@@ -143,6 +143,18 @@
             "file_name": "images/0.png",
             "width": 2560,
             "height": 1440
+        },
+        {
+            "id": 30,
+            "file_name": "images/4.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 31,
+            "file_name": "images/4.png",
+            "width": 1600,
+            "height": 900
         }
     ],
     "annotations": [
@@ -678,6 +690,32 @@
             ],
             "area": 1739,
             "iscrowd": 0
+        },
+        {
+            "id": 42,
+            "image_id": 30,
+            "category_id": 42,
+            "bbox": [
+                505,
+                216,
+                64,
+                56
+            ],
+            "area": 3584,
+            "iscrowd": 0
+        },
+        {
+            "id": 43,
+            "image_id": 31,
+            "category_id": 43,
+            "bbox": [
+                25,
+                17,
+                43,
+                46
+            ],
+            "area": 1978,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -884,6 +922,16 @@
         {
             "id": 41,
             "name": "Lock_Team",
+            "supercategory": ""
+        },
+        {
+            "id": 42,
+            "name": "Real_Raid_Finish",
+            "supercategory": ""
+        },
+        {
+            "id": 43,
+            "name": "Battle_Back",
             "supercategory": ""
         }
     ]

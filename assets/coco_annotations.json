@@ -155,6 +155,12 @@
             "file_name": "images/4.png",
             "width": 1600,
             "height": 900
+        },
+        {
+            "id": 32,
+            "file_name": "images/5.png",
+            "width": 1600,
+            "height": 900
         }
     ],
     "annotations": [
@@ -716,6 +722,19 @@
             ],
             "area": 1978,
             "iscrowd": 0
+        },
+        {
+            "id": 44,
+            "image_id": 32,
+            "category_id": 44,
+            "bbox": [
+                514,
+                164,
+                150,
+                125
+            ],
+            "area": 18750,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -932,6 +951,11 @@
         {
             "id": 43,
             "name": "Battle_Back",
+            "supercategory": ""
+        },
+        {
+            "id": 44,
+            "name": "Battle_Failure",
             "supercategory": ""
         }
     ]

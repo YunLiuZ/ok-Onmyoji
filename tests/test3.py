@@ -17,7 +17,7 @@ task.feature_set = ok_test.feature_set
 task.after_init(executor=ok_test.task_executor, scene=ok_test.task_executor.scene)
 
 # ---- 设置测试图片 ----
-IMAGE = "tests\img\soulbattle\lock4.png"
+IMAGE = "tests\img\explore/7.png"
 ok_test.device_manager.capture_method.set_images([IMAGE])
 frame = task.next_frame()
 h, w = frame.shape[:2]
@@ -25,8 +25,8 @@ h, w = frame.shape[:2]
 # ---- 配置：一行定义 特征名 + 搜索区域，代码自动画框+查找 ----
 # 修改 box= 参数即可，蓝色区域会自动跟着变
 searches = [
-    ("Lock_Team",                   task.box_of_screen(0.86,0.88,0.90,0.95)),
-    # ("Home_Store",                  task.box_of_screen(0,0,1,1)),
+    ("Real_Raid_Finish",                   task.box_of_screen(0.11,0.20,0.88,0.73)),
+    ("Lock_Team",                  task.box_of_screen(0.63,0.79,0.67,0.87)),
     # ("Battle_Success",   task.box_of_screen(0.2,0,0.5,0.43)),
     # ("Daily_New_Cancel",   task.box_of_screen(0.8, 0, 1, 0.2)),
 ]
@@ -43,16 +43,17 @@ for i, (name, region) in enumerate(searches):
     cv2.putText(frame, f"{name} search", (region.x + 5, region.y + 20),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
 
-    # 查找
-    box = task.find_one(name, threshold=0.6, box=region)
+    # 查找（返回所有匹配的 Box 列表）
+    boxes = task.find_feature(name, threshold=0.8, box=region)
 
     # 画结果
-    if box:
-        print(f"MATCH {name}: conf={box.confidence:.4f} pos=({box.x},{box.y})")
-        cv2.rectangle(frame, (box.x, box.y),
-                      (box.x + box.width, box.y + box.height), (0, 255, 0), 3)
-        cv2.putText(frame, f"{name} {box.confidence:.2f}", (box.x, box.y - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+    if boxes:
+        for b in boxes:
+            print(f"MATCH {name}: conf={b.confidence:.4f} pos=({b.x},{b.y})")
+            cv2.rectangle(frame, (b.x, b.y),
+                          (b.x + b.width, b.y + b.height), (0, 255, 0), 3)
+            cv2.putText(frame, f"{name} {b.confidence:.2f}", (b.x, b.y - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
     else:
         print(f"MISS  {name}")
 

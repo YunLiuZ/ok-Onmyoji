@@ -16,7 +16,7 @@ class BaseBattleTask(BaseOmjTask):
             "Group Name": "",
             "Team Name": "",
             "AttackNumber":10,
-            "BattleTime": 30
+            "BattleTime": 30,
         })
 
         self.config_description.update({
@@ -24,6 +24,7 @@ class BaseBattleTask(BaseOmjTask):
             "Preset Enable": "开启后战斗前自动切换到指定的预设队伍。",
             "Preset Group": "预设队伍所在的组编号（1-7），用于 SwitchSoul_by_num。",
             "Preset Team": "该组中的预设队伍编号（1-4），用于 SwitchSoul_by_num。",
+            "BattleTime": "大致的通过时间 一般情况下不用设置 战斗时间超过一分钟 按大概时间加30秒即可"
         })
 
         self.config_type.update({
@@ -74,16 +75,20 @@ class BaseBattleTask(BaseOmjTask):
             self.log_info('回家')
         self.in_home_and_back()
     def Lock_team(self,confirm_box:tuple):
-        if res := self.find_feature("Lock_Team",threshold=0.8,box=self.box_of_screen(*confirm_box)) :
+        if res := self.find_feature("Lock_Team",threshold=0.9,box=self.box_of_screen(*confirm_box)) :
+            self.log_info("检查到没上锁")
             if self.config["Lock Team Enable"]:
                 self.click(res[0]) #锁上了
+                self.log_info("点击上锁")
                 return True
             else :
                 return False #解锁
         else:
             if self.config["Lock Team Enable"]:
+                self.log_info("上锁")
                 return True #锁上了
             else:
+                self.log_info("点击解锁")
                 self.click(res[0]) #解锁了
                 return False
                 

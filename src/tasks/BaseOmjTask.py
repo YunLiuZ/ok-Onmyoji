@@ -128,7 +128,8 @@ class BaseOmjTask(BaseTask):
         
         self.log_info('滑动完成')
 
-    def Back_Home(self):
+    def Back_Home_old(self):
+        """旧版 — 保留对比。"""
         self.log_info('进入backhome')
         if self.In_Home():
             return True
@@ -140,7 +141,7 @@ class BaseOmjTask(BaseTask):
                 self.click(home_button, after_sleep=1)
                 self.log_info('点击Home_Button')
                 if self.In_Home():
-                    return 
+                    return
         self.sleep(0.5)
         if back_button:= self.find_one(
                 'Back',
@@ -160,35 +161,34 @@ class BaseOmjTask(BaseTask):
                 self.click(home_button, after_sleep=1)
                 self.log_info('点击Home_Button')
                 if self.In_Home():
-                    return 
+                    return
         self.sleep(0.5)
         def try_back():
-            if Back1 := self.find_one('Daily_New_Cancel',box=self.box_of_screen(0.5,0,1,0.5),threshold=0.8):
-                self.click(Back1, after_sleep=0.5)
+            if Back1 := self.find_feature('Daily_New_Cancel',box=self.box_of_screen(0.5,0,1,0.5),threshold=0.8):
+                self.click(Back1[0], after_sleep=0.5)
                 self.log_info('关闭了某个窗口')
                 return
             self.log_info('什么都没点击')
-            if Back2 := self.find_one('Cancel_Old',box=self.box_of_screen(0.5,0,1,0.5),threshold=0.8):
-                self.click(Back2, after_sleep=0.5)
+            if Back2 := self.find_feature('Cancel_Old',box=self.box_of_screen(0.5,0,1,0.5),threshold=0.8):
+                self.click(Back2[0], after_sleep=0.5)
                 self.log_info('关闭了某个窗口')
                 return
             self.log_info('什么都没点击')
-
-            if back_button:= self.find_one(
+            if back_button:= self.find_feature(
                 'Back',
                 box=self.B('Back'),
                 threshold=0.8
             ):
-                self.click(back_button, after_sleep=3)
+                self.click(back_button[0], after_sleep=3)
                 self.log_info('点击Back')
                 if self.In_Home():
                     return
-            if home_button:= self.find_one(
+            if home_button:= self.find_feature(
                 'Home_Button',
                 box=self.B('Home_Button'),
                 threshold=0.8
             ):
-                self.click(home_button, after_sleep=1)
+                self.click(home_button[0], after_sleep=1)
                 self.log_info('点击Home_Button')
                 if self.In_Home():
                     return
@@ -197,6 +197,57 @@ class BaseOmjTask(BaseTask):
             time_out=30,
             post_action=try_back,
             raise_if_not_found=False
+        )
+
+    def Back_Home(self):
+        """快速路径：Home_Button → Back → Home_Button。"""
+        self.log_info('进入backhome')
+        if self.In_Home():
+            return True
+        if btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
+            self.click(btns[0], after_sleep=2)
+            self.log_info('点击 Home_Button')
+            if self.In_Home():
+                return True
+        self.sleep(0.3)
+        if btns := self.find_feature('Back', box=self.B('Back'), threshold=0.8):
+            self.click(btns[0], after_sleep=0.5)
+            self.log_info('点击 Back')
+            if self.In_Home():
+                return True
+        self.sleep(0.3)
+        if btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
+            self.click(btns[0], after_sleep=2)
+            self.log_info('点击 Home_Button')
+            if self.In_Home():
+                return True
+        return self.Back_Home_loop()
+
+    def Back_Home_loop(self):
+        """顽固路径：循环消弹窗直到回到主页。"""
+        self.log_info('进入backhome循环')
+
+        cancel_box = self.box_of_screen(0.5, 0, 1, 0.5)
+
+        def try_back():
+            if btns := self.find_feature(['Daily_New_Cancel', 'Cancel_Old'],
+                                          box=cancel_box, threshold=0.8):
+                self.click(btns[0], after_sleep=0.2)
+                self.log_info('关闭弹窗')
+                return
+            if btns := self.find_feature('Back', box=self.B('Back'), threshold=0.8):
+                self.click(btns[0], after_sleep=0.5)
+                self.log_info('点击 Back')
+                return
+            if btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
+                self.click(btns[0], after_sleep=0.3)
+                self.log_info('点击 Home_Button')
+
+        return self.wait_until(
+            self.In_Home,
+            time_out=30,
+            post_action=try_back,
+            raise_if_not_found=False,
         )
     
     

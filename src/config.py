@@ -115,6 +115,7 @@ config = {
         ["src.tasks.DailyTask", "DailyTask"],
         ["src.tasks.SoulZonesTask", "SoulZonesTask"],
         ["src.tasks.AreaBossTask", "AreaBossTask"],
+        ["src.tasks.RealmRaidTask", "RealmRaidTask"],
         ["src.tasks.GameEventsBattleTask", "GameEventsBattleTask"],
         ["src.tasks.TaskScheduler", "TaskScheduler"],
         ["ok", "DiagnosisTask"],

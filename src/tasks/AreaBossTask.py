@@ -61,7 +61,7 @@ class AreaBossTask(BaseBattleTask):
 
             if not self.wait_click_feature('Battle_Success', threshold=0.7,
                                     box=self.B('Battle_Success'),
-                                    raise_if_not_found=False, time_out=60, after_sleep=1):
+                                    raise_if_not_found=False, time_out=self.config["BattleTime"], after_sleep=1):
                 self.log_warning("找不到Battle_Success")
 
             self.click_relative(0.6,0.3,after_sleep=0.5)

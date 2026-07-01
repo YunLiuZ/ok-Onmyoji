@@ -73,7 +73,7 @@ class GameEventsBattleTask(BaseBattleTask):
         self.log_info(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         if not self.wait_click_feature('Battle_Finish', threshold=0.7,
                                     box=self.B('Battle_Finish'),
-                                    raise_if_not_found=False, time_out=10, after_sleep=1):
+                                    raise_if_not_found=False, time_out=self.config["BattleTime"], after_sleep=1):
             self.log_warning("找不到Battle_Finish")
         self.log_info(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         self.info_set("步骤", "进入Battle_Finish")

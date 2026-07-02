@@ -9,6 +9,7 @@ class AreaBossTask(BaseBattleTask):
         self.count = 1
 
     def run(self):
+        self.in_home_and_back()
         if self.config["Preset Enable"]:
             self.SwitchSoul_by_num(int(self.config["Preset Group"]),int(self.config["Preset Team"]))
         if self.AreaBoss_page():

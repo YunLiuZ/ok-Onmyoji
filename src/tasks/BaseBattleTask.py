@@ -35,7 +35,7 @@ class BaseBattleTask(BaseOmjTask):
 
     def SwitchSoul_by_name(self):
         self.In_Home()
-        self.Find_And_Click_Home('式神录')
+        self.ocr_and_click('式神录',box=self.B("Home_Shikigami_Chronicles"))
         self.wait_click_ocr(match='预设',
                             box=self.get_box_by_name('Home_Shikigami_Presets'))
         self.wait_click_ocr(match=self.config["Preset Group"],
@@ -56,6 +56,7 @@ class BaseBattleTask(BaseOmjTask):
 
         self.wait_click_ocr(match='预设',
                             box=self.B('Home_Shikigami_Presets'),time_out=3,after_sleep=1)
+        self._swipe(0.91,0.22,0.91,0.77,0.5)
 
         group_rows = {1: 0.17, 2: 0.27, 3: 0.35, 4: 0.47, 5: 0.56, 6: 0.67, 7: 0.75}
         self.click_nth('x', 0.91, group_rows, group, "预设组")
@@ -74,6 +75,7 @@ class BaseBattleTask(BaseOmjTask):
         
             self.log_info('回家')
         self.in_home_and_back()
+
     def Lock_team(self,confirm_box:tuple):
         if res := self.find_feature("Lock_Team",threshold=0.9,box=self.box_of_screen(*confirm_box)) :
             self.log_info("检查到没上锁")
@@ -91,6 +93,35 @@ class BaseBattleTask(BaseOmjTask):
                 self.log_info("点击解锁")
                 self.click(res[0]) #解锁了
                 return False
+    def Change_team(self):
+        self.ocr_and_click("预","设",box=(0,0.87,0.15,1))# (0.8781, 0.7701, 0.9625, 0.8535)
+        group_rows = {1: 0.36, 2: 0.45, 3: 0.54, 4: 0.63, 5: 0.72, 6: 0.81, 7: 0.90}
+        self.click_nth('x', 0.76, group_rows, int(self.config["Preset Group"]), "预设组")
+
+        team_rows = {1: 0.22, 2: 0.44, 3: 0.64, 4: 0.85}
+        self.click_nth('x', 0.77, team_rows, int(self.config["Preset Team"]), "预设队伍")
+
+        self.ocr_and_click("出战",1,box=self.box_of_screen(0.26, 0.88, 0.40, 0.96))
+        if not self.ocr_and_click("确定",time_out=2,box=self.box_of_screen(0.45, 0.57, 0.54, 0.62)):
+            if self.ocr_and_click("准备",box=self.box_of_screen(0.87, 0.77, 0.96, 0.85)):
+                True
+            else:
+                False
+        else:
+            if self.ocr_and_click("准备",box=self.box_of_screen(0.87, 0.77, 0.96, 0.85)):
+                return True
+            else: return False
+
+
+        
+
+
+#         点: ( 195,  528)  |  相对: (0.0762, 0.3667)
+#         点: ( 189,  658)  |  相对: (0.0738, 0.4569)
+# 点: ( 565,  499)  |  相对: (0.2207, 0.3465)
+# 点: ( 557,  746)  |  相对: (0.2176, 0.5181)
+# 点: ( 563,  989)  |  相对: (0.2199, 0.6868)
+# 点: ( 558, 1224)  |  相对: (0.218, 0.85)
                 
 
 

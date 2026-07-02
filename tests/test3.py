@@ -17,7 +17,7 @@ task.feature_set = ok_test.feature_set
 task.after_init(executor=ok_test.task_executor, scene=ok_test.task_executor.scene)
 
 # ---- 设置测试图片 ----
-IMAGE = "tests\img\explore/7.png"
+IMAGE = "tests\img\home\signcancel.png"
 ok_test.device_manager.capture_method.set_images([IMAGE])
 frame = task.next_frame()
 h, w = frame.shape[:2]
@@ -25,10 +25,10 @@ h, w = frame.shape[:2]
 # ---- 配置：一行定义 特征名 + 搜索区域，代码自动画框+查找 ----
 # 修改 box= 参数即可，蓝色区域会自动跟着变
 searches = [
-    ("Real_Raid_Finish",                   task.box_of_screen(0.11,0.20,0.88,0.73)),
-    ("Lock_Team",                  task.box_of_screen(0.63,0.79,0.67,0.87)),
-    # ("Battle_Success",   task.box_of_screen(0.2,0,0.5,0.43)),
-    # ("Daily_New_Cancel",   task.box_of_screen(0.8, 0, 1, 0.2)),
+    ("Home_Button",                   task.box_of_screen(0, 0, 0.15, 0.1)),
+    ("Back",                  task.box_of_screen(0,0,0.2,0.2)),
+    ("Battle_Success",   task.box_of_screen(0.2,0,0.5,0.43)),
+    ("Daily_New_Cancel",   task.box_of_screen(0.64, 0.09, 0.71, 0.21)),
 ]
 
 colors = [(255, 0, 0), (255, 255, 0), (0, 255, 255)]  # 蓝/黄/青 区分各搜索区域

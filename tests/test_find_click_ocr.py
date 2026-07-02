@@ -1,4 +1,4 @@
-"""测试 Find_And_Click_Home OCR 识别 — 搜"商店"并标记点击位置。"""
+"""测试 OCR 识别 — 搜"商店"并标记点击位置。"""
 import os, sys, cv2
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

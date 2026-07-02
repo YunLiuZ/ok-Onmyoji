@@ -32,6 +32,7 @@ class SoulZonesTask(BaseBattleTask):
         })
 
     def run(self):
+        self.in_home_and_back()
         if self.config["Preset Enable"]:
             self.SwitchSoul_by_num(int(self.config["Preset Group"]),int(self.config["Preset Team"]))
         if self.config["UserStatus"] in ("队长"):
@@ -54,14 +55,13 @@ class SoulZonesTask(BaseBattleTask):
             self.log_info("等待邀请")
             if  self.wait_click_feature('Invitation_Confirm', threshold=0.7,
                                     box=self.B('Invitation_Confirm'),
-                                    raise_if_not_found=False, time_out=60, after_sleep=1):
+                                    raise_if_not_found=False, time_out=120, after_sleep=1):
                 self.Member_battle()
                 
             else: 
                 self.log_info("等待超过六十秒")
 
     def SoulZones_page(self):   
-        self.in_home_and_back()
 
         if not self.wait_click_feature('Home_Explore', threshold=0.7,
                                         box=self.B('Home_Explore'),
@@ -166,10 +166,8 @@ class SoulZonesTask(BaseBattleTask):
         targets = [self.config["Friend 1"]]
         if self.config["Friend 2"]:
             targets.append(self.config["Friend 2"])
-        if lock_res := self.Lock_team((0,0.88,0.06,0.95)):
-            self.log_info("锁上了")
-        else:
-            self.log_info("没锁") 
+        lock_res=self.Lock_team((0,0.88,0.06,0.95))
+    
         self.count = 1
 
         while(self.count <= self.config["AttackNumber"]):
@@ -189,7 +187,11 @@ class SoulZonesTask(BaseBattleTask):
                     
                     if self.count == 1: 
                         if not lock_res:
-                            pass #换队伍
+                            if not self.config["Preset Enable"]: #只是忘记锁了
+                                self.ocr_and_click("准备",box=self.box_of_screen(0.87, 0.77, 0.96, 0.85))
+                                self.log_warning("请锁定阵容")
+                            else:
+                                self.Change_team()
 
 
                     if not self.wait_click_feature('Battle_Success', threshold=0.7,
@@ -218,12 +220,15 @@ class SoulZonesTask(BaseBattleTask):
                     self.trigger_count+=1
                 else:
                     self.log_info("队友不在了")
-                    
+        if not self.wait_click_feature('Back', threshold=0.7,
+                                            box=self.B('Back'),
+                                            raise_if_not_found=False, time_out=5, after_sleep=1):
+            self.log_warning("找不到Battle_Finish")
+        if self.ocr_and_click("确定",box=self.box_of_screen(0.54, 0.57, 0.63, 0.62)):
+            self.wait_click_feature("Home_Button",box=self.B("Home_Button"),threshold=0.8,time_out=3,after_sleep=2)
+        self.in_home_and_back()
 
-                
-
-
-            
+                           
 #endregion
 
 
@@ -233,20 +238,6 @@ class SoulZonesTask(BaseBattleTask):
         while(self.count <= self.config["AttackNumber"]):
             if self.ocr_and_click(['挑战'],box=self.box_of_screen(0.87,0.79,0.98,0.90)):
                 self.log_info('点击挑战')   
-            # if not self.wait_click_feature('Home_Explore', threshold=0.7, #TIAOZHAN
-            #                             box=self.box_of_screen(0.91 ,0.81 ,1 , 1),
-            #                             raise_if_not_found=False, time_out=25, after_sleep=1):
-            #     self.log_warning("找不到tiaozhan")
-            # self.info_set("步骤", "进入tiaozhan")
-        # 挑战可以点relative
-
-        # self.click_relative(0.95,0.90,after_sleep=0.5)
-        # self.log_info("进入battle")
-        # if not self.wait_click_feature('Battle_Success', threshold=0.7,
-        #                         box=self.B('Battle_Success_Soul'),
-        #                         raise_if_not_found=False, time_out=60, after_sleep=1):
-        #     self.log_warning("找不到Battle_Success_Soul")
-        
             if self.count == 1:
                 result = self.Treasure()
                 if result == 'treasure':
@@ -264,14 +255,6 @@ class SoulZonesTask(BaseBattleTask):
                     self.count += 1
                     self.trigger_count += 1
                     continue
-
-                # if self.wait_ocr("发现宝藏",time_out=self.config["BattleTime"]+10,box=self.box_of_screen(0.36,0.18,0.65,0.33)):
-                #     self.click_relative(0.1,0.1,after_sleep=0.5)
-                #     self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
-                #     self.count+=1
-                #     self.trigger_count+=1
-                #     continue
-
             if not self.wait_click_feature('Battle_Finish', threshold=0.7,
                                     box=self.B('Battle_Finish'),
                                     raise_if_not_found=False, time_out=self.config["BattleTime"]+15, after_sleep=1):
@@ -279,36 +262,50 @@ class SoulZonesTask(BaseBattleTask):
             self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
             self.count+=1
             self.trigger_count+=1
+        self.wait_click_feature("Home_Button",box=self.B("Home_Button"),threshold=0.8,time_out=3,after_sleep=2)
+        self.in_home_and_back()
 
     def Member_battle(self):
-        
-        if not self.wait_click_feature('Battle_Success', threshold=0.7,
+        self.count = 1
+        while(self.count <= self.config["AttackNumber"]):
+            if not self.wait_click_feature('Battle_Success', threshold=0.7,
                                     box=self.B('Battle_Success_Soul'),
                                     raise_if_not_found=False, time_out=60, after_sleep=1):
                 self.log_warning("找不到Battle_Success_Soul")
 
 
-        if not self.wait_click_feature('Battle_Finish', threshold=0.7,
-                                box=self.B('Battle_Finish'),
-                                raise_if_not_found=False, time_out=5, after_sleep=1):
-            self.log_warning("找不到Battle_Finish")
-        if self.count == 1:      
-            if self.wait_ocr("发现宝藏",time_out=1,box=self.box_of_screen(0.36,0.18,0.65,0.33)):
-                self.click_relative(0.1,0.1,after_sleep=0.5)
-            if not self.wait_click_feature('Member_Confirm', threshold=0.7,
-                                    box=self.B('Member_Confirm'),
-                                    raise_if_not_found=False, time_out=10, after_sleep=1):
-                self.log_warning("找不到Battle_Success_Soul")
-            if  self.wait_click_feature('Leader_Invitation', threshold=0.7,
-                                    box=self.B('Leader_Invitation'),
-                                    raise_if_not_found=False, time_out=2, after_sleep=1):
-                    if not (self.ocr_and_click('确认',time_out=2,box=self.box_of_screen(0.45,0.45,0.70,0.70))):
-                        self.log_warning("找不到确认")
-           
+            if not self.wait_click_feature('Battle_Finish', threshold=0.7,
+                                    box=self.B('Battle_Finish'),
+                                    raise_if_not_found=False, time_out=5, after_sleep=1):
+                self.log_warning("找不到Battle_Finish")
+            if self.count == 1:      
+                if self.wait_ocr("发现宝藏",time_out=1,box=self.box_of_screen(0.36,0.18,0.65,0.33)):
+                    self.click_relative(0.1,0.1,after_sleep=0.5)
+                if not self.wait_click_feature('Member_Confirm', threshold=0.7,
+                                        box=self.B('Member_Confirm'),
+                                        raise_if_not_found=False, time_out=10, after_sleep=1):
+                    self.log_warning("找不到Battle_Success_Soul")
+                if  self.wait_click_feature('Leader_Invitation', threshold=0.7,
+                                        box=self.B('Leader_Invitation'),
+                                        raise_if_not_found=False, time_out=2, after_sleep=1):
+                        if not (self.ocr_and_click('确定',time_out=2,box=self.box_of_screen(0.45,0.45,0.70,0.70))):
+                            self.log_warning("找不到确认")       
+                self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                self.count+=1
+                self.trigger_count+=1
+        self.wait_click_feature("Home_Button",box=self.B("Home_Button"),threshold=0.8,time_out=3,after_sleep=2)
+        self.in_home_and_back()
+
+
+
+
+        
+        
 
         self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
         self.count+=1
         self.trigger_count+=1
+    
         
             
             

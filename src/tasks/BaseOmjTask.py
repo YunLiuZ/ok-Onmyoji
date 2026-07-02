@@ -25,32 +25,96 @@ class BaseOmjTask(BaseTask):
         if name in self._GLOBAL_ATTRS:
             setattr(og.my_app, name, value)
         else:
+            
+            
             super().__setattr__(name, value)
-
+#region Home
     def in_home_and_back(self):
-        if not self.In_Home():
+        if  self.In_Home():
+            self.log_info("在主页")
+        else:
+            self.log_info("不在主页")
             self.Back_Home()
         
     def In_Home(self):
-        town = self.find_one('Home_Town', threshold=0.8, box=self.B('Home_Town'))
+        self.log_info("寻找町中")
+        town = self.find_feature('Home_Town', threshold=0.8, box=self.B('Home_Town'))
         if town:
+            self.log_info("町中")
             return True
-        store = self.find_one('Home_Store', threshold=0.8, box=self.B('Home_Store'))
+        else:
+            self.log_info("不寻找町中")
+        store = self.find_feature('Home_Store', threshold=0.8, box=self.B('Home_Store'))
+        self.log_info("寻找商店")
         if store:
-            return True
-        ocr1 = self.ocr_and_click(['町','中'],box=self.B('Home_Town'))
-        if ocr1:
-            return True
-        return False
+            self.log_info("寻找到了商店")
+            self.reset()
+            if self.wait_feature('Home_Town', threshold=0.8, box=self.B('Home_Town'),time_out=3):
+                return True
+        else:return False
+    def Back_Home(self):
+        """快速路径：Home_Button → Back → Home_Button。"""
+        self.log_info('进入backhome')
+        if btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
+            self.click(btns[0], after_sleep=2)
+            self.log_info('点击 Home_Button')
+            if self.In_Home():
+                return True
+        self.sleep(0.3)
+        if btns := self.find_feature('Back', box=self.B('Back'), threshold=0.8):
+            self.click(btns[0], after_sleep=0.5)
+            self.log_info('点击 Back')
+            if self.In_Home():
+                return True
+        self.sleep(0.3)
+        if btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
+            self.click(btns[0], after_sleep=2)
+            self.log_info('点击 Home_Button')
+            if self.In_Home():
+                return True
+        return self.Back_Home_loop()
+
+    def Back_Home_loop(self):
+        """顽固路径：循环消弹窗直到回到主页。"""
+        self.log_info('进入backhome循环')
+
+        cancel_box = self.box_of_screen(0.5, 0, 1, 0.5)
+
+        def try_back():
+            if btns := self.find_feature('Daily_New_Cancel',
+                                          box=cancel_box, threshold=0.8):
+                self.click(btns[0], after_sleep=0.2)
+                self.log_info('关闭弹窗')
+                return
+            if btns := self.find_feature( 'Cancel_Old',
+                                          box=cancel_box, threshold=0.8):
+                self.click(btns[0], after_sleep=0.2)
+                self.log_info('关闭弹窗')
+                return
+            if btns := self.find_feature('Back', box=self.B('Back'), threshold=0.8):
+                self.click(btns[0], after_sleep=0.5)
+                self.log_info('点击 Back')
+                return
+            if btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
+                self.click(btns[0], after_sleep=0.3)
+                self.log_info('点击 Home_Button')
+
+        return self.wait_until(
+            self.In_Home,
+            time_out=30,
+            post_action=try_back,
+            raise_if_not_found=False,
+        )
 
     def reset(self):
-        """从商店返回主页。"""
-        self.log_info("只找到 Home_Store，尝试返回主页")
-        self.wait_click_feature('Home_Button', threshold=0.8, box=self.B('Home_Button'))
-    def reset_home(self):
-        if not self.ocr_and_click(['町','中'],box=self.B('Home_Town')):
-            self.ocr_and_click(['町'],box=self.box_of_screen(0.2,0.3,0.8,0.8))
-        self.click_relative(0.82,0.36)
+        """从阴阳寮返回主页。"""
+        self.log_info("寻从阴阳寮返回主页")
+        if not self.wait_click_feature('YinYang_Lodge', threshold=0.7,
+                                        box=self.B('YinYang_Lodge'),
+                                        raise_if_not_found=False, time_out=3, after_sleep=1):
+            self.log_warning("找不到YinYang_Lodge")
+        self.info_set("步骤", "进入YinYang_Lodge")
+        self.wait_click_feature('Home_Button', threshold=0.8, box=self.B('Home_Button'),after_sleep=2)
 
     def in_store(self):
         self.log_info('进入判断')
@@ -62,9 +126,9 @@ class BaseOmjTask(BaseTask):
             self.sleep(1)
             return True
         return False
-       
-    def findone_and_click(self):
-        pass
+#endregion     
+    
+    
     def ocr_and_click(self, match, sleep: float = 0.5,time_out :float =3, box=None, random_click: bool = False) -> bool:
         """OCR 指定区域按优先级模糊匹配文字并点击。返回 True/False。
         match: str 或 list[str]，内部自动转正则（包含即匹配）。
@@ -88,16 +152,7 @@ class BaseOmjTask(BaseTask):
                 self.log_info(f"OCR '{m}' -> '{r.name}' 并点击")
                 return True
         return False
-    def Find_And_Click_Home(self, text: str) -> bool:
-        """OCR 底部区域 (0, 0.8 ~ 1, 1)，匹配到 text 则点击。"""
-        results = self.ocr(0, 0.8, 1, 1, match=text)
-        if results:
-            self.click_box(results[0], after_sleep=0.5)
-            self.log_info(f"OCR 识别到 '{results[0].name}' 并点击")
-            self.log_warning(f"OCR 识别到 '{results[0].name}' 并点击")
-            self.sleep(2)
-            return True
-        return False
+
 
     def B(self, name: str):
         """快捷获取特征搜索 Box：self.B('Home_Sign') → Box 对象。"""
@@ -127,127 +182,4 @@ class BaseOmjTask(BaseTask):
         )
         
         self.log_info('滑动完成')
-
-    def Back_Home_old(self):
-        """旧版 — 保留对比。"""
-        self.log_info('进入backhome')
-        if self.In_Home():
-            return True
-        if home_button:= self.find_one(
-                'Home_Button',
-                box=self.B('Home_Button'),
-                threshold=0.8
-            ):
-                self.click(home_button, after_sleep=1)
-                self.log_info('点击Home_Button')
-                if self.In_Home():
-                    return
-        self.sleep(0.5)
-        if back_button:= self.find_one(
-                'Back',
-                box=self.B('Back'),
-                threshold=0.8
-            ):
-                self.click(back_button, after_sleep=3)
-                self.log_info('点击Back')
-                if self.In_Home():
-                    return
-        self.sleep(0.5)
-        if home_button:= self.find_one(
-                'Home_Button',
-                box=self.B('Home_Button'),
-                threshold=0.8
-            ):
-                self.click(home_button, after_sleep=1)
-                self.log_info('点击Home_Button')
-                if self.In_Home():
-                    return
-        self.sleep(0.5)
-        def try_back():
-            if Back1 := self.find_feature('Daily_New_Cancel',box=self.box_of_screen(0.5,0,1,0.5),threshold=0.8):
-                self.click(Back1[0], after_sleep=0.5)
-                self.log_info('关闭了某个窗口')
-                return
-            self.log_info('什么都没点击')
-            if Back2 := self.find_feature('Cancel_Old',box=self.box_of_screen(0.5,0,1,0.5),threshold=0.8):
-                self.click(Back2[0], after_sleep=0.5)
-                self.log_info('关闭了某个窗口')
-                return
-            self.log_info('什么都没点击')
-            if back_button:= self.find_feature(
-                'Back',
-                box=self.B('Back'),
-                threshold=0.8
-            ):
-                self.click(back_button[0], after_sleep=3)
-                self.log_info('点击Back')
-                if self.In_Home():
-                    return
-            if home_button:= self.find_feature(
-                'Home_Button',
-                box=self.B('Home_Button'),
-                threshold=0.8
-            ):
-                self.click(home_button[0], after_sleep=1)
-                self.log_info('点击Home_Button')
-                if self.In_Home():
-                    return
-        return self.wait_until(
-            self.In_Home,
-            time_out=30,
-            post_action=try_back,
-            raise_if_not_found=False
-        )
-
-    def Back_Home(self):
-        """快速路径：Home_Button → Back → Home_Button。"""
-        self.log_info('进入backhome')
-        if self.In_Home():
-            return True
-        if btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
-            self.click(btns[0], after_sleep=2)
-            self.log_info('点击 Home_Button')
-            if self.In_Home():
-                return True
-        self.sleep(0.3)
-        if btns := self.find_feature('Back', box=self.B('Back'), threshold=0.8):
-            self.click(btns[0], after_sleep=0.5)
-            self.log_info('点击 Back')
-            if self.In_Home():
-                return True
-        self.sleep(0.3)
-        if btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
-            self.click(btns[0], after_sleep=2)
-            self.log_info('点击 Home_Button')
-            if self.In_Home():
-                return True
-        return self.Back_Home_loop()
-
-    def Back_Home_loop(self):
-        """顽固路径：循环消弹窗直到回到主页。"""
-        self.log_info('进入backhome循环')
-
-        cancel_box = self.box_of_screen(0.5, 0, 1, 0.5)
-
-        def try_back():
-            if btns := self.find_feature(['Daily_New_Cancel', 'Cancel_Old'],
-                                          box=cancel_box, threshold=0.8):
-                self.click(btns[0], after_sleep=0.2)
-                self.log_info('关闭弹窗')
-                return
-            if btns := self.find_feature('Back', box=self.B('Back'), threshold=0.8):
-                self.click(btns[0], after_sleep=0.5)
-                self.log_info('点击 Back')
-                return
-            if btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
-                self.click(btns[0], after_sleep=0.3)
-                self.log_info('点击 Home_Button')
-
-        return self.wait_until(
-            self.In_Home,
-            time_out=30,
-            post_action=try_back,
-            raise_if_not_found=False,
-        )
-    
     

@@ -56,7 +56,7 @@ jobs:
         uses: ok-oldking/partial-sync-repo@master
         with:
           repos: |
-            https://YunLiuZ:${{ secrets.OK_GH }}@github.com/YunLiuZ/ok-Onmyoji-update.git
+            https://x-access-token:${{ secrets.OK_GH }}@github.com/YunLiuZ/ok-Onmyoji-update.git
           sync_list: 'deploy.txt'
           tag: ${{ github.ref_name }}
           gitignore_file: '.update_repo_gitignore'

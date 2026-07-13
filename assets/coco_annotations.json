@@ -50,7 +50,7 @@
         },
         {
             "id": 10,
-            "file_name": "images/1.png",
+            "file_name": "images/0.png",
             "width": 2560,
             "height": 1440
         },
@@ -98,7 +98,7 @@
         },
         {
             "id": 21,
-            "file_name": "images/0.png",
+            "file_name": "images/1.png",
             "width": 2560,
             "height": 1440
         },
@@ -239,6 +239,12 @@
             "file_name": "images/6.png",
             "width": 1600,
             "height": 900
+        },
+        {
+            "id": 52,
+            "file_name": "images/1.png",
+            "width": 2560,
+            "height": 1440
         }
     ],
     "annotations": [
@@ -260,12 +266,12 @@
             "image_id": 3,
             "category_id": 2,
             "bbox": [
-                1286,
-                1212,
-                135,
-                154
+                1316,
+                1244,
+                87,
+                83
             ],
-            "area": 20790,
+            "area": 7221,
             "iscrowd": 0
         },
         {
@@ -273,12 +279,12 @@
             "image_id": 3,
             "category_id": 4,
             "bbox": [
-                2175,
-                1218,
-                156,
-                148
+                2200,
+                1234,
+                106,
+                63
             ],
-            "area": 23088,
+            "area": 6678,
             "iscrowd": 0
         },
         {
@@ -325,12 +331,12 @@
             "image_id": 3,
             "category_id": 7,
             "bbox": [
-                1061,
-                1207,
-                150,
-                161
+                1075,
+                1216,
+                118,
+                99
             ],
-            "area": 24150,
+            "area": 11682,
             "iscrowd": 0
         },
         {
@@ -676,12 +682,12 @@
             "image_id": 21,
             "category_id": 34,
             "bbox": [
-                1171,
-                1053,
-                202,
-                125
+                1176,
+                1071,
+                165,
+                103
             ],
-            "area": 25250,
+            "area": 16995,
             "iscrowd": 0
         },
         {
@@ -869,27 +875,27 @@
         {
             "id": 49,
             "image_id": 42,
-            "category_id": 49,
+            "category_id": 50,
             "bbox": [
                 144,
                 831,
                 34,
-                25
+                33
             ],
-            "area": 850,
+            "area": 1122,
             "iscrowd": 0
         },
         {
             "id": 50,
             "image_id": 43,
-            "category_id": 50,
+            "category_id": 62,
             "bbox": [
                 150,
                 826,
                 27,
-                23
+                30
             ],
-            "area": 621,
+            "area": 810,
             "iscrowd": 0
         },
         {
@@ -897,12 +903,12 @@
             "image_id": 44,
             "category_id": 51,
             "bbox": [
-                1029,
-                727,
-                33,
-                44
+                1016,
+                723,
+                57,
+                60
             ],
-            "area": 1452,
+            "area": 3420,
             "iscrowd": 0
         },
         {
@@ -910,12 +916,12 @@
             "image_id": 45,
             "category_id": 52,
             "bbox": [
-                1032,
+                1020,
                 727,
-                32,
-                44
+                53,
+                53
             ],
-            "area": 1408,
+            "area": 2809,
             "iscrowd": 0
         },
         {
@@ -934,7 +940,7 @@
         {
             "id": 54,
             "image_id": 46,
-            "category_id": 54,
+            "category_id": 49,
             "bbox": [
                 746,
                 300,
@@ -1033,6 +1039,149 @@
                 50
             ],
             "area": 4250,
+            "iscrowd": 0
+        },
+        {
+            "id": 62,
+            "image_id": 3,
+            "category_id": 54,
+            "bbox": [
+                1751,
+                1228,
+                117,
+                92
+            ],
+            "area": 10764,
+            "iscrowd": 0
+        },
+        {
+            "id": 63,
+            "image_id": 21,
+            "category_id": 63,
+            "bbox": [
+                1049,
+                1191,
+                443,
+                70
+            ],
+            "area": 31010,
+            "iscrowd": 0
+        },
+        {
+            "id": 64,
+            "image_id": 52,
+            "category_id": 64,
+            "bbox": [
+                137,
+                1275,
+                99,
+                83
+            ],
+            "area": 8217,
+            "iscrowd": 0
+        },
+        {
+            "id": 65,
+            "image_id": 52,
+            "category_id": 65,
+            "bbox": [
+                329,
+                1275,
+                88,
+                86
+            ],
+            "area": 7568,
+            "iscrowd": 0
+        },
+        {
+            "id": 66,
+            "image_id": 52,
+            "category_id": 66,
+            "bbox": [
+                510,
+                1275,
+                111,
+                83
+            ],
+            "area": 9213,
+            "iscrowd": 0
+        },
+        {
+            "id": 67,
+            "image_id": 52,
+            "category_id": 67,
+            "bbox": [
+                707,
+                1283,
+                85,
+                78
+            ],
+            "area": 6630,
+            "iscrowd": 0
+        },
+        {
+            "id": 68,
+            "image_id": 52,
+            "category_id": 68,
+            "bbox": [
+                895,
+                1285,
+                117,
+                76
+            ],
+            "area": 8892,
+            "iscrowd": 0
+        },
+        {
+            "id": 69,
+            "image_id": 52,
+            "category_id": 69,
+            "bbox": [
+                1274,
+                1292,
+                117,
+                74
+            ],
+            "area": 8658,
+            "iscrowd": 0
+        },
+        {
+            "id": 70,
+            "image_id": 52,
+            "category_id": 70,
+            "bbox": [
+                1655,
+                1278,
+                108,
+                81
+            ],
+            "area": 8748,
+            "iscrowd": 0
+        },
+        {
+            "id": 71,
+            "image_id": 52,
+            "category_id": 71,
+            "bbox": [
+                1856,
+                1283,
+                102,
+                83
+            ],
+            "area": 8466,
+            "iscrowd": 0
+        },
+        {
+            "id": 72,
+            "image_id": 52,
+            "category_id": 72,
+            "bbox": [
+                2026,
+                1292,
+                131,
+                78
+            ],
+            "area": 10218,
             "iscrowd": 0
         }
     ],
@@ -1279,12 +1428,12 @@
         },
         {
             "id": 49,
-            "name": "Exploration_Not_Rotation",
+            "name": "Exploration_Final_Battle",
             "supercategory": ""
         },
         {
             "id": 50,
-            "name": "Exploration_Rotation",
+            "name": "Exploration_Not_Rotation",
             "supercategory": ""
         },
         {
@@ -1304,7 +1453,7 @@
         },
         {
             "id": 54,
-            "name": "Exploration_Final_Battle",
+            "name": "Home_Friend",
             "supercategory": ""
         },
         {
@@ -1340,7 +1489,62 @@
         {
             "id": 61,
             "name": "Shop_Kaiko_6",
-            "supercategory": "" 
+            "supercategory": ""
+        },
+        {
+            "id": 62,
+            "name": "Exploration_Rotation",
+            "supercategory": ""
+        },
+        {
+            "id": 63,
+            "name": "Battle_Finish_Soul",
+            "supercategory": ""
+        },
+        {
+            "id": 64,
+            "name": "Exploration_Awake",
+            "supercategory": ""
+        },
+        {
+            "id": 65,
+            "name": "Exploration_Soul",
+            "supercategory": ""
+        },
+        {
+            "id": 66,
+            "name": "Exploration_RealmRaid",
+            "supercategory": ""
+        },
+        {
+            "id": 67,
+            "name": "Exploration_GoryouRealm",
+            "supercategory": ""
+        },
+        {
+            "id": 68,
+            "name": "Exploration_Delegation",
+            "supercategory": ""
+        },
+        {
+            "id": 69,
+            "name": "Exploration_AreaBoss",
+            "supercategory": ""
+        },
+        {
+            "id": 70,
+            "name": "Exploration_Hero",
+            "supercategory": ""
+        },
+        {
+            "id": 71,
+            "name": "Exploration_Six",
+            "supercategory": ""
+        },
+        {
+            "id": 72,
+            "name": "Exploration_BondlingFairyland",
+            "supercategory": ""
         }
     ]
 }

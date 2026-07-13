@@ -51,30 +51,42 @@ class BaseBattleTask(BaseOmjTask):
     
     def SwitchSoul_by_num(self,group:int,team:int):
         """按编号切换预设队伍（从 config 读取 Preset Group / Preset Team)。"""
-        self.in_home_and_back()
-        self.ocr_and_click('式神',box=self.B('Home_Shikigami_Chronicles'))
 
-        self.wait_click_ocr(match='预设',
-                            box=self.B('Home_Shikigami_Presets'),time_out=3,after_sleep=1)
-        self._swipe(0.91,0.22,0.91,0.77,0.5)
-        self.sleep(0.5)
-
-        group_rows = {1: 0.17, 2: 0.27, 3: 0.35, 4: 0.47, 5: 0.56, 6: 0.67, 7: 0.75}
-        self.click_nth('x', 0.91, group_rows, group, "预设组")
-
-        team_rows = {1: 0.22, 2: 0.44, 3: 0.64, 4: 0.85}
-        self.click_nth('x', 0.77, team_rows, team, "预设队伍")
-
-        self.sleep(1)
-        if text := self.ocr('确认',box=self.box_of_screen(0.50,0.53,0.66,0.63)):
-            self.click(text[0],after_sleep=0.5)
-        if text := self.ocr('确认',box=self.box_of_screen(0.50,0.53,0.66,0.63)):
-            self.click(text[0],after_sleep=0.5)
-        if not self.wait_click_feature('Back', threshold=0.7,
-                                        box=self.B('Back'),
+        if self.wait_click_feature('Home_Shikigami_Chronicles', threshold=0.7,
+                                        box=self.B('bottom'),
                                         raise_if_not_found=False, time_out=3, after_sleep=1):
-        
-            self.log_info('回家')
+            self.log_info("Home_Shikigami_Chronicles")
+            self.info_set("步骤", "进入Home_Shikigami_Chronicles")
+        elif text:=self.ocr_and_click(['式神'],1,box=self.B('Home_Shikigami_Chronicles')):
+            print(text)
+        else:
+            self.log_info('找不到Home_Shikigami_Chronicles')
+            return False
+    
+
+        if self.wait_click_ocr(match='预设',
+                            box=self.B('Home_Shikigami_Presets'),time_out=3,after_sleep=1):
+            self._swipe(0.91,0.22,0.91,0.77,0.5)
+            self.sleep(0.5)
+
+            group_rows = {1: 0.17, 2: 0.27, 3: 0.35, 4: 0.47, 5: 0.56, 6: 0.67, 7: 0.75}
+            self.click_nth('x', 0.91, group_rows, group, "预设组")
+
+            team_rows = {1: 0.22, 2: 0.44, 3: 0.64, 4: 0.85}
+            self.click_nth('x', 0.77, team_rows, team, "预设队伍")
+
+            self.sleep(1)
+            if text := self.ocr('确认',box=self.box_of_screen(0.50,0.53,0.66,0.63)):
+                self.click(text[0],after_sleep=0.5)
+            if text := self.ocr('确认',box=self.box_of_screen(0.50,0.53,0.66,0.63)):
+                self.click(text[0],after_sleep=0.5)
+            if not self.wait_click_feature('Back', threshold=0.7,
+                                            box=self.B('Back'),
+                                            raise_if_not_found=False, time_out=3, after_sleep=1):
+            
+                self.log_info('回家')
+            else:
+                self.log_info('找不到Home_Shikigami_Chronicles')
         self.in_home_and_back()
 
     def Lock_team(self,confirm_box:tuple,lock = "Lock",notlock = "Not_Lock"):
@@ -114,3 +126,27 @@ class BaseBattleTask(BaseOmjTask):
             if self.ocr_and_click("准备",box=self.box_of_screen(0.87, 0.77, 0.96, 0.85)):
                 return True
             else: return False
+    def Find_finish(self):
+        if self.wait_click_feature('Battle_Finish', threshold=0.7,
+                                    box=self.B('Battle_Finish'),
+                                    raise_if_not_found=False, time_out=5):
+                    self.sleep(1)
+                    if res1 := self.find_one('Battle_Finish', threshold=0.7,
+                                                    box=self.B('Battle_Finish')):
+                        self.click(res1)
+                        self.log_info("第一次没点到")
+                    else:
+                        self.log_info("第一次点到")
+            
+        elif (self.wait_click_feature('Battle_Finish_Soul', threshold=0.7,
+                                box=self.B('Battle_Finish_Soul'),
+                                raise_if_not_found=False, time_out=5)):
+                self.sleep(1)
+                if res1 := self.find_one('Battle_Finish_Soul', threshold=0.7,
+                                                box=self.B('Battle_Finish_Soul')):
+                    self.click(res1)
+                    self.log_info("第一次没点到")
+                else:
+                    self.log_info("第一次点到")
+        else:
+            self.log_warning("找不到Battle_Finish 222")

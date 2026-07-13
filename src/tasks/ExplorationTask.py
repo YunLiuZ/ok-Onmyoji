@@ -125,13 +125,8 @@ class ExplorationTask(BaseBattleTask):
                                     raise_if_not_found=False, time_out=self.config["BattleTime"], after_sleep=2):
                     self.log_warning("找不到Battle_Success_Soul")
 
-                if res := self.wait_feature('Battle_Finish', threshold=0.7,
-                                    box=self.B('Battle_Finish'),
-                                    raise_if_not_found=False, time_out=5):
-                    self.sleep(1)
-                    self.click(res,after_sleep=1)
-                else:
-                    self.log_warning("找不到Battle_Finish 222")
+                self.Find_finish()
+                
                 self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
                 self.count+=1
                 self.trigger_count+=1
@@ -150,13 +145,7 @@ class ExplorationTask(BaseBattleTask):
 
 
                 
-                if res := self.wait_feature('Battle_Finish', threshold=0.7,
-                                    box=self.B('Battle_Finish'),
-                                    raise_if_not_found=False, time_out=5):
-                    self.sleep(1)
-                    self.click(res,after_sleep=1)
-                else:
-                    self.log_warning("找不到Battle_Finish 222")
+                self.Find_finish()
                 self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
                 self.log_info("最后一次战斗结束")
                 self.count+=1

@@ -159,22 +159,10 @@ class RealmRaidTask(BaseBattleTask):
 
             if not self.wait_click_feature('Battle_Success', threshold=0.7,
                                     box=self.B('Battle_Success'),
-                                    raise_if_not_found=False, time_out=self.config["BattleTime"], after_sleep=0.5):
+                                    raise_if_not_found=False, time_out=self.config["BattleTime"], after_sleep=1):
                 self.log_warning("找不到Battle_Success")
 
-            if res := self.wait_feature('Battle_Finish', threshold=0.7,
-                                    box=self.B('Battle_Finish'),
-                                    raise_if_not_found=False, time_out=5):
-                    self.sleep(1)
-                    self.click(res,after_sleep=1)
-            elif (res := self.wait_feature('Battle_Finish_Soul', threshold=0.7,
-                                    box=self.B('Battle_Finish_Soul'),
-                                    raise_if_not_found=False, time_out=5)):
-                
-                    self.sleep(1)
-                    self.click(res,after_sleep=1)
-            else:
-                self.log_warning("找不到Battle_Finish 222")
+            self.Find_finish()
             if ( self.forward == True and self.count % 3 == 0 ) or (self.forward == False and (self.count) % 3 ==0):
                 self.log_info(f"方向={'正' if self.forward else '倒'},第 {self.count} 个挑战 ,出现了勾玉结算)")
                 if res := self.wait_feature('Battle_Finish', threshold=0.7,

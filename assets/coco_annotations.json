@@ -251,6 +251,18 @@
             "file_name": "images/4.png",
             "width": 2560,
             "height": 1440
+        },
+        {
+            "id": 54,
+            "file_name": "images/4.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 55,
+            "file_name": "images/2.png",
+            "width": 2560,
+            "height": 1440
         }
     ],
     "annotations": [
@@ -1228,6 +1240,32 @@
             ],
             "area": 5772,
             "iscrowd": 0
+        },
+        {
+            "id": 76,
+            "image_id": 54,
+            "category_id": 76,
+            "bbox": [
+                2296,
+                122,
+                152,
+                143
+            ],
+            "area": 21736,
+            "iscrowd": 0
+        },
+        {
+            "id": 77,
+            "image_id": 55,
+            "category_id": 77,
+            "bbox": [
+                2127,
+                1248,
+                138,
+                108
+            ],
+            "area": 14904,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -1604,6 +1642,16 @@
         {
             "id": 75,
             "name": "Home_WantedQuests_Friend",
+            "supercategory": ""
+        },
+        {
+            "id": 76,
+            "name": "Utilize_Select",
+            "supercategory": ""
+        },
+        {
+            "id": 77,
+            "name": "Utilize_Kekkai",
             "supercategory": ""
         }
     ]

@@ -68,9 +68,18 @@ class UtilizeTask(BaseOmjTask):
             self.log_warning("找不到YinYang_Lodge")
         self.info_set("步骤", "进入YinYang_Lodge")
 
-        if text := self.ocr_and_click(['结界'],
-                                  box=self.box_of_screen(0.66, 0.84, 1, 1), time_out=3):
-            print(text)
+        if not self.wait_click_feature('Utilize_Kekkai', threshold=0.7,
+                                        box=self.box_of_screen(0.82, 0.84, 0.9, 0.99),
+                                        raise_if_not_found=False, time_out=3, after_sleep=1):
+            if not (text := self.ocr_and_click(['结界'],
+                                  box=self.box_of_screen(0.66, 0.84, 1, 1), time_out=3)):
+                
+                self.log_warning("找不到Utilize_Kekkai")
+            else:
+                print(text)
+        self.info_set("步骤", "进入Utilize_Kekkai")
+
+        
         self.sleep(1)
 
         # 这一段 需要识别一个结界卡是否 已经用完了
@@ -123,17 +132,26 @@ class UtilizeTask(BaseOmjTask):
                                   box=self.box_of_screen(0.44, 0.36, 0.52, 0.57), time_out=3):
             print(text)
         
-        res1 = self.wait_ocr(match=re.compile(['式神','育成']),box=self.box_of_screen(0.05, 0.04, 0.19, 0.11))
+        
         if text := self.ocr_and_click(['智能','放入'],2,
                                   box=self.box_of_screen(0.89, 0.69, 0.94, 0.78), time_out=3):
             self.sleep(1)
             self.log_info("式神经验已满 切换式神")
             print(text)
-        if self.ocr_and_click(['式神','寄养'],
-                                  box=self.box_of_screen(0.83, 0.00, 1, 0.1), time_out=3):
-            tabs = ['好友', '跨区'] if self.config.get("寄养优先", "好友优先") == "好友优先" else ['跨区', '好友']
+        if self.wait_click_feature('Utilize_Select', threshold=0.7,
+                                    box=self.box_of_screen(0.87, 0.04, 0.98, 0.24),
+                                    raise_if_not_found=False, time_out=3, after_sleep=1):
+            self.log_warning("找到Utilize_Select")
+        elif self.wait_ocr(match=re.compile(['式神','寄养']),box=self.box_of_screen(0.05, 0.04, 0.19, 0.11)):
+            self.log_warning("找到Utilize_Select")
+        else:
+            # if results := self.ocr(box=self.box_of_screen(0.88, 0.13, 0.97, 0.22)):
+            #     self._extract_kekkai_time(results)
+            self.log_warning("找不到Utilize_Select")
 
-            for tab in tabs:
+        tabs = ['好友', '跨区'] if self.config.get("寄养优先", "好友优先") == "好友优先" else ['跨区', '好友']
+
+        for tab in tabs:
                 if not self.ocr_and_click(tab, box=self.box_of_screen(0.17, 0.15, 0.35, 0.22)):
                     self.log_warning(tab)
                     continue
@@ -174,7 +192,7 @@ class UtilizeTask(BaseOmjTask):
 
                 if found_kaiko:
                     if self.ocr_and_click(['进入', '结界'], box=self.box_of_screen(0.61, 0.74, 0.76, 0.82)):
-                        if self.wait_ocr(match=re.compile('式神'), box=self.box_of_screen(0.83, 0.00, 1, 0.1),
+                        if self.wait_ocr(match=re.compile('式神'), box=self.box_of_screen(0,0,0.2,0.2),
                                          time_out=3):
                             self.log_info("进入寄养页面")
                             self.sleep(2)
@@ -193,9 +211,9 @@ class UtilizeTask(BaseOmjTask):
                     break  # 找到并处理完就退出 tab 循环
                 else:
                     self.log_warning(f"{tab} 标签下未找到可寄养的好友")
-        else:
-            if results := self.ocr(box=self.box_of_screen(0.88, 0.13, 0.97, 0.22)):
-                self._extract_kekkai_time(results)
+
+    
+        
                     
 
                     

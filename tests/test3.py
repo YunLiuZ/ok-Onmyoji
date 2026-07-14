@@ -17,7 +17,7 @@ task.feature_set = ok_test.feature_set
 task.after_init(executor=ok_test.task_executor, scene=ok_test.task_executor.scene)
 
 # ---- 设置测试图片 ----
-IMAGE = "tests\img/2.png"
+IMAGE = "tests\img/3.png"
 ok_test.device_manager.capture_method.set_images([IMAGE])
 frame = task.next_frame()
 h, w = frame.shape[:2]
@@ -25,8 +25,8 @@ h, w = frame.shape[:2]
 # ---- 配置：一行定义 特征名 + 搜索区域，代码自动画框+查找 ----
 # 修改 box= 参数即可，蓝色区域会自动跟着变
 searches = [
-    ("Home_Shikigami_Chronicles",  task.box_of_screen(0, 0.80, 1, 1)),
-    ("Home_Store",  task.box_of_screen(0.49, 0.84, 0.57, 0.95)),
+    ("Utilize_Kekkai",  task.box_of_screen(0.82, 0.84, 0.9, 0.99)),
+    ("Utilize_Select",  task.box_of_screen(0.87, 0.04, 0.98, 0.24)),
     ("Exploration_RealmRaid",  task.box_of_screen(0,0.8,1,1)),
     ("Exploration_GoryouRealm",  task.box_of_screen(0,0.8,1,1)),
     

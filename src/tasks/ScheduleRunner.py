@@ -1,11 +1,13 @@
 """后台调度器：按用户配置的时间表自动执行任务。"""
 import json
 import os
-from datetime import datetime
+import re
+from datetime import datetime, timedelta
 
 from ok import TriggerTask
+from ok.util.config import Config
 
-# ---- 任务名 → 任务类（用于实例化并执行具体任务） ----
+# ---- 任务名 → 任务类 ----
 from src.tasks.DailyTask import DailyTask
 from src.tasks.ExplorationTask import ExplorationTask
 from src.tasks.DelegationTask import DelegationTask
@@ -16,159 +18,140 @@ from src.tasks.GameEventsBattleTask import GameEventsBattleTask
 from src.tasks.UtilizeTask import UtilizeTask
 
 TASK_MAP = {
-    "每日签到": DailyTask,
-    "困28": ExplorationTask,
-    "式神委派": DelegationTask,
-    "魂土": SoulZonesTask,
-    "地域鬼王": AreaBossTask,
-    "个人突破": RealmRaidTask,
-    "活动": GameEventsBattleTask,
-    "结界": UtilizeTask,
+    "每日签到": DailyTask, "困28": ExplorationTask, "式神委派": DelegationTask,
+    "魂土": SoulZonesTask, "地域鬼王": AreaBossTask, "个人突破": RealmRaidTask,
+    "活动": GameEventsBattleTask, "结界": UtilizeTask,
 }
-
 ALL_TASK_NAMES = list(TASK_MAP.keys())
 
-# ---- 调度配置/状态文件路径（由 ScheduleTab 写入，ScheduleRunner 读取） ----
-CONFIG_FILE = os.path.join("configs", "schedule_runner.json")       # 用户设置的调度规则
-STATE_FILE = os.path.join("configs", "schedule_runner_state.json") # 上次执行时间记录
 
+# ---- 文件路径 ----
+def _cfg_path(filename):
+    return os.path.join(Config.config_folder, filename)
+
+CONFIG_FILE = _cfg_path("schedule_runner.json")       # 唯一数据源：{任务: {enabled, last_run, interval, next_run}}
+
+
+# ---- 解析工具 ----
+def parse_time(s):
+    """ "YYYY.M.D HH:MM" → datetime，失败返回 None """
+    try:
+        date_part, time_part = str(s).strip().split()
+        y, m, d = [int(x) for x in date_part.split(".")]
+        h, mi = [int(x) for x in time_part.split(":")]
+        return datetime(y, m, d, h, mi)
+    except (ValueError, IndexError):
+        return None
 
 def parse_interval(s):
-    """解析间隔 "时,分" → 总分钟数。例："1,30"→90, "2"→120, "0,45"→45"""
+    """ "H:MM" → 分钟数 """
     try:
         s = str(s).strip()
-        if "," in s:
-            h, m = s.split(",")
+        if ":" in s:
+            h, m = s.split(":")
             return max(1, int(h.strip() or 0) * 60 + int(m.strip() or 0))
         return max(1, int(float(s)) * 60)
     except (ValueError, IndexError):
-        return 60  # 解析失败，默认 1 小时
+        return 60
 
+def fmt_time(dt):
+    """ datetime → "2026.7.14 15:35" """
+    return f"{dt.year}.{dt.month}.{dt.day} {dt.hour}:{dt.minute:02d}"
 
-def parse_start(s):
-    """解析起始时间 "年,月,日,时,分" → datetime。例："2026,7,10,16,0"。
-       失败返回 None（格式不对时安全跳过，不会崩溃）。"""
-    try:
-        parts = [int(x.strip()) for x in str(s).split(",")]
-        if len(parts) != 5:
-            return None
-        return datetime(*parts)
-    except (ValueError, TypeError):
+def calc_next(last_run_str, interval_str):
+    """ 下次运行 = last_run + interval，跳过已过时间点 """
+    last = parse_time(last_run_str)
+    if last is None:
         return None
+    m = parse_interval(interval_str)
+    nr = last + timedelta(minutes=m)
+    if nr <= datetime.now():
+        elapsed = (datetime.now() - last).total_seconds()
+        nr = last + timedelta(minutes=int(elapsed / (m * 60) + 1) * m)
+    return nr
 
 
+# ---- 默认配置 ----
 def _default_schedules():
-    """生成默认调度配置：所有任务未启用，起始时间为今天 0:00。"""
-    now = datetime.now()
-    start_str = f"{now.year},{now.month},{now.day},0,0"
-    return {name: {"enabled": False, "start": start_str, "interval": "6,0"}
-            for name in ALL_TASK_NAMES}
+    return {n: {"enabled": False, "last_run": "2000.1.1 0:0", "interval": "24:0",
+                "next_run": "2000.1.1 0:0"} for n in ALL_TASK_NAMES}
+
+
+# ---- JSON 读写 ----
+def _load_cfg():
+    try:
+        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {"schedules": _default_schedules()}
+
+def _save_cfg(data):
+    os.makedirs(os.path.dirname(CONFIG_FILE), exist_ok=True)
+    with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
 
 
 class ScheduleRunner(TriggerTask):
-    """
-    后台调度器 — 继承 TriggerTask 实现周期性检查。
-    由框架的 trigger_tasks 循环驱动，每 trigger_interval 秒调用一次 run()。
-    不显示在 TriggerTask 面板 (visible=False)，由「调度面板」Tab 控制启停。
-    """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "后台调度器"
         self.description = "按设定的时间表自动执行日常任务"
-        self.trigger_interval = 1       # 每秒检查一次（轻量 IO 操作，无性能压力）
-        self.visible = False           # 不在 TriggerTask 面板显示，由 ScheduleTab 管理
+        self.trigger_count = 0
+        self.default_config = {'_enabled': False}
+        self.default_config.update({"轮询间隔(秒)": 1})
+        self.config_description.update({"轮询间隔(秒)": "检查间隔，默认 1 秒。"})
 
-    # ==================== JSON 持久化工具 ====================
+    def enable(self):
+        super().enable()
+        self.executor.start()          # 确保 executor 线程启动
 
-    def _load_json(self, path, default):
-        """读取 JSON 文件，不存在或损坏则返回默认值。"""
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            return default
+    def on_create(self):
+        super().on_create()
+        self.trigger_interval = self.config.get("轮询间隔(秒)", 1)
 
-    def _save_json(self, path, data):
-        """写入 JSON 文件，自动创建目录。"""
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-
-    def _load_state(self):
-        """读取执行状态：{任务名: "2026-07-10 16:00"}"""
-        return self._load_json(STATE_FILE, {})
-
-    def _save_state(self, state):
-        """保存执行状态。"""
-        self._save_json(STATE_FILE, state)
-
-    def _load_schedules(self):
-        """读取调度配置：{任务名: {enabled, start, interval}}"""
-        cfg = self._load_json(CONFIG_FILE, {"schedules": _default_schedules()})
-        return cfg.get("schedules", _default_schedules())
-
-    # ==================== 主循环（由框架定期调用） ====================
+    # ==================== 主循环 ====================
 
     def run(self):
         """
-        每 trigger_interval 秒被框架调用一次。
-        遍历所有已启用的调度，检查是否到时间执行。
-        返回 True 表示有任务被执行（提高下次检查优先级）。
+        now >= next_run → 执行 → 更新 last_run 和 next_run。
         """
+        self.trigger_count += 1
+        print(self.trigger_count)
+        self.log_debug(f'MyTriggerTask run {self.trigger_count}')
         now = datetime.now()
-        state = self._load_state()          # 上次各任务执行时间
-        schedules = self._load_schedules()  # 用户设定的调度规则
-        ran_any = False                     # 本轮是否有任务被执行
+        cfg = _load_cfg()
+        schedules = cfg.get("schedules", _default_schedules())
+        changed = False
 
-        for name, cfg in schedules.items():
-            # --- 过滤未启用或未知任务 ---
-            if not cfg.get("enabled", False):
-                continue
-            if name not in TASK_MAP:
+        for name, s in schedules.items():
+            if not s.get("enabled") or name not in TASK_MAP:
                 continue
 
-            # --- 检查起始时间：还没到就不执行 ---
-            start = parse_start(cfg.get("start", ""))
-            if start is None or now < start:
+            next_run = parse_time(s.get("next_run", ""))
+            if next_run is None:
                 continue
 
-            # --- 检查间隔：距离上次执行是否已过足够时间 ---
-            interval_min = parse_interval(cfg.get("interval", "6,0"))
-            last_str = state.get(name)      # 从状态文件中读取上次执行时间
-            last_run = None
-            if last_str:
-                try:
-                    last_run = datetime.strptime(last_str, "%Y-%m-%d %H:%M")
-                except ValueError:
-                    pass
-            if last_run is None:
-                last_run = start            # 首次执行：从起始时间开始算
+            if now >= next_run:                                    # 时间到了
+                self._execute_task(name)                           # → 执行
+                s["last_run"] = fmt_time(now)                      # → 更新上次运行
+                s["next_run"] = fmt_time(now + timedelta(          # → 更新下次运行
+                    minutes=parse_interval(s.get("interval", "6:0"))))
+                changed = True
 
-            # 计算还需等待多久；≤0 表示到时间了
-            remaining = interval_min * 60 - (now - last_run).total_seconds()
-            if remaining <= 0:
-                # === 到时间，执行任务 ===
-                self._execute_task(name)
-                state[name] = now.strftime("%Y-%m-%d %H:%M")
-                self._save_state(state)     # 立即持久化，防止重复执行
-                ran_any = True
+        if changed:
+            _save_cfg(cfg)                                         # 持久化
+        return changed
 
-        return ran_any  # 返回 True 会使触发循环重置优先级
-
-    # ==================== 执行具体任务 ====================
+    # ==================== 执行任务 ====================
 
     def _execute_task(self, name: str):
-        """实例化指定任务类并执行 run()。
-           包含完整的 try/except，单个任务异常不影响其他任务。"""
         task_cls = TASK_MAP.get(name)
         if task_cls is None:
-            self.log_warning(f"[调度] 未找到任务类: {name}")
             return
-
         try:
-            t = task_cls(self.executor, self._app)      # 创建任务实例
-            t.after_init(executor=self.executor, scene=self.scene)  # 加载配置
-            t.run()                                      # 执行
+            t = task_cls(self.executor, self._app)
+            t.after_init(executor=self.executor, scene=self.scene)
+            t.run()
         except Exception as e:
-            self.log_error(f"[调度] 任务 {name} 执行异常", e)
+            self.log_error(f"[调度] {name} 执行异常", e)

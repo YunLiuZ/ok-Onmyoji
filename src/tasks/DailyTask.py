@@ -52,13 +52,13 @@ class DailyTask(BaseOmjTask):
             self.info_set("步骤", "没有一键完成")
 
         # 结界式神经验满弹窗
-        if texts := self.ocr(match='确认', box=self.B('ocr_confirm_dialog'),
-                             threshold=0.8,):
-            self.click_box(texts[0], after_sleep=4)
+        if texts := self.wait_ocr(match='确认', box=self.B('ocr_confirm_dialog'),
+                             threshold=0.8,time_out=1):
+            self.click_box(texts[0])
             self.info_set("步骤", "点击 确认")
         else:
             self.info_set("确认弹窗", "无")
-
+        self.sleep(2)
         deadline = time.time() + 2
         while time.time() < deadline:
             res1 = self.find_one('Daily_New_Cancel', threshold=0.7,

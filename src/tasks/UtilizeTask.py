@@ -122,6 +122,8 @@ class UtilizeTask(BaseOmjTask):
         if text := self.ocr_and_click(['育成'],
                                   box=self.box_of_screen(0.44, 0.36, 0.52, 0.57), time_out=3):
             print(text)
+        
+        res1 = self.wait_ocr(match=re.compile(['式神','育成']),box=self.box_of_screen(0.05, 0.04, 0.19, 0.11))
         if text := self.ocr_and_click(['智能','放入'],2,
                                   box=self.box_of_screen(0.89, 0.69, 0.94, 0.78), time_out=3):
             self.sleep(1)
@@ -175,7 +177,8 @@ class UtilizeTask(BaseOmjTask):
                         if self.wait_ocr(match=re.compile('式神'), box=self.box_of_screen(0.83, 0.00, 1, 0.1),
                                          time_out=3):
                             self.log_info("进入寄养页面")
-                            self.click_relative(0.16, 0.8, after_sleep=1)
+                            self.sleep(2)
+                            self.click_relative(0.16, 0.8)
                             if self.ocr_and_click('确定', 1, box=self.box_of_screen(0.51, 0.7, 0.64, 0.81)):
                                 self.log_info("成功寄养")
                                 self.click_relative(0.04, 0.07, after_sleep=0.5)

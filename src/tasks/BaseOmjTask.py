@@ -54,6 +54,13 @@ class BaseOmjTask(BaseTask):
             self.reset()
             if self.wait_feature('Home_Town', threshold=0.8, box=self.B('Home_Town'),time_out=3):
                 return True
+        elif  store := self.find_feature('Home_Store', threshold=0.8, box=self.B('bottom')):
+            self.log_info("寻找到了商店")
+            self.reset()
+            if self.wait_feature('Home_Town', threshold=0.8, box=self.B('Home_Town'),time_out=3):
+                return True
+        elif self.reset():
+            return True
         else:return False
     def Back_Home(self):
         """快速路径：Home_Button → Back → Home_Button。"""
@@ -116,9 +123,11 @@ class BaseOmjTask(BaseTask):
                                         box=self.B('YinYang_Lodge'),
                                         raise_if_not_found=False, time_out=3, after_sleep=1):
             self.log_warning("找不到YinYang_Lodge")
+            return False
         self.info_set("步骤", "进入YinYang_Lodge")
         self.wait_click_feature('Home_Button', threshold=0.8, box=self.B('Home_Button'),
                                 after_sleep=2,time_out=5,raise_if_not_found=False)
+        return True
 
     def in_store(self):
         self.log_info('进入判断')

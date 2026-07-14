@@ -18,8 +18,8 @@ import sys
 import cv2
 import os
 
-BASE_WIDTH = 2560
-BASE_HEIGHT = 1440
+BASE_WIDTH = 0
+BASE_HEIGHT = 0
 
 clicked_points = []
 current_rect = None  # (x1, y1) 起点（拖拽中）
@@ -142,13 +142,15 @@ def main():
         print(f"文件不存在: {img_path}")
         sys.exit(1)
 
+    global BASE_WIDTH, BASE_HEIGHT
+
     img = cv2.imread(img_path)
     if img is None:
         print(f"无法读取图片: {img_path}")
         sys.exit(1)
 
-    # 缩放图片，适应屏幕（高不超过 900）
     h, w = img.shape[:2]
+    BASE_WIDTH, BASE_HEIGHT = w, h
     scale = min(1.0, 900 / h)
     display_w, display_h = int(w * scale), int(h * scale)
     img_resized = cv2.resize(img, (display_w, display_h))

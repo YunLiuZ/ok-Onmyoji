@@ -96,11 +96,13 @@ class RealmRaidTask(BaseBattleTask):
         res = self.find_feature("Real_Raid_Finish",box=self.box_of_screen(0.11,0.20,0.88,0.73),threshold=0.7)
         lens = len(res)
         print(lens)
+        
 
         # 判断方向：lens=0 默认正着；
         if lens > 0:
             ys = [b.y for b in res]
-            self.forward = sum(ys) / len(ys) < self.frame.shape[0] * 0.5  # 偏上=正着，偏下=倒着
+            print(ys)
+            self.forward = sum(ys) / len(ys) < self.frame.shape[0] * 0.43  # 偏上=正着，偏下=倒着
         else:
             self.forward = True
 
@@ -147,7 +149,9 @@ class RealmRaidTask(BaseBattleTask):
                             self.info_set("确认弹窗", "无")
                             self.log_warning("找不到Battle_Finish")
             if self.ocr_and_click(["结界","突破"],box=self.box_of_screen(0.45, 0.09, 0.55, 0.18)):
+                self.sleep(0.5)
                 self.click_relative(x, y, after_sleep=0.5)
+                print(x,y)
                 self.log_info("进攻")
             if self.ocr_and_click("进攻",box=self.box_of_screen(*group_rows_2[target-1])):
                 self.log_info(f"点击第 {target} 个")

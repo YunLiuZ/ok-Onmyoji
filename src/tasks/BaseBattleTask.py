@@ -108,7 +108,7 @@ class BaseBattleTask(BaseOmjTask):
                 self.log_info("解锁")
                 return False
     def Change_team(self):
-        self.ocr_and_click("预","设",box=(0,0.87,0.15,1))# (0.8781, 0.7701, 0.9625, 0.8535)
+        self.ocr_and_click(["预","设"],box=self.box_of_screen(0,0.87,0.15,1))# (0.8781, 0.7701, 0.9625, 0.8535)
         group, team = self._parse_preset()
         group_rows = {1: 0.36, 2: 0.45, 3: 0.54, 4: 0.63, 5: 0.72, 6: 0.81, 7: 0.90}
         self.click_nth('x', 0.76, group_rows, group, "预设组")

@@ -193,7 +193,10 @@ class SoulZonesTask(BaseBattleTask):
         targets = [self.config["Friend 1"]]
         if self.config["Friend 2"]:
             targets.append(self.config["Friend 2"])
-        lock_res=self.Lock_team((0.07,0.87,0.12,0.97))
+        if lock_res:=self.Lock_team((0.07,0.87,0.12,0.97)):
+            self.log_info("锁")
+        else:
+            self.log_info("没锁")
     
         self.count = 1
 
@@ -331,7 +334,7 @@ class SoulZonesTask(BaseBattleTask):
                 if not self.wait_click_feature('Member_Confirm', threshold=0.7,
                                         box=self.B('Member_Confirm'),
                                         raise_if_not_found=False, time_out=10, after_sleep=1):
-                    self.log_warning("找不到Battle_Success_Soul")
+                    self.log_warning("找不到Member_Confirm")
                 if  self.wait_click_feature('Leader_Invitation', threshold=0.7,
                                         box=self.B('Leader_Invitation'),
                                         raise_if_not_found=False, time_out=2, after_sleep=1):

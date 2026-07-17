@@ -4,7 +4,7 @@ from src.tasks.BaseBattleTask import BaseBattleTask
 class AreaBossTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "地域鬼王"
+        self.name = "日常-战斗-地域鬼王"
         self.trigger_count = 1
         self.count = 1
 

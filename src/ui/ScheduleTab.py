@@ -15,7 +15,9 @@ from ok.util.config import Config
 CONFIG_FILE = os.path.join(Config.config_folder, "schedule_runner.json")
 
 ALL_TASK_NAMES = [
-    "结界", "魂土", "困28", "式神委派", "地域鬼王", "个人突破", "活动", "每日签到",
+    "日常-签到", "日常-式神委派", "日常-结界",
+    "日常-战斗-地域鬼王", "日常-战斗-个人突破",
+    "战斗-魂土", "战斗-困28", "战斗-活动",
 ]
 
 
@@ -79,7 +81,7 @@ class ScheduleTab(CustomTab):
 
     def _setup_ui(self):
         self.add_widget(TitleLabel("调度面板"))
-        self.add_widget(BodyLabel("格式：上次运行 YYYY.M.D HH:MM  间隔 H:MM  例：2026.7.14 14:0  24:0"))
+        self.add_widget(BodyLabel("格式：上次运行 YYYY.M.D HH:MM  间隔 H:MM  例：2026.7.14 14:00  24:00"))
 
         # 表头
         hdr = QWidget()
@@ -117,14 +119,14 @@ class ScheduleTab(CustomTab):
         l.setSpacing(0)
 
         nl = BodyLabel(name)
-        nl.setFixedWidth(72)
+        nl.setFixedWidth(140)
         l.addWidget(nl)
         l.addSpacing(6)
 
         cb = CheckBox()
         cb.setChecked(cfg.get("enabled", False))
         l.addWidget(cb)
-        l.addSpacing(41)
+        l.addSpacing(20)
 
         lr = LineEdit()
         lr.setText(str(cfg.get("last_run", "2000.1.1 0:0")))
@@ -134,13 +136,13 @@ class ScheduleTab(CustomTab):
         l.addSpacing(8)
 
         iv = LineEdit()
-        iv.setText(str(cfg.get("interval", "24:0")))
+        iv.setText(str(cfg.get("interval", "24:00")))
         iv.setPlaceholderText("H:MM")
         iv.setFixedWidth(60)
         l.addWidget(iv)
-        l.addSpacing(8)
+        l.addSpacing(12)
 
-        nx = BodyLabel(cfg.get("next_run", "2000.1.1 0:0") if cfg.get("enabled") else "—")
+        nx = BodyLabel(cfg.get("next_run", "2000.1.1 0:00") if cfg.get("enabled") else "—")
         nx.setFixedWidth(170)
         l.addWidget(nx)
         l.addStretch()

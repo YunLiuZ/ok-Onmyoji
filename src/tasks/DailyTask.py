@@ -5,7 +5,7 @@ class DailyTask(BaseOmjTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "每日签到！"
+        self.name = "日常-签到"
         self.description = "签到，黑蛋"
 
         self.default_config.update({

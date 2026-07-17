@@ -6,7 +6,7 @@ class UtilizeTask(BaseOmjTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "结界"
+        self.name = "日常-结界"
 
         self.default_config.update({
             "KekkaiActivation": True,

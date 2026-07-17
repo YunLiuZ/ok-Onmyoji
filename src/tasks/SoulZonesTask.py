@@ -4,7 +4,7 @@ from src.tasks.BaseBattleTask import BaseBattleTask
 class SoulZonesTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "魂土"
+        self.name = "战斗-魂土"
         self.trigger_count = 1
         self.count = 1
 

@@ -6,7 +6,7 @@ class RestartGameTask(BaseOmjTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "重启游戏"
+        self.name = "其他-重启游戏"
         self.description = "强制停止阴阳师并重新启动"
 
     def run(self):

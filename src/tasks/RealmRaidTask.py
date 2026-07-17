@@ -4,7 +4,7 @@ from src.tasks.BaseBattleTask import BaseBattleTask
 class RealmRaidTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "个人突破"
+        self.name = "日常-战斗-个人突破"
         self.trigger_count = 1
         self.count = 1
         self.tickets = 0

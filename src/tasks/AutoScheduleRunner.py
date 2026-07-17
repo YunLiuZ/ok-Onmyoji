@@ -2,6 +2,7 @@
 import json
 import os
 import re
+from src.tasks.BaseOmjTask import BaseOmjTask
 from datetime import datetime, timedelta
 
 from ok import TriggerTask
@@ -18,9 +19,14 @@ from src.tasks.GameEventsBattleTask import GameEventsBattleTask
 from src.tasks.UtilizeTask import UtilizeTask
 
 TASK_MAP = {
-    "每日签到": DailyTask, "困28": ExplorationTask, "式神委派": DelegationTask,
-    "魂土": SoulZonesTask, "地域鬼王": AreaBossTask, "个人突破": RealmRaidTask,
-    "活动": GameEventsBattleTask, "结界": UtilizeTask,
+    "日常-签到": DailyTask,
+    "日常-式神委派": DelegationTask,
+    "日常-结界": UtilizeTask,
+    "日常-战斗-地域鬼王": AreaBossTask,
+    "日常-战斗-个人突破": RealmRaidTask,
+    "战斗-魂土": SoulZonesTask,
+    "战斗-困28": ExplorationTask,
+    "战斗-活动": GameEventsBattleTask,
 }
 ALL_TASK_NAMES = list(TASK_MAP.keys())
 
@@ -91,7 +97,7 @@ def _save_cfg(data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
-class ScheduleRunner(TriggerTask):
+class ScheduleRunner(TriggerTask,BaseOmjTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -131,6 +137,12 @@ class ScheduleRunner(TriggerTask):
         schedules = cfg.get("schedules", _default_schedules())
         changed = False
         self.log_info(f"{fmt_time(now)},{self.trigger_interval}")
+        if self.logged_in is False:
+            self.log_info("没登陆等待登录")
+            if not self.wait_until(condition=lambda: self.base_scene(),
+                                   time_out=120, pre_action=lambda: self.log_page(), raise_if_not_found=False):
+                self.log_warning("登录失败，请检查环境")
+                return False
         for name, s in schedules.items():
             if not s.get("enabled") or name not in TASK_MAP:
                 continue

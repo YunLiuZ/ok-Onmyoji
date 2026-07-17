@@ -7,7 +7,7 @@ from src.tasks.BaseBattleTask import BaseBattleTask
 class ExplorationTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "困28"
+        self.name = "战斗-困28"
         self.trigger_count = 1
         self.count = 1
         self.default_config.update({
@@ -197,5 +197,51 @@ class ExplorationTask(BaseBattleTask):
             return False
 
     def Member_battle(self):
-        pass
+        def battle():
+            if self.Find_finish(self.config["BattleTime"]):
+                self.log_info(
+                    f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                self.count += 1
+                self.trigger_count += 1
+                return True
+            else:
+                self.log_warning("没找到战斗结算页面")
+                self.Back_Home()
+                return False
+        def final_battle():
+            if self.wait_feature('Exploration_Final_Treasure', threshold=0.7,
+                                    box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),time_out=3):
+                if not self.wait_click_feature('Back', threshold=0.7,
+                                               box=self.B('Back'),
+                                               raise_if_not_found=False, time_out=5, after_sleep=1):
+                    self.log_warning("找不到Back")
+                    return False
+                self.ocr_and_click("确认", 1, box=self.box_of_screen(0.53, 0.5, 0.68, 0.62))
+                return True
+            elif self.In_Home():
+                return True
+            else:
+                return False
+        self.count = 1
+        while self.count <= self.config["AttackNumber"]:
+            self.log_info("等待邀请")
+            if self.wait_click_feature('Invitation_Confirm', threshold=0.7,
+                                       box=self.B('Invitation_Confirm'),
+                                       raise_if_not_found=False, time_out=300, after_sleep=1):
+                for _ in range(4):
+                    if not battle():
+                        return False
+                if not self.wait_until(condition=lambda :final_battle,
+                                    time_out=600,
+                                    pre_action=battle,
+                                    raise_if_not_found=False,
+                                    ):
+                    return False
+            else:
+                self.log_warning("等待邀请超时")
+                return False
+        if self.Back_Home():
+            return True
+        else:
+            return False
         

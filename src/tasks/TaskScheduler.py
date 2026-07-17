@@ -13,20 +13,17 @@ from src.tasks.UtilizeTask import UtilizeTask
 class TaskScheduler(BaseOmjTask):
 
     TASK_MAP = {
-        "每日签到": DailyTask,
-        "困28": ExplorationTask,
-        "式神委派": DelegationTask,
-        "魂土": SoulZonesTask,
-        "地域鬼王": AreaBossTask,
-        "RealmRaid": RealmRaidTask,
-        "活动": GameEventsBattleTask,
-        "Utilize": UtilizeTask,
+        "日常-签到": DailyTask,
+        "日常-式神委派": DelegationTask,
+        "日常-结界": UtilizeTask,
+        "日常-战斗-地域鬼王": AreaBossTask,
+        "日常-战斗-个人突破": RealmRaidTask,
+        "战斗-魂土": SoulZonesTask,
+        "战斗-困28": ExplorationTask,
+        "战斗-活动": GameEventsBattleTask,
     }
 
-    ALL_TASKS = [
-        "每日签到", "困28", "式神委派", "魂土",
-        "地域鬼王", "个人突破", "活动", "结界",
-    ]
+    ALL_TASKS = list(TASK_MAP.keys())
 
     # 默认顺序
     DEFAULT_ORDER = {name: i + 1 for i, name in enumerate(ALL_TASKS)}
@@ -58,34 +55,30 @@ class TaskScheduler(BaseOmjTask):
 
         enabled = self.config.get("任务列表", [])
 
-        # 收集 (顺序, 名称)
-        tasks_to_run = []
-        for name in enabled:
-            order = self.config.get(f"{name}顺序", 99)
-            tasks_to_run.append((order, name))
+        # 从「一键多任务」获取优先级排序后的任务列表
+        from src.ui.MultiTaskTab import get_enabled_in_order
+        ordered = get_enabled_in_order()
 
-        # 检查顺序重复
-        orders = [o for o, _ in tasks_to_run]
-        if len(orders) != len(set(orders)):
-            dupes = [o for o in orders if orders.count(o) > 1]
-            self.log_warning(f"任务顺序有重复: {set(dupes)}，请确保每个数字只用一次！")
-
-        # 按数字排序
-        tasks_to_run.sort(key=lambda x: x[0])
-
-        for i, (order, name) in enumerate(tasks_to_run):
+        for i, name in enumerate(ordered, 1):
             task_cls = self.TASK_MAP.get(name)
             if task_cls is None:
                 self.log_warning(f"未找到任务: {name}")
                 continue
 
-            self.log_info(f"--- [{order}] 开始: {name} ---")
+            self.log_info(f"--- [{i}] 开始: {name} ---")
             t = task_cls(self.executor, self.scene)
             t.after_init(executor=self.executor, scene=self.scene)
 
+            if self.logged_in is False:
+                self.log_info("没登陆等待登录")
+                if not self.wait_until(condition=lambda:self.base_scene(),
+                                time_out=120,pre_action=lambda : self.log_page(),raise_if_not_found=False):
+                    self.log_warning("登录失败，请检查环境")
+                    return False
+
             ok = t.run_safe()
-            self.log_info(f"--- [{order}] 结束: {name} ---")
+            self.log_info(f"--- [{i}] 结束: {name} ---")
             if not ok:
-                self.log_warning(f"--- [{order}] {name} 失败，中断后续任务 ---")
-                self.pending_tasks = tasks_to_run[i:]  # 失败的 + 后面全部
+                self.log_warning(f"--- [{i}] {name} 失败，中断后续任务 ---")
+                self.pending_tasks = [(j + i, n) for j, n in enumerate(ordered[i - 1:])]
                 return False

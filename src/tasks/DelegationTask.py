@@ -18,7 +18,7 @@ class DelegationTask(BaseOmjTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "式神委派"
+        self.name = "日常-式神委派"
         self.default_config.update({
             "Bird Feather": True,
             "Find Earring": True,

@@ -5,7 +5,7 @@ from datetime import datetime
 class GameEventsBattleTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "活动"
+        self.name = "战斗-活动"
         self.generalclimb = 0
         self.apmode = 0
 

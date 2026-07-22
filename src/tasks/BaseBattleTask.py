@@ -136,21 +136,25 @@ class BaseBattleTask(BaseOmjTask):
                 self.log_info('找不到Home_Shikigami_Chronicles')
         self.in_home_and_back()
 
-    def Lock_team(self,confirm_box:tuple,lock = "Lock",notlock = "Not_Lock"):
-        if res := self.find_feature(lock,threshold=0.9,box=self.box_of_screen(*confirm_box)) :
+
+
+    def Lock_team(self, confirm_box: tuple):
+        LOCK_NAMES = ["Soul_Lock", "Lock", "Areaboss_Lock", "RealmRaid_Lock"]
+        NOT_LOCK_NAMES = ["Soul_Not_Lock", "Not_Lock", "Areaboss_Not_Lock", "RealmRaid_Not_Lock"]
+        if res := self.find_one(LOCK_NAMES, threshold=0.85, box=self.box_of_screen(*confirm_box)):
             self.log_info("检查到上锁")
             if self.config["Lock Team Enable"]:
                 self.log_info("上锁")
                 return True
-            else :
-                self.click(res[0]) 
+            else:
+                self.click(res)
                 self.log_info("解锁")
-                return False 
-        elif  res := self.find_feature(notlock,threshold=0.9,box=self.box_of_screen(*confirm_box)) :
+                return False
+        elif res := self.find_one(NOT_LOCK_NAMES, threshold=0.85, box=self.box_of_screen(*confirm_box)):
             if self.config["Lock Team Enable"]:
-                self.click(res[0])
+                self.click(res)
                 self.log_info("上锁")
-                return True 
+                return True
             else:
                 self.log_info("解锁")
                 return False
@@ -188,7 +192,7 @@ class BaseBattleTask(BaseOmjTask):
             if self.wait_click_feature('Battle_Finish', threshold=0.7,
                                         box=self.B('Battle_Finish'),
                                         raise_if_not_found=False, time_out=6):
-                self.sleep(1)
+                self.sleep(0.5)
                 if res1 := self.find_one('Battle_Finish', threshold=0.7,
                                           box=self.B('Battle_Finish')):
                     self.click(res1,after_sleep=0.1)
@@ -223,7 +227,7 @@ class BaseBattleTask(BaseOmjTask):
                 if res1 := self.find_one('Battle_Success', threshold=0.7,
                                           box=self.B('success_box')):
                     self.click(res1)
-                    self.sleep(2)
+                    self.sleep(0.5)
                     self.log_info("第一次没点到")
                 else:
                     self.log_info("第一次点到")
@@ -313,4 +317,21 @@ class BaseBattleTask(BaseOmjTask):
         self.sleep(1)
         self.click_relative(0.32,0.07)
         return True
+
+    def change_auto(self):
+        results = self.wait_ocr(
+            match=re.compile('自动|手动'),
+            box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
+            time_out = 6
+        )
+        if not results:
+            self.log_info("没检测到自动手动，可能战斗已经结束")
+            return True
+        for r in results:
+            if '手动' in r.name:
+                self.click_box(r)
+                self.log_info("点击 切换自动")
+                return True
+            if '自动' in r.name:
+                return True
 

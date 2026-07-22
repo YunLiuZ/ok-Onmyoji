@@ -206,6 +206,8 @@ class SoulZonesTask(BaseBattleTask):
             if self.count == 1:
                 if not lock_res:
                     self.Change_team()
+                self.log_info("检测是否为自动")
+                self.change_auto()
 
             if not self.Find_finish(self.config["BattleTime"]):
                 self.Back_Home()

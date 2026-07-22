@@ -247,6 +247,8 @@ class SoulZonesTask(BaseBattleTask):
                                 self.log_warning("请锁定阵容")
                             else:
                                 self.Change_team()
+                        self.log_info("检测是否为自动")
+                        self.change_auto()
                     self.Find_finish(self.config["BattleTime"])
 
                     if self.count == 1:      
@@ -323,6 +325,9 @@ class SoulZonesTask(BaseBattleTask):
         else:
             self.log_info("没锁")
         while self.count <= self.config["AttackNumber"] :
+            if self.count == 1:
+                self.log_info("检测是否为自动")
+                self.change_auto()
             if not self.Find_finish(self.config["BattleTime"]):
                 self.Back_Home()
                 return False

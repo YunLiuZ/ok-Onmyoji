@@ -156,6 +156,9 @@ class ExplorationTask(BaseBattleTask):
                                         raise_if_not_found=False, time_out=2, after_sleep=0.5)):
                     self.log_info("第一次没点到")
                     self.log_info("进入战斗")
+                    if self.count == 1:
+                        self.log_info("检测是否为自动")
+                        self.change_auto()
                     self.Find_finish(self.config["BattleTime"])
                     self.log_info(
                         f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
@@ -165,6 +168,9 @@ class ExplorationTask(BaseBattleTask):
                 else:
                     self.log_info("第一次点到")
                     self.log_info("进入战斗")
+                    if self.count == 1:
+                        self.log_info("检测是否为自动")
+                        self.change_auto()
                     self.Find_finish(self.config["BattleTime"])
                     self.log_info(
                         f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")

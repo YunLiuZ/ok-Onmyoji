@@ -32,7 +32,6 @@ class RealmRaidTask(BaseBattleTask):
 
         
     def RealmRaid_page(self):
-
         if not self.wait_click_feature('Home_Explore', threshold=0.7,
                                         box=self.B('Home_Explore'),
                                         raise_if_not_found=False, time_out=6, after_sleep=1):
@@ -55,12 +54,12 @@ class RealmRaidTask(BaseBattleTask):
             self.log_info('找不到突破')
             return False
         
-        if text := self.wait_ocr(threshold=0.8,box=self.box_of_screen(0.89,0.02,0.95,0.1),time_out=6):
+        if text := self.wait_ocr(threshold=0.8,box=self.box_of_screen(0.89,0.02,0.95,0.1),
+                                 time_out=6):
             import re
             nums = re.findall(r'\d+', text[0].name)
             self.tickets = int(nums[0]) if nums else 0
-            print(f"票数: {self.tickets}")
-            self.log_info("{self.tickets}")
+            self.log_info(f"{self.tickets}")
             if self.tickets > self.config["Tickets"]:
                 self.log_info("1123")
                 return True
@@ -119,7 +118,7 @@ class RealmRaidTask(BaseBattleTask):
         
         self.log_info(f"方向={'正' if self.forward else '倒'} lens={lens} tickets={self.tickets} 本轮打{attack_num}次")
         self.count = (lens + 1)
-        if lock_res := self.Lock_team((0.50,0.70,0.70,0.90),"RealmRaid_Lock","RealmRaid_Not_Lock"):
+        if lock_res := self.Lock_team((0.50,0.70,0.70,0.90)):
                 self.log_info("锁上了")
         else:
             self.log_info("没锁")
@@ -158,6 +157,9 @@ class RealmRaidTask(BaseBattleTask):
                 self.log_info("进攻")
             if self.ocr_and_click("进攻",box=self.box_of_screen(*group_rows_2[target-1])):
                 self.log_info(f"点击第 {target} 个")
+                if self.count == 1:
+                    self.log_info("检测是否为自动")
+                    self.change_auto()
             else:
                 self.log_info("没找到进攻")
                 return False

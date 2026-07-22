@@ -46,8 +46,6 @@ class AreaBossTask(BaseBattleTask):
     def Battle(self):
         self.log_info("进入battle")
         self.count = 1
-
-        
         while(self.count <= self.config["AttackNumber"]):
             if not (text := self.ocr_and_click(['收', '藏'],0.5, time_out=2, box=self.B('Areaboss_Filter_Page'))):
                 print(text)
@@ -74,7 +72,9 @@ class AreaBossTask(BaseBattleTask):
                 print(text)
             if not lock_res:
                 pass
-
+            if self.count == 1:
+                self.log_info("检测是否为自动")
+                self.change_auto()
             self.Find_finish(self.config["BattleTime"])
             
             if not self.wait_click_feature('Daily_New_Cancel', threshold=0.7,

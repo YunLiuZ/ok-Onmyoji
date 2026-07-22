@@ -146,97 +146,97 @@
         },
         {
             "id": 30,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 31,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 32,
-            "file_name": "images/6.png",
+            "file_name": "images/7.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 33,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 36,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 41,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 42,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 43,
-            "file_name": "images/6.png",
+            "file_name": "images/7.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 44,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 45,
-            "file_name": "images/6.png",
+            "file_name": "images/7.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 46,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 47,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 48,
-            "file_name": "images/6.png",
+            "file_name": "images/7.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 49,
-            "file_name": "images/5.png",
-            "width": 1600,
-            "height": 900
-        },
-        {
-            "id": 50,
             "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
         {
-            "id": 51,
+            "id": 50,
             "file_name": "images/7.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 51,
+            "file_name": "images/8.png",
             "width": 1600,
             "height": 900
         },
@@ -273,6 +273,24 @@
         {
             "id": 57,
             "file_name": "images/0.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 58,
+            "file_name": "images/3.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 62,
+            "file_name": "images/3.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 63,
+            "file_name": "images/5.png",
             "width": 2560,
             "height": 1440
         }
@@ -1343,6 +1361,45 @@
             ],
             "area": 12635,
             "iscrowd": 0
+        },
+        {
+            "id": 83,
+            "image_id": 58,
+            "category_id": 83,
+            "bbox": [
+                1707,
+                1306,
+                106,
+                90
+            ],
+            "area": 9540,
+            "iscrowd": 0
+        },
+        {
+            "id": 84,
+            "image_id": 62,
+            "category_id": 84,
+            "bbox": [
+                226,
+                1294,
+                65,
+                47
+            ],
+            "area": 3055,
+            "iscrowd": 0
+        },
+        {
+            "id": 85,
+            "image_id": 63,
+            "category_id": 85,
+            "bbox": [
+                233,
+                1291,
+                47,
+                54
+            ],
+            "area": 2538,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -1754,6 +1811,21 @@
         {
             "id": 82,
             "name": "Home_Talismanpass",
+            "supercategory": ""
+        },
+        {
+            "id": 83,
+            "name": "Collection_Skin",
+            "supercategory": ""
+        },
+        {
+            "id": 84,
+            "name": "Soul_Lock",
+            "supercategory": ""
+        },
+        {
+            "id": 85,
+            "name": "Soul_Not_Lock",
             "supercategory": ""
         }
     ]

@@ -6,8 +6,9 @@ class RealmRaidTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "日常-战斗-个人、寮突破"
-        self.trigger_count = 1
+        self.trigger_count = 1 #整体的任务打了几次了
         self.count = 1
+
         self.tickets = 0
         self.forward = True
         self.default_config.update({
@@ -25,6 +26,7 @@ class RealmRaidTask(BaseBattleTask):
         })
     def run(self):
         self.in_home_and_back()
+
         if not (self.config["RealmRaid"] or self.config["RyouToppa"]):
             self.log_warning("没有选择任何突破")
             self.Back_Home()
@@ -32,8 +34,8 @@ class RealmRaidTask(BaseBattleTask):
         print(f"{self.config["RealmRaid"]},{self.config["RyouToppa"]}")
 
         if self.config["RealmRaid"]:
+            self.group, self.team = self._parse_preset(self.config["RealmRaid_Team"])
             if self.config["Preset Enable"]:
-                self.group, self.team = self._parse_preset(self.config["RealmRaid_Team"])
                 self.SwitchSoul_by_num(self.group, self.team)
             if not self.RealmRaid_page():
                 self.log_warning("找不到结界页面")
@@ -49,10 +51,10 @@ class RealmRaidTask(BaseBattleTask):
             self.sleep(1)
 
         if self.config["RyouToppa"]:
+            self.group, self.team = self._parse_preset(self.config["RealmRaid_Team"])
             if self.config["RealmRaid"]:
                 if self.config["RyouToppa_Team"] != self.config["RealmRaid_Team"]:
                     if self.config["Preset Enable"]:
-                        self.group, self.team = self._parse_preset(self.config["RealmRaid_Team"])
                         self.SwitchSoul_by_num(self.group, self.team)
             else:
                 if self.config["RealmRaid"]:
@@ -62,14 +64,19 @@ class RealmRaidTask(BaseBattleTask):
             if not self.RealmRaid_page():
                 self.log_warning("找不到结界页面")
                 return False
-            self.log_info("111111111111111111111111111111111111")
-            if self.wait_click_ocr(match=re.compile("阴阳"),
-                                box=self.box_of_screen(0.93, 0.33, 1.0, 0.7)):
-                self.sleep(0.5)
-                self.log_info("111111111111111111111111111111111111")
-                if not self.ryoutoppa_battle():
-                    self.log_warning("寮突破失败")
-                    return False
+            self.click_relative(0.95,0.6)
+            self.sleep(0.5)
+            if self.ryoutoppa_battle():
+                self.log_info("寮突破成功")
+            else:
+                self.log_warning("寮突破失败")
+                return False
+            self.wait_click_feature("Cancel_Old", time_out=3,
+                                    threshold=0.8,
+                                    box=self.box_of_screen(0.91, 0.13, 0.97, 0.23),
+                                    raise_if_not_found=False)
+            self.Back_Home()
+            self.sleep(1)
         return True
         
     def RealmRaid_page(self):
@@ -107,6 +114,7 @@ class RealmRaidTask(BaseBattleTask):
                 return False
         self.log_info("进入battle")
         self.count = 1
+        self.trigger_count = 1
         group_rows = {
             1: (0.23, 0.27),  # (594, 395)
             2: (0.50, 0.27),  # (1300, 398)
@@ -130,16 +138,10 @@ class RealmRaidTask(BaseBattleTask):
             (0.25, 0.87, 0.35, 0.95),
             (0.51, 0.87, 0.61, 0.95),
             (0.78, 0.87, 0.87, 0.95),]
-            
-    
-
 
         res = self.find_feature("Real_Raid_Finish",box=self.box_of_screen(0.11,0.20,0.88,0.73),threshold=0.7)
         lens = len(res)
-        print(lens)
-        
-
-        # 判断方向：lens=0 默认正着；
+      # 判断方向：lens=0 默认正着；
         if lens > 0:
             ys = [b.y for b in res]
             print(ys)
@@ -155,12 +157,15 @@ class RealmRaidTask(BaseBattleTask):
         
         self.log_info(f"方向={'正' if self.forward else '倒'} lens={lens} tickets={self.tickets} 本轮打{attack_num}次")
         self.count = (lens + 1)
-        if lock_res := self.Lock_team((0.50,0.70,0.70,0.90)):
-                self.log_info("锁上了")
+        if self.config["Lock Team Enable"]:
+            #解锁状态 准备换队伍
+            self.Lock_team((0.50, 0.70, 0.70, 0.90),lock=False)
         else:
-            self.log_info("没锁")
+            #不换
+            self.Lock_team((0.50, 0.70, 0.70, 0.90), lock=True)
 
         while(attack_num):
+
             target = self.count if self.forward else (10 - self.count)
             x, y = group_rows[target]
 
@@ -188,21 +193,37 @@ class RealmRaidTask(BaseBattleTask):
                             self.info_set("确认弹窗", "无")
                             self.log_warning("找不到Battle_Finish")
             if self.ocr_and_click(["结界","突破"],box=self.box_of_screen(0.45, 0.09, 0.55, 0.18)):
+                if self.config["Lock Team Enable"] and self.trigger_count == 2:
+                    self.log_info("进入第二次战斗锁住阵容")
+                    self.Lock_team((0.50, 0.70, 0.70, 0.90), lock=True)
                 self.sleep(0.5)
                 self.click_relative(x, y, after_sleep=0.5)
                 print(x,y)
                 self.log_info("进攻")
             if self.ocr_and_click("进攻",box=self.box_of_screen(*group_rows_2[target-1])):
                 self.log_info(f"点击第 {target} 个")
-                if self.count == 1:
+
+                if self.trigger_count == 1:
+                    self.log_info("进入检测1")
+                    if self.config["Lock Team Enable"]:
+                        self.Change_team(self.group, self.team)
+
                     self.log_info("检测是否为自动")
                     self.change_auto()
+
+                if self.config["Green"] !=0:
+                    if self.wait_ocr(
+                        match=re.compile('自动'),
+                        box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
+                        time_out=8
+                    ):
+                        self.sleep(0.1)
+                        x, y = self.green[self.config["Green"]]
+                        self.click_relative(x, y, after_sleep=1)
+
             else:
                 self.log_info("没找到进攻")
                 return False
-            
-            if not lock_res:
-                pass
 
             res = self.Find_finish(self.config["BattleTime"])
             if res == 2:
@@ -242,24 +263,6 @@ class RealmRaidTask(BaseBattleTask):
             7: (0.48, 0.84),
             8: (0.72, 0.85),
         }
-        # now = datetime.now()
-        # final_time = now.replace(hour=21, minute=0, second=0, microsecond=0)
-        # if now < final_time:
-        #     if text := self.wait_ocr(threshold=0.8,
-        #                         box=self.box_of_screen(0.12, 0.77, 0.29, 0.83),
-        #                         time_out = 6):
-        #         if nums := re.findall(r'\d+', text[0].name):
-        #             self.tickets = int(nums[0])
-        #         self.log_info(f"还没到九点，只能打{self.tickets}次")
-        #         if self.tickets > 0:
-        #             self.log_info("开打开打")
-        #             return True
-        #         else:
-        #             self.log_info("票数不够")
-        #             return False
-        # else:
-        #     self.log_info("打九点了一直打")
-        #     self.tickets = 300
         target = 1
 
         if lock_res := self.Lock_team((0.14, 0.82, 0.2, 0.9)):

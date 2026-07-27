@@ -5,9 +5,6 @@ from src.tasks.BaseOmjTask import BaseOmjTask
 
 class BaseBattleTask(BaseOmjTask):
     """战斗任务基类：统一管理阵容锁定、预设队伍切换等战斗配置。"""
-
-
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.green = {
@@ -32,10 +29,10 @@ class BaseBattleTask(BaseOmjTask):
         })
 
         self.config_description.update({
-            "Lock Team Enable": "开启后每次战斗前锁定当前阵容，防止误操作切换队伍。",
+            "Lock Team Enable": "不开启时默认锁定阵容，开启后第一次将切换阵容第二次锁定，建议第一次手动调整以后锁定即可，使用此功能时队伍预设请使用Preset Team",
             "Preset Enable": "开启后战斗前自动切换到指定的预设队伍。",
-            "Preset Team": "预设队伍编号，格式：组,队  例如 1,5 表示第1组第4个队伍，最大支持7和4。",
-            "Team Team": "预设组，队伍名，理论上可以让队伍选择更多，但是推荐尽量用上面那个，因为更稳定",
+            "Preset Team": "预设队伍编号，格式：组,队  例如 1,5 表示第1组第4个队伍，最大支持7和4。和Team Name二选一填写",
+            "Team Name": "此功能暂时没设置好不要使用，预设组，队伍名，理论上可以让队伍选择更多，但是推荐尽量用上面那个，因为更稳定",
             "BattleTime": "通过时间 一般情况下不用修改",
             "Green": "是否绿标，从左到右填写1-6，6为阴阳师，0为不绿标"
         })
@@ -177,7 +174,8 @@ class BaseBattleTask(BaseOmjTask):
         self.log_info("进入检测2")
         if self.wait_click_ocr(match=re.compile("预设"),
                             box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
-                            raise_if_not_found=False, time_out=6, after_sleep=1):
+                            raise_if_not_found=False, time_out=60):
+            self.sleep(2)
             group_rows = {1: 0.36, 2: 0.45, 3: 0.54, 4: 0.63, 5: 0.72, 6: 0.81, 7: 0.90}
             self.click_nth('x', 0.08, group_rows, group, "预设组")
             self.sleep(0.5)

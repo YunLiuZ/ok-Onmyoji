@@ -41,9 +41,9 @@ class SoulZonesTask(BuffBattleTask):
 
     def run(self):
         self.in_home_and_back()
-
+        self.group, self.team = self._switch_preset_by_soul_zone()
         if self.config["Preset Enable"]:
-            self.group,self.team = self._switch_preset_by_soul_zone()
+            self.SwitchSoul_by_num(self.group, self.team)
 
         if self.config["UserStatus"] == "队长":
             if not self.SoulZones_page():
@@ -106,12 +106,11 @@ class SoulZonesTask(BuffBattleTask):
                     group = int(parts[0].strip())
                     team = int(parts[1].strip())
                     self.log_info(f"({self.config['Soul Zones']}) → {key}: 组{group} 队{team}")
-                    self.SwitchSoul_by_num(group, team)
                     return group, team
         # 兜底：使用默认的 Preset Team
         self.log_info("使用默认预设队伍")
         group, team = self._parse_preset(self.config["Preset Team"])
-        self.SwitchSoul_by_num(group, team)
+        return group, team
 
     def SoulZones_page(self):   
 
@@ -226,11 +225,13 @@ class SoulZonesTask(BuffBattleTask):
         targets = [self.config["Friend 1"]]
         if self.config["Friend 2"]:
             targets.append(self.config["Friend 2"])
-
-        if lock_res:=self.Lock_team((0.07,0.87,0.12,0.97)):
-            self.log_info("锁")
+        if self.config["Lock Team Enable"]:
+            # 解锁状态 准备换队伍
+            self.Lock_team((0.07,0.87,0.12,0.97), lock=False)
         else:
-            self.log_info("没锁")
+            # 不换
+            self.Lock_team((0.07,0.87,0.12,0.97), lock=True)
+
     
         self.count = 1
 
@@ -243,16 +244,24 @@ class SoulZonesTask(BuffBattleTask):
                 if ok:
                     self.click_relative(0.95,0.90,after_sleep=0.5)
                     self.log_info("进入battle")
-                    
-                    if self.count == 1: 
-                        if not lock_res:
-                            if not self.config["Preset Enable"]: #只是忘记锁了
-                                self.ocr_and_click("准备",box=self.box_of_screen(0.87, 0.77, 0.96, 0.85))
-                                self.log_warning("请锁定阵容")
-                            else:
-                                self.Change_team(self.group,self.team)
+
+                    if self.count == 1:
+                        self.log_info("进入检测1")
+                        if self.config["Lock Team Enable"]:
+                            self.Change_team(self.group, self.team)
+
                         self.log_info("检测是否为自动")
                         self.change_auto()
+                    if self.config["Green"] != 0:
+                        if self.wait_ocr(
+                                match=re.compile('自动'),
+                                box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
+                                time_out=8
+                        ):
+                            self.sleep(0.1)
+                            x, y = self.green[self.config["Green"]]
+                            self.click_relative(x, y, after_sleep=1)
+
                     res = self.Find_finish(self.config["BattleTime"])
                     if res == 2:
                         self.log_warning("战斗失败！！")
@@ -330,14 +339,30 @@ class SoulZonesTask(BuffBattleTask):
 
     def Member_battle(self):
         self.count = 1
-        if lock_res:=self.Lock_team((0.07,0.87,0.12,0.97)):
-            self.log_info("锁")
+        if self.config["Lock Team Enable"]:
+            # 解锁状态 准备换队伍
+            self.Lock_team((0.07, 0.87, 0.12, 0.97), lock=False)
         else:
-            self.log_info("没锁")
+            # 不换
+            self.Lock_team((0.07, 0.87, 0.12, 0.97), lock=True)
         while self.count <= self.config["AttackNumber"] :
             if self.count == 1:
+                self.log_info("进入检测1")
+                if self.config["Lock Team Enable"]:
+                    self.Change_team(self.group, self.team)
+
                 self.log_info("检测是否为自动")
                 self.change_auto()
+            if self.config["Green"] != 0:
+                if self.wait_ocr(
+                        match=re.compile('自动'),
+                        box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
+                        time_out=8
+                ):
+                    self.sleep(0.1)
+                    x, y = self.green[self.config["Green"]]
+                    self.click_relative(x, y, after_sleep=1)
+
             if self.Find_finish(self.config["BattleTime"]) != 1:
                 self.Back_Home()
                 return False

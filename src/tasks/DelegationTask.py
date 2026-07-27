@@ -102,7 +102,7 @@ class DelegationTask(BaseOmjTask):
             else:
                 self.info_set("委派", f"已点击 {translation}")
                 if self.wait_ocr(match=re.compile("召回"), box=self.box_of_screen(0.73, 0.35, 0.93, 0.53),
-                                 threshold=0.8, time_out=6, raise_if_not_found=False):
+                                 threshold=0.8, time_out=3, raise_if_not_found=False):
                     self.log_info('找到还未完成的任务')
                     if not (text := self.ocr_and_click(['跳过'], 2,
                                                         box=self.box_of_screen(0.72, 0.54, 0.85, 0.69))):
@@ -121,7 +121,6 @@ class DelegationTask(BaseOmjTask):
         while (self.ocr(match=re.compile("完成"),
                                         box=self.B("Delegation"))):
             self.sleep(0.5)
-            print()
             self.click_relative(0.93, 0.27)
             # self.click_relative(0.89, 0.44, after_sleep=1) ？？？
             self.wait_until(condition=lambda: self.ocr_and_click(['完成'], 1, time_out=0.5,

@@ -1,3 +1,5 @@
+import re
+
 from src.tasks.BaseBattleTask import BaseBattleTask
 
 
@@ -7,11 +9,24 @@ class AreaBossTask(BaseBattleTask):
         self.name = "日常-战斗-地域鬼王"
         self.trigger_count = 1
         self.count = 1
+        self.default_config.update({
+            "Area Boss": "悬赏",
+        })
+        self.config_description.update({
+            "Area Boss": "打谁",
+            "Lock Team Enable": "地域鬼王很特殊，为了避免出现打鬼王限定式神建议不要勾选此项，锁定阵容打1级自动战斗即可",
+        })
+        self.config_type.update({
+            "Area Boss": {
+                "type": "drop_down",
+                "options": ["悬赏", "热门", "最新", "征服", "收藏"],
+            },
+        })
 
     def run(self):
         self.in_home_and_back()
+        self.group, self.team = self._parse_preset(self.config["Preset Team"])
         if self.config["Preset Enable"]:
-            self.group, self.team = self._parse_preset(self.config["RealmRaid_Team"])
             self.SwitchSoul_by_num(self.group, self.team)
         if not self.AreaBoss_page():
             self.log_warning("找不到鬼王页面")
@@ -56,25 +71,36 @@ class AreaBossTask(BaseBattleTask):
                     self.info_set("步骤", "进入探索页面")
                 elif text:=self.ocr_and_click(['筛','选'],time_out=5,box=self.B('Areaboss_Filter')):
                     print(text)
-
-                if text:=self.ocr_and_click(['收','藏'],0.5,box=self.B('Areaboss_Filter_Page')):
-                    print(text)
-            
+                self.wait_click_ocr(match=re.compile(self.config["Area Boss"]),
+                                    box=self.B('Areaboss_Filter_Page'),
+                                    time_out=3)
+            self.sleep(1)
             group_rows = {1: 0.36, 2: 0.58,3:0.78}
             self.click_nth('x', 0.86, group_rows,self.trigger_count ,"鬼王")
-            if lock_res := self.Lock_team((0.86,0.88,1,1)):
-                self.log_info("锁上了")
+            if self.config["Lock Team Enable"]:#地域鬼王的锁定是放在循环内部的
+                # 解锁状态 准备换队伍
+                self.Lock_team((0.86,0.88,1,1), lock=False)
             else:
-                self.log_info("没锁")
+                # 不换
+                self.Lock_team((0.86,0.88,1,1), lock=True)
              
 
             if text:=self.ocr_and_click(['挑战'],0.5,box=self.box_of_screen(0.86,0.73,0.93,0.79)):
                 print(text)
-            if not lock_res:
-                pass
-            if self.count == 1:
-                self.log_info("检测是否为自动")
-                self.change_auto()
+            if self.config["Lock Team Enable"]:
+                self.Change_team(self.group, self.team)
+            self.log_info("检测是否为自动")
+            self.change_auto()
+
+            if self.config["Green"] != 0:
+                if self.wait_ocr(
+                        match=re.compile('自动'),
+                        box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
+                        time_out=8
+                ):
+                    self.sleep(0.1)
+                    x, y = self.green[self.config["Green"]]
+                    self.click_relative(x, y, after_sleep=1)
             res = self.Find_finish(self.config["BattleTime"])
             if res == 2:
                 self.log_warning("战斗失败！！")

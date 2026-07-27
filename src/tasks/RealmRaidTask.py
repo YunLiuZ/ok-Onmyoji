@@ -264,11 +264,13 @@ class RealmRaidTask(BaseBattleTask):
             8: (0.72, 0.85),
         }
         target = 1
-
-        if lock_res := self.Lock_team((0.14, 0.82, 0.2, 0.9)):
-                self.log_info("锁上了")
+        # 11111111111111111111111111111111111111111111111111111
+        if self.config["Lock Team Enable"]:
+            #解锁状态 准备换队伍
+            self.Lock_team((0.14, 0.82, 0.2, 0.9),lock=False)
         else:
-            self.log_info("没锁")
+            #不换
+            self.Lock_team((0.14, 0.82, 0.2, 0.9), lock=True)
 
         while True:
             if self.wait_ocr(match=re.compile("结界|突破"),
@@ -288,20 +290,38 @@ class RealmRaidTask(BaseBattleTask):
             if target > 4:
                 self.log_warning("四个对手全部失败")
                 return False
-
+            # 11111111111111111111111111111111111111111111111111111
+            if self.config["Lock Team Enable"] and self.trigger_count == 2:
+                self.log_info("进入第二次战斗锁住阵容")
+                self.Lock_team((0.14, 0.82, 0.2, 0.9), lock=True)
             x, y = group_rows[target]
             self.click_relative(x, y, after_sleep=0.5)
             if self.wait_click_ocr(match=re.compile("进攻"),
                                 time_out=6,
                                 box=self.box_of_screen(0.32, 0.18, 0.87, 0.92)):
                 self.log_info(f"挑战第 {target} 个")
+
             else:
                 self.log_warning("找不到进攻")
                 return False
+            #11111111111111111111111111111111111111111111111111111
+            if self.trigger_count == 1:
+                self.log_info("进入检测1")
+                if self.config["Lock Team Enable"]:
+                    self.Change_team(self.group, self.team)
 
-            if self.count == 1:
                 self.log_info("检测是否为自动")
                 self.change_auto()
+
+            if self.config["Green"] != 0:
+                if self.wait_ocr(
+                        match=re.compile('自动'),
+                        box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
+                        time_out=8
+                ):
+                    self.sleep(0.1)
+                    x, y = self.green[self.config["Green"]]
+                    self.click_relative(x, y, after_sleep=1)
 
             res = self.Find_finish(self.config["BattleTime"])
             if res == 1:

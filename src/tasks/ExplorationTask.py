@@ -52,12 +52,12 @@ class ExplorationTask(BuffBattleTask):
                 return False
             return True
 
-        # elif self.config["UserStatus"] == "单人":
-        #     if not self.Exploration_page():
-        #         self.log_warning("Exploration_page 失败")
-        #         return False
-        #     self.Alone_battle()
-        #     return True
+        elif self.config["UserStatus"] == "单人":
+            if not self.Exploration_page():
+                self.log_warning("Exploration_page 失败")
+                return False
+            self.Alone_battle()
+            return True
 
         else:  # 队员
             if not self.wait_click_feature('Home_Explore', threshold=0.7,
@@ -91,11 +91,8 @@ class ExplorationTask(BuffBattleTask):
         if  (text:=self.ocr_and_click(['困难'],1,box=self.box_of_screen(0.01, 0.25, 0.13, 0.51))):
             return True
         else:
-
             self.log_info('找不到困难')
             return False
-            
-   
 
     def Leader_page(self):
         if not (text:=self.ocr_and_click(['组队'],1,box=self.box_of_screen(0.68, 0.79, 0.93, 0.94))):
@@ -123,15 +120,6 @@ class ExplorationTask(BuffBattleTask):
                     self.click_relative(0.60, 0.79, after_sleep=1)
                     self.log_info('寻找到一位')
                     return True
-                    # if self.wait_ocr(match=re.compile(f),
-                    #                  time_out=30,
-                    #                  raise_if_not_found=False,
-                    #                  box=self.box_of_screen(*confirm_box)):
-                    #     self.log_info("队友进入队伍")
-                    #     return True
-                    # else:
-                    #     self.log_warning("没找到队友")
-                    #     return False
         return False
     
     def Invitation(self):#完成了 应该从点击挑战开始重新思考
@@ -307,4 +295,104 @@ class ExplorationTask(BuffBattleTask):
             return True
         else:
             return False
+
+    def Alone_battle(self):
+        #当没有发现任何宝物的时候 直接就返回到探索页面 发现宝物也是回到探索页面
+
+        self.log_info("进入leader_battle")
+        self.count = 1
+
+        def battle():
+            # if self.wait_until(
+            #         condition=lambda: self.wait_ocr(match='妖术|普攻', box=self.box_of_screen(0.5, 0.9, 1, 1),
+            #                                         time_out=3),
+            #         pre_action=lambda: self.wait_click_feature('Exploration_Battle', threshold=0.7,
+            #                                                    box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
+            #                                                    raise_if_not_found=False, time_out=3, after_sleep=0.5),
+            #         raise_if_not_found=False):
+            if (self.wait_click_feature('Exploration_Battle', threshold=0.7,
+                                        box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
+                                        raise_if_not_found=False, time_out=3, after_sleep=0.5)):
+                if (self.wait_click_feature('Exploration_Battle', threshold=0.7,
+                                            box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
+                                            raise_if_not_found=False, time_out=2, after_sleep=0.5)):
+                    self.log_info("第一次没点到")
+                    self.log_info("进入战斗")
+                    if self.count == 1:
+                        self.log_info("检测是否为自动")
+                        self.change_auto()
+                    self.Find_finish(self.config["BattleTime"])
+                    self.log_info(
+                        f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                    self.count += 1
+                    self.trigger_count += 1
+                    self.sleep(3)  # 等等队友
+                else:
+                    self.log_info("第一次点到")
+                    self.log_info("进入战斗")
+                    if self.count == 1:
+                        self.log_info("检测是否为自动")
+                        self.change_auto()
+                    self.Find_finish(self.config["BattleTime"])
+                    self.log_info(
+                        f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                    self.count += 1
+                    self.trigger_count += 1
+                    self.sleep(3)  # 等等队友
+            else:
+                self._swipe(0.70, 0.80, 0.40, 0.80, 1)  # 走一步
+                self.log_info("移动")
+
+        def final_battle():
+            if self.wait_click_feature('Exploration_Final_Battle', threshold=0.7,
+                                       box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
+                                       raise_if_not_found=False, time_out=6, after_sleep=2):
+                self.Find_finish(self.config["BattleTime"])
+                self.log_info(
+                    f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                self.log_info("最后一次战斗结束")
+                self.count += 1
+                self.trigger_count += 1
+                return True
+            else:
+                return False
+
+        while self.count <= self.config["AttackNumber"]:
+            if not self.wait_click_ocr(match=re.compile("探索"), time_out=6,
+                                       box=self.box_of_screen(0.68, 0.79, 0.93, 0.94)):
+                self.log_info('找不到探索')
+            if self.wait_ocr(match=re.compile('轮换'),
+                             box=self.box_of_screen(0.09, 0.9, 0.2, 0.97), time_out=10):
+                self.sleep(1)
+                self.log_info("进入战斗页面")
+            if self.count == 1:
+                if self.calculate_color_percentage({"b": (200, 255), "g": (200, 255), "r": (200, 255)},
+                                                   box=self.box_of_screen(0.09, 0.92, 0.11, 0.95)) > 0.2:
+                    self.log_info("自动轮换已经开启")
+                else:
+                    self.click_relative(0.1, 0.93, after_sleep=0.5)
+                    self.log_info("打开自动轮换")
+            for _ in range(4):
+                battle()
+            if not self.wait_until(
+                    final_battle,
+                    time_out=600,
+                    pre_action=battle,
+                    raise_if_not_found=False,
+            ):
+                return False
+
+            if not self.wait_click_feature('Back', threshold=0.7,
+                                           box=self.B('Back'),
+                                           raise_if_not_found=False, time_out=5, after_sleep=1):
+                self.log_warning("找不到Back")
+            self.ocr_and_click("确认", 1, box=self.box_of_screen(0.53, 0.5, 0.68, 0.62))
+        if self.ocr_and_click("取消", box=self.box_of_screen(0.33, 0.55, 0.48, 0.66)):
+            self.Back_Home()
+            return True
+        else:
+            return False
+
+
+
         

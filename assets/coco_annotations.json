@@ -182,13 +182,13 @@
         },
         {
             "id": 42,
-            "file_name": "images/6.png",
+            "file_name": "images/7.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 43,
-            "file_name": "images/7.png",
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
@@ -293,6 +293,18 @@
             "file_name": "images/5.png",
             "width": 2560,
             "height": 1440
+        },
+        {
+            "id": 65,
+            "file_name": "images/6.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 66,
+            "file_name": "images/6.png",
+            "width": 1600,
+            "height": 900
         }
     ],
     "annotations": [
@@ -1400,6 +1412,45 @@
             ],
             "area": 2538,
             "iscrowd": 0
+        },
+        {
+            "id": 86,
+            "image_id": 65,
+            "category_id": 86,
+            "bbox": [
+                494,
+                70,
+                108,
+                97
+            ],
+            "area": 10476,
+            "iscrowd": 0
+        },
+        {
+            "id": 87,
+            "image_id": 66,
+            "category_id": 87,
+            "bbox": [
+                1265,
+                283,
+                108,
+                97
+            ],
+            "area": 10476,
+            "iscrowd": 0
+        },
+        {
+            "id": 88,
+            "image_id": 36,
+            "category_id": 88,
+            "bbox": [
+                1123,
+                813,
+                52,
+                44
+            ],
+            "area": 2288,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -1826,6 +1877,21 @@
         {
             "id": 85,
             "name": "Soul_Not_Lock",
+            "supercategory": ""
+        },
+        {
+            "id": 86,
+            "name": "Youkai_Success",
+            "supercategory": ""
+        },
+        {
+            "id": 87,
+            "name": "Home",
+            "supercategory": ""
+        },
+        {
+            "id": 88,
+            "name": "DemonEncounter_Super",
             "supercategory": ""
         }
     ]

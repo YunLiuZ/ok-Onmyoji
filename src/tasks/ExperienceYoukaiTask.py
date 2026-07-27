@@ -3,7 +3,7 @@ import re
 from src.tasks.BuffBattleTask import BuffBattleTask
 
 
-class ExperienceYoukai(BuffBattleTask):
+class ExperienceYoukaiTask(BuffBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "日常-战斗-经验妖怪"
@@ -91,7 +91,7 @@ class ExperienceYoukai(BuffBattleTask):
         if self.wait_click_ocr(match=re.compile("经验"), threshold=0.7,
                                box=self.box_of_screen(0.11, 0.18, 0.29, 0.87),
                                raise_if_not_found=False, time_out=6, after_sleep=1):
-
+            self.click_relative(0.51,0.18)
             self.log_info("经验妖怪")
         else:
             self._swipe(0.22, 0.22, 0.22, 0.82, 0.2)
@@ -100,6 +100,7 @@ class ExperienceYoukai(BuffBattleTask):
             if self.wait_click_ocr(match=re.compile("经验"),
                                    box=self.box_of_screen(0.11, 0.18, 0.29, 0.87),
                                    raise_if_not_found=False, time_out=6, ):
+                self.click_relative(0.51, 0.18)
                 self.sleep(0.5)
             else:
                 self.log_warning("找不到经验妖怪")
@@ -109,7 +110,8 @@ class ExperienceYoukai(BuffBattleTask):
                                raise_if_not_found=False, time_out=6, after_sleep=1):
             self.sleep(0.5)
             if self.wait_click_ocr(match=re.compile("不公开|仅邀请"), threshold=0.7,
-                                   box=self.box_of_screen(0.3457, 0.5653, 0.5074, 0.6243)):
+                                   box=self.box_of_screen(0.3457, 0.5653, 0.5074, 0.6243),
+                                   time_out=3):
                 self.sleep(0.5)
                 self.click_relative(0.51, 0.71, after_sleep=1)
                 self.log_info("创建队伍")
@@ -174,13 +176,24 @@ class ExperienceYoukai(BuffBattleTask):
                 self.click_relative(0.95, 0.90, after_sleep=0.5)
                 self.log_info("进入battle")
                 # 经验副本的success是独立的
-                res = self.Find_finish(self.config["BattleTime"])
-                if res == 2:
-                    self.log_warning("战斗失败！！")
-                    return False
-                elif res == 3:
-                    self.log_warning("战斗超时！！")
-                    return False
+                if self.config["Lock Team Enable"]:
+                    self.Change_team(self.group, self.team)
+                else:
+                    if self.wait_ocr(match=re.compile("预设"),
+                                           box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
+                                           raise_if_not_found=False, time_out=60):
+                        self.sleep(0.5)
+                        self.click_relative(0.91, 0.79)
+                if self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                           box=self.box_of_screen(0.2,0,0.5,0.43),
+                                           raise_if_not_found=False, time_out=self.config["BattleTime"],
+                                           after_sleep=0.5):
+                    self.sleep(0.5)
+                    if self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                           box=self.box_of_screen(0.2,0,0.5,0.43),
+                                           raise_if_not_found=False, time_out=2,
+                                           after_sleep=0.5):
+                        self.log_info("出现战斗结束")
                 self.log_info(
                     f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
                 self.count += 1
@@ -194,26 +207,48 @@ class ExperienceYoukai(BuffBattleTask):
         self.sleep(0.5)
         self.click_relative(0.95, 0.90, after_sleep=0.5)
         # 经验副本的success是独立的
-        res = self.Find_finish(self.config["BattleTime"])
-        if res == 2:
-            self.log_warning("战斗失败！！")
-            return False
-        elif res == 3:
-            self.log_warning("战斗超时！！")
-            return False
+        if self.config["Lock Team Enable"]:
+            self.Change_team(self.group, self.team)
+        else:
+            if self.wait_ocr(match=re.compile("预设"),
+                             box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
+                             raise_if_not_found=False, time_out=60):
+                self.sleep(0.5)
+                self.click_relative(0.91, 0.79)
+        if self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                   box=self.box_of_screen(0.2, 0, 0.5, 0.43),
+                                   raise_if_not_found=False, time_out=self.config["BattleTime"],
+                                   after_sleep=0.5):
+            self.sleep(0.5)
+            if self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                       box=self.box_of_screen(0.2, 0, 0.5, 0.43),
+                                       raise_if_not_found=False, time_out=2,
+                                       after_sleep=0.5):
+                self.log_info("出现战斗结束")
         self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
         self.count += 1
         self.trigger_count += 1
 
     def Member_battle(self):
         # 经验副本的success是独立的
-        res = self.Find_finish(self.config["BattleTime"])
-        if res == 2:
-            self.log_warning("战斗失败！！")
-            return False
-        elif res == 3:
-            self.log_warning("战斗超时！！")
-            return False
+        if self.config["Lock Team Enable"]:
+            self.Change_team(self.group, self.team)
+        else:
+            if self.wait_ocr(match=re.compile("预设"),
+                             box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
+                             raise_if_not_found=False, time_out=60):
+                self.sleep(0.5)
+                self.click_relative(0.91, 0.79)
+        if self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                   box=self.box_of_screen(0.2, 0, 0.5, 0.43),
+                                   raise_if_not_found=False, time_out=self.config["BattleTime"],
+                                   after_sleep=0.5):
+            self.sleep(0.5)
+            if self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                       box=self.box_of_screen(0.2, 0, 0.5, 0.43),
+                                       raise_if_not_found=False, time_out=2,
+                                       after_sleep=0.5):
+                self.log_info("出现战斗结束")
         self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
         self.count += 1
         self.trigger_count += 1

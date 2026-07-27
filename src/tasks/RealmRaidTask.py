@@ -31,7 +31,6 @@ class RealmRaidTask(BaseBattleTask):
             self.log_warning("没有选择任何突破")
             self.Back_Home()
             return True
-        print(f"{self.config["RealmRaid"]},{self.config["RyouToppa"]}")
 
         if self.config["RealmRaid"]:
             self.group, self.team = self._parse_preset(self.config["RealmRaid_Team"])

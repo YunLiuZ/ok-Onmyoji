@@ -142,10 +142,12 @@ config = {
         # ── 日常-战斗 ──
         ["src.tasks.AreaBossTask", "AreaBossTask"],
         ["src.tasks.RealmRaidTask", "RealmRaidTask"],
+        ["src.tasks.GoldYoukaiTask", "GoldYoukaiTask"],
 
         # ── 战斗 ──
         ["src.tasks.SoulZonesTask", "SoulZonesTask"],
         ["src.tasks.ExplorationTask", "ExplorationTask"],
+        ["src.tasks.AwakeTask", "AwakeTask"],
         ["src.tasks.GameEventsBattleTask", "GameEventsBattleTask"],
 
         # ── 其他 ──

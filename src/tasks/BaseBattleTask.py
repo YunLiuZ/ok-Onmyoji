@@ -39,9 +39,9 @@ class BaseBattleTask(BaseOmjTask):
         self.config_type.update({
         })
 
-        self.AttackNumber = int(self.config["AttackNumber"])
-        self.Green_Num = int(self.config["Green"])
-        self.BattleTime = int(self.config["BattleTime"])
+        self.AttackNumber = int(self.default_config["AttackNumber"])
+        self.Green_Num = int(self.default_config["Green"])
+        self.BattleTime = int(self.default_config["BattleTime"])
 
     # ---------- 预设队伍解析 ----------preset="Preset Team",team="1,1"
 

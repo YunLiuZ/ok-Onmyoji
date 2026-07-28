@@ -28,10 +28,10 @@ class ExperienceYoukaiTask(BuffBattleTask):
     def run(self):
         self.in_home_and_back()
         self.count = 1
-        while (self.count <= self.config["AttackNumber"]):
-            self.group, self.team = self._parse_preset(self.config["Preset Team"])
-            if self.config["Preset Enable"]:
-                self.SwitchSoul_by_num(self.group, self.team)
+        self.group, self.team = self._parse_preset(self.config["Preset Team"])
+        if self.config["Preset Enable"]:
+            self.SwitchSoul_by_num(self.group, self.team)
+        while (self.count <= self.AttackNumber):
             if self.config["UserStatus"] == "队长":
                 if not self.ExperienceYoukai_page():
                     self.log_warning("找不到页面")
@@ -49,7 +49,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
                 self.Alone_battle()
                 return True
             else:
-                if self.config["加成选择"]:
+                if self.config["加成选择"] and self.count==1:
                     if not self.wait_click_feature('Home_Explore', threshold=0.7,
                                                    box=self.B('Home_Explore'),
                                                    raise_if_not_found=False, time_out=6, after_sleep=1):
@@ -72,7 +72,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
                     return False
 
     def ExperienceYoukai_page(self):
-        if self.config["加成选择"]:
+        if self.config["加成选择"] and self.count==1:
             if not self.wait_click_feature('Home_Explore', threshold=0.7,
                                            box=self.B('Home_Explore'),
                                            raise_if_not_found=False, time_out=6, after_sleep=1):
@@ -186,7 +186,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
                         self.click_relative(0.91, 0.79)
                 if self.wait_click_feature('Youkai_Success', threshold=0.7,
                                            box=self.box_of_screen(0.2,0,0.5,0.43),
-                                           raise_if_not_found=False, time_out=self.config["BattleTime"],
+                                           raise_if_not_found=False, time_out=self.BattleTime,
                                            after_sleep=0.5):
                     self.sleep(0.5)
                     if self.wait_click_feature('Youkai_Success', threshold=0.7,
@@ -195,7 +195,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
                                            after_sleep=0.5):
                         self.log_info("出现战斗结束")
                 self.log_info(
-                    f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                    f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
                 self.count += 1
                 self.trigger_count += 1
             else:
@@ -217,7 +217,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
                 self.click_relative(0.91, 0.79)
         if self.wait_click_feature('Youkai_Success', threshold=0.7,
                                    box=self.box_of_screen(0.2, 0, 0.5, 0.43),
-                                   raise_if_not_found=False, time_out=self.config["BattleTime"],
+                                   raise_if_not_found=False, time_out=self.BattleTime,
                                    after_sleep=0.5):
             self.sleep(0.5)
             if self.wait_click_feature('Youkai_Success', threshold=0.7,
@@ -225,7 +225,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
                                        raise_if_not_found=False, time_out=2,
                                        after_sleep=0.5):
                 self.log_info("出现战斗结束")
-        self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+        self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
         self.count += 1
         self.trigger_count += 1
 
@@ -236,12 +236,12 @@ class ExperienceYoukaiTask(BuffBattleTask):
         else:
             if self.wait_ocr(match=re.compile("预设"),
                              box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
-                             raise_if_not_found=False, time_out=60):
+                             raise_if_not_found=False, time_out=120):
                 self.sleep(0.5)
                 self.click_relative(0.91, 0.79)
         if self.wait_click_feature('Youkai_Success', threshold=0.7,
                                    box=self.box_of_screen(0.2, 0, 0.5, 0.43),
-                                   raise_if_not_found=False, time_out=self.config["BattleTime"],
+                                   raise_if_not_found=False, time_out=self.BattleTime,
                                    after_sleep=0.5):
             self.sleep(0.5)
             if self.wait_click_feature('Youkai_Success', threshold=0.7,
@@ -249,7 +249,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
                                        raise_if_not_found=False, time_out=2,
                                        after_sleep=0.5):
                 self.log_info("出现战斗结束")
-        self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+        self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
         self.count += 1
         self.trigger_count += 1
 

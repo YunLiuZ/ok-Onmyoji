@@ -12,8 +12,8 @@ class UtilizeTask(BaseOmjTask):
             "KekkaiActivation": False,
             "KekkaiUtilize": False,
             "寄养优先": "好友优先",
-            "卡片优先级": "Shop_Kaiko优先",
-            "检测对象":"只检测Shop_Kaiko",
+            "卡片优先级": "太鼓优先",
+            "检测对象":"只检测太鼓",
         })
         self.config_description.update({
             "寄养优先": "优先搜索好友寄养还是跨区寄养。",
@@ -27,11 +27,11 @@ class UtilizeTask(BaseOmjTask):
             },
             "卡片优先级": {
                 "type": "drop_down",
-                "options": ["Douyu优先", "Shop_Kaiko优先"],
+                "options": ["斗鱼优先", "太鼓优先"],
             },
             "检测对象": {
                 "type": "drop_down",
-                "options": ["都检测", "只检测Douyu", "只检测Shop_Kaiko"],
+                "options": ["都检测", "只检测斗鱼", "只检测太鼓"],
             },
         })
 
@@ -134,7 +134,7 @@ class UtilizeTask(BaseOmjTask):
         
         
         if text := self.ocr_and_click(['智能','放入'],2,
-                                  box=self.box_of_screen(0.89, 0.69, 0.94, 0.78), time_out=6):
+                                  box=self.box_of_screen(0.89, 0.69, 0.94, 0.78), time_out=3):
             self.sleep(1)
             self.log_info("式神经验已满 切换式神")
             print(text)
@@ -159,16 +159,16 @@ class UtilizeTask(BaseOmjTask):
                 self.log_info(f"切换到 {tab} 标签")
 
                 # 根据用户配置生成检测列表（同卡种内6星优先）
-                priority = self.config.get("卡片优先级", "Douyu优先")
+                priority = self.config.get("卡片优先级", "斗鱼优先")
                 detect = self.config.get("检测对象", "都检测")
 
-                if detect == "只检测Douyu":
+                if detect == "只检测斗鱼":
                     feature_list = ['Douyu_6', 'Douyu']
-                elif detect == "只检测Shop_Kaiko":
+                elif detect == "只检测太鼓":
                     feature_list = ['Shop_Kaiko_6', 'Shop_Kaiko']
-                elif priority == "Douyu优先":
+                elif priority == "斗鱼优先":
                     feature_list = ['Douyu_6', 'Douyu', 'Shop_Kaiko_6', 'Shop_Kaiko']
-                else:  # Shop_Kaiko优先
+                else:  # 太鼓优先
                     feature_list = ['Shop_Kaiko_6', 'Shop_Kaiko', 'Douyu_6', 'Douyu']
 
                 found_kaiko = False

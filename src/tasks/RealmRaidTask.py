@@ -210,21 +210,21 @@ class RealmRaidTask(BaseBattleTask):
                     self.log_info("检测是否为自动")
                     self.change_auto()
 
-                if self.config["Green"] !=0:
+                if self.Green_Num !=0:
                     if self.wait_ocr(
                         match=re.compile('自动'),
                         box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                         time_out=8
                     ):
                         self.sleep(0.1)
-                        x, y = self.green[self.config["Green"]]
+                        x, y = self.green[self.Green_Num]
                         self.click_relative(x, y, after_sleep=1)
 
             else:
                 self.log_info("没找到进攻")
                 return False
 
-            res = self.Find_finish(self.config["BattleTime"])
+            res = self.Find_finish(self.BattleTime)
             if res == 2:
                 self.log_warning("战斗失败！！")
                 return False
@@ -312,17 +312,17 @@ class RealmRaidTask(BaseBattleTask):
                 self.log_info("检测是否为自动")
                 self.change_auto()
 
-            if self.config["Green"] != 0:
+            if self.Green_Num != 0:
                 if self.wait_ocr(
                         match=re.compile('自动'),
                         box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                         time_out=8
                 ):
                     self.sleep(0.1)
-                    x, y = self.green[self.config["Green"]]
+                    x, y = self.green[self.Green_Num]
                     self.click_relative(x, y, after_sleep=1)
 
-            res = self.Find_finish(self.config["BattleTime"])
+            res = self.Find_finish(self.BattleTime)
             if res == 1:
                 self.log_info(f"第{target}个 挑战成功，继续")
                 self.count += 1

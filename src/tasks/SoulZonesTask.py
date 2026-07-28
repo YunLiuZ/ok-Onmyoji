@@ -167,7 +167,7 @@ class SoulZonesTask(BuffBattleTask):
             return None
         result = self.wait_until(
                 lambda: check_battle_end(),
-                time_out=self.config["BattleTime"] + 15,
+                time_out=self.BattleTime + 15,
                 raise_if_not_found=False,
             )
         return result
@@ -235,7 +235,7 @@ class SoulZonesTask(BuffBattleTask):
     
         self.count = 1
 
-        while(self.count <= self.config["AttackNumber"]):
+        while(self.count <= self.AttackNumber):
              for i, f in enumerate(targets):
                 if i == 0:
                     ok = self.ocr_and_click(f, time_out=30,box=self.box_of_screen (0.43, 0.15, 0.53, 0.19))
@@ -252,17 +252,17 @@ class SoulZonesTask(BuffBattleTask):
 
                         self.log_info("检测是否为自动")
                         self.change_auto()
-                    if self.config["Green"] != 0:
+                    if self.Green_Num != 0:
                         if self.wait_ocr(
                                 match=re.compile('自动'),
                                 box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                                 time_out=8
                         ):
                             self.sleep(0.1)
-                            x, y = self.green[self.config["Green"]]
+                            x, y = self.green[self.Green_Num]
                             self.click_relative(x, y, after_sleep=1)
 
-                    res = self.Find_finish(self.config["BattleTime"])
+                    res = self.Find_finish(self.BattleTime)
                     if res == 2:
                         self.log_warning("战斗失败！！")
                         return False
@@ -281,7 +281,7 @@ class SoulZonesTask(BuffBattleTask):
                         else:
                             self.log_warning("找不到Leader_Invitation")
 
-                    self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                    self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
                     self.count+=1
                     self.trigger_count+=1
                 else:
@@ -304,7 +304,7 @@ class SoulZonesTask(BuffBattleTask):
 
     def Alone_battle(self):
         self.count = 1
-        while(self.count <= self.config["AttackNumber"]):
+        while(self.count <= self.AttackNumber):
             if self.ocr_and_click(['挑战'],box=self.box_of_screen(0.87,0.79,0.98,0.90)):
                 self.log_info('点击挑战')   
             if self.count == 1:
@@ -331,7 +331,7 @@ class SoulZonesTask(BuffBattleTask):
                     self.click(res,after_sleep=1)
             else:
                 self.log_warning("找不到Battle_Finish 222")
-            self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+            self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
             self.count+=1
             self.trigger_count+=1
         self.wait_click_feature("Home_Button",box=self.B("Home_Button"),threshold=0.8,time_out=6,after_sleep=2)
@@ -345,7 +345,7 @@ class SoulZonesTask(BuffBattleTask):
         else:
             # 不换
             self.Lock_team((0.07, 0.87, 0.12, 0.97), lock=True)
-        while self.count <= self.config["AttackNumber"] :
+        while self.count <= self.AttackNumber :
             if self.count == 1:
                 self.log_info("进入检测1")
                 if self.config["Lock Team Enable"]:
@@ -353,17 +353,17 @@ class SoulZonesTask(BuffBattleTask):
 
                 self.log_info("检测是否为自动")
                 self.change_auto()
-            if self.config["Green"] != 0:
+            if self.Green_Num != 0:
                 if self.wait_ocr(
                         match=re.compile('自动'),
                         box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                         time_out=8
                 ):
                     self.sleep(0.1)
-                    x, y = self.green[self.config["Green"]]
+                    x, y = self.green[self.Green_Num]
                     self.click_relative(x, y, after_sleep=1)
 
-            if self.Find_finish(self.config["BattleTime"]) != 1:
+            if self.Find_finish(self.BattleTime) != 1:
                 self.Back_Home()
                 return False
             if self.count == 1:      
@@ -378,7 +378,7 @@ class SoulZonesTask(BuffBattleTask):
                                         raise_if_not_found=False, time_out=6, after_sleep=1):
                         if not (self.ocr_and_click('确定',time_out=6,box=self.box_of_screen(0.45,0.45,0.70,0.70))):
                             self.log_warning("找不到确认")       
-            self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+            self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
             self.count += 1
             self.trigger_count+=1
         if self.Back_Home():

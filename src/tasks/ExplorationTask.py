@@ -134,14 +134,7 @@ class ExplorationTask(BuffBattleTask):
         self.log_info("进入leader_battle")
         self.count = 1
         def battle():
-            # if self.wait_until(
-            #         condition=lambda: self.wait_ocr(match='妖术|普攻', box=self.box_of_screen(0.5, 0.9, 1, 1),
-            #                                         time_out=3),
-            #         pre_action=lambda: self.wait_click_feature('Exploration_Battle', threshold=0.7,
-            #                                                    box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
-            #                                                    raise_if_not_found=False, time_out=3, after_sleep=0.5),
-            #         raise_if_not_found=False):
-            if (self.wait_click_feature('Exploration_Battle', threshold=0.7,
+            if (self.wait_click_feature('Exploration_Battle', threshold=0.9,
                                     box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
                                     raise_if_not_found=False, time_out=3,after_sleep=0.5)):
                 if (self.wait_click_feature('Exploration_Battle', threshold=0.7,
@@ -152,9 +145,15 @@ class ExplorationTask(BuffBattleTask):
                     if self.count == 1:
                         self.log_info("检测是否为自动")
                         self.change_auto()
-                    self.Find_finish(self.config["BattleTime"])
+                    res = self.Find_finish(self.BattleTime)
+                    if res == 2:
+                        self.log_warning("战斗失败！！")
+                        return False
+                    elif res == 3:
+                        self.log_warning("战斗超时！！")
+                        return False
                     self.log_info(
-                        f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                        f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
                     self.count += 1
                     self.trigger_count += 1
                     self.sleep(3)  # 等等队友
@@ -164,21 +163,34 @@ class ExplorationTask(BuffBattleTask):
                     if self.count == 1:
                         self.log_info("检测是否为自动")
                         self.change_auto()
-                    self.Find_finish(self.config["BattleTime"])
+                    res = self.Find_finish(self.BattleTime)
+                    if res == 2:
+                        self.log_warning("战斗失败！！")
+                        return False
+                    elif res == 3:
+                        self.log_warning("战斗超时！！")
+                        return False
                     self.log_info(
-                        f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                        f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
                     self.count += 1
                     self.trigger_count += 1
                     self.sleep(3)  # 等等队友
             else:
-                self._swipe(0.70, 0.80, 0.40, 0.80, 1)  # 走一步
+                self.click_relative(0.97, 0.85)
+                self.sleep(1)# 走一步
                 self.log_info("移动")
         def final_battle():
-            if self.wait_click_feature('Exploration_Final_Battle', threshold=0.7,
+            if self.wait_click_feature('Exploration_Final_Battle', threshold=0.9,
                                     box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
-                                    raise_if_not_found=False, time_out=6, after_sleep=2):
-                self.Find_finish(self.config["BattleTime"])
-                self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                                    raise_if_not_found=False, time_out=3, after_sleep=2):
+                res = self.Find_finish(self.BattleTime)
+                if res == 2:
+                    self.log_warning("战斗失败！！")
+                    return False
+                elif res == 3:
+                    self.log_warning("战斗超时！！")
+                    return False
+                self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
                 self.log_info("最后一次战斗结束")
                 self.count+=1
                 self.trigger_count+=1
@@ -186,7 +198,7 @@ class ExplorationTask(BuffBattleTask):
             else:
                 return False
 
-        while self.count <= self.config["AttackNumber"]:
+        while self.count <= self.AttackNumber:
             if self.wait_ocr(match=re.compile(self.config["Friend 1"]),
                              time_out=30,
                              raise_if_not_found=False,
@@ -206,7 +218,7 @@ class ExplorationTask(BuffBattleTask):
                 else:
                     self.click_relative(0.1,0.93,after_sleep=0.5)
                     self.log_info("打开自动轮换")
-            for _ in range(4):
+            for _ in range(3):
                 battle()
             if not self.wait_until(
             final_battle,
@@ -216,12 +228,15 @@ class ExplorationTask(BuffBattleTask):
             ):
                 return False
 
-            if not self.wait_click_feature('Back', threshold=0.7,
+            if self.wait_click_feature('Back', threshold=0.7,
                                                 box=self.B('Back'),
-                                                raise_if_not_found=False, time_out=5, after_sleep=1):
+                                                raise_if_not_found=False, time_out=4, after_sleep=1):
+                self.log_info("找到Back")
+                self.ocr_and_click("确认", 1, box=self.box_of_screen(0.53, 0.5, 0.68, 0.62))
+            else:
                 self.log_warning("找不到Back")
-            self.ocr_and_click("确认",1,box=self.box_of_screen(0.53, 0.5, 0.68, 0.62))
-            if self.count <= self.config["AttackNumber"]:
+
+            if self.count <= self.AttackNumber:
                 if self.ocr_and_click(["邀请","继续"],box=self.box_of_screen(0.34, 0.39, 0.67, 0.66)):
                     self.ocr_and_click("确定",box=self.box_of_screen(0.34, 0.39, 0.67, 0.66))
                 else:
@@ -234,10 +249,10 @@ class ExplorationTask(BuffBattleTask):
 
     def Member_battle(self):
         def battle():
-            res = self.Find_finish(self.config["BattleTime"])
+            res = self.Find_finish(self.BattleTime)
             if res == 1:
                 self.log_info(
-                    f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                    f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
                 self.count += 1
                 self.trigger_count += 1
                 return True
@@ -248,21 +263,38 @@ class ExplorationTask(BuffBattleTask):
                 self.log_warning("战斗超时！！")
                 return False
         def final_battle():
-            if self.wait_feature('Exploration_Final_Treasure', threshold=0.7,
-                                    box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),time_out=6,):
-                if not self.wait_click_feature('Back', threshold=0.7,
-                                               box=self.B('Back'),
-                                               raise_if_not_found=False, time_out=5, after_sleep=1):
-                    self.log_warning("找不到Back")
+            if self.wait_feature('Exploration_Finish_Treasure', threshold=0.7,
+                                    box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
+                                    raise_if_not_found=False, time_out=3,):
+                res = self.Find_finish(self.BattleTime)
+                if res == 2:
+                    self.log_warning("战斗失败！！")
                     return False
-                self.ocr_and_click("确认", 1, box=self.box_of_screen(0.53, 0.5, 0.68, 0.62))
-                return True
-            elif self.In_Home():
+                elif res == 3:
+                    self.log_warning("战斗超时！！")
+                    return False
+                self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
+                self.log_info("最后一次战斗结束")
+                self.count+=1
+                self.trigger_count+=1
                 return True
             else:
                 return False
+            # elif self.wait_feature('Exploration_Finish_Treasure', threshold=0.7,
+            #                         box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),time_out=6,):
+            #     if not self.wait_click_feature('Back', threshold=0.7,
+            #                                    box=self.B('Back'),
+            #                                    raise_if_not_found=False, time_out=5, after_sleep=1):
+            #         self.log_warning("找不到Back")
+            #         return False
+            #     self.ocr_and_click("确认", 1, box=self.box_of_screen(0.53, 0.5, 0.68, 0.62))
+            #     return True
+            # elif self.In_Home():
+            #     return True
+            # else:
+            #     return False
         self.count = 1
-        while self.count <= self.config["AttackNumber"]:
+        while self.count <= self.AttackNumber:
             self.log_info("等待邀请")
             if self.wait_click_feature('Invitation_Confirm', threshold=0.7,
                                        box=self.B('Invitation_Confirm'),
@@ -279,15 +311,22 @@ class ExplorationTask(BuffBattleTask):
                         self.click_relative(0.1, 0.93, after_sleep=0.5)
                         self.log_info("打开自动轮换")
 
-                for _ in range(4):
+                for _ in range(3):
                     if not battle():
                         return False
-                if not self.wait_until(condition=lambda :final_battle,
+                if not self.wait_until(final_battle,
                                     time_out=600,
                                     pre_action=battle,
                                     raise_if_not_found=False,
                                     ):
                     return False
+                if self.wait_click_feature('Back', threshold=0.7,
+                                           box=self.B('Back'),
+                                           raise_if_not_found=False, time_out=4, after_sleep=1):
+                    self.log_info("找到Back")
+                    self.ocr_and_click("确认", 1, box=self.box_of_screen(0.53, 0.5, 0.68, 0.62))
+                else:
+                    self.log_warning("找不到Back")
             else:
                 self.log_warning("等待邀请超时")
                 return False
@@ -321,9 +360,9 @@ class ExplorationTask(BuffBattleTask):
                     if self.count == 1:
                         self.log_info("检测是否为自动")
                         self.change_auto()
-                    self.Find_finish(self.config["BattleTime"])
+                    self.Find_finish(self.BattleTime)
                     self.log_info(
-                        f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                        f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
                     self.count += 1
                     self.trigger_count += 1
                     self.sleep(3)  # 等等队友
@@ -333,9 +372,9 @@ class ExplorationTask(BuffBattleTask):
                     if self.count == 1:
                         self.log_info("检测是否为自动")
                         self.change_auto()
-                    self.Find_finish(self.config["BattleTime"])
+                    self.Find_finish(self.BattleTime)
                     self.log_info(
-                        f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                        f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
                     self.count += 1
                     self.trigger_count += 1
                     self.sleep(3)  # 等等队友
@@ -347,9 +386,9 @@ class ExplorationTask(BuffBattleTask):
             if self.wait_click_feature('Exploration_Final_Battle', threshold=0.7,
                                        box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
                                        raise_if_not_found=False, time_out=6, after_sleep=2):
-                self.Find_finish(self.config["BattleTime"])
+                self.Find_finish(self.BattleTime)
                 self.log_info(
-                    f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+                    f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
                 self.log_info("最后一次战斗结束")
                 self.count += 1
                 self.trigger_count += 1
@@ -357,7 +396,7 @@ class ExplorationTask(BuffBattleTask):
             else:
                 return False
 
-        while self.count <= self.config["AttackNumber"]:
+        while self.count <= self.AttackNumber:
             if not self.wait_click_ocr(match=re.compile("探索"), time_out=6,
                                        box=self.box_of_screen(0.68, 0.79, 0.93, 0.94)):
                 self.log_info('找不到探索')

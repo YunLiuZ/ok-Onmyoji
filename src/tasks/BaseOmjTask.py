@@ -285,7 +285,9 @@ class BaseOmjTask(BaseTask):
         return True
     def In_Home(self):
         self.log_info("寻找町中")
+        self.sleep(1)
         home = self.find_one(["Home_Store","Home_Shikigami_Chronicles","YinYang_Lodge"], threshold=0.75, box=self.B('bottom'))
+        self.sleep(0.5)
         if not (town := self.find_feature('Home_Town', threshold=0.8, box=self.B('Home_Town'))):
             town = self.find_feature('Home_Explore', threshold=0.8, box=self.B('Home_Explore'))
         town1 = self.find_one(["Home_Town", "Home_Explore"], threshold=0.8, box=self.B('Home_Exp'))

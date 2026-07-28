@@ -13,7 +13,7 @@ class AreaBossTask(BaseBattleTask):
             "Area Boss": "悬赏",
         })
         self.config_description.update({
-            "Area Boss": "打谁",
+            "Area Boss": "打谁，强烈建议打收藏",
             "Lock Team Enable": "地域鬼王很特殊，为了避免出现打鬼王限定式神建议不要勾选此项，锁定阵容打1级自动战斗即可",
         })
         self.config_type.update({
@@ -40,7 +40,7 @@ class AreaBossTask(BaseBattleTask):
 
     def AreaBoss_page(self):
         # self.In_Home()
-        if self.wait_click_feature('Home_Explore', threshold=0.7,
+        if not self.wait_click_feature('Home_Explore', threshold=0.7,
                                         box=self.B('Home_Explore'),
                                         raise_if_not_found=False, time_out=6, after_sleep=1):
             self.log_warning("找不到探索 Home_Sign")
@@ -61,7 +61,7 @@ class AreaBossTask(BaseBattleTask):
     def Battle(self):
         self.log_info("进入battle")
         self.count = 1
-        while(self.count <= self.config["AttackNumber"]):
+        while(self.count <= self.AttackNumber):
             if not (text := self.ocr_and_click(['收', '藏'],0.5, time_out=2, box=self.B('Areaboss_Filter_Page'))):
                 print(text)
                 if self.wait_click_feature('Areaboss_Filter', threshold=0.7,
@@ -92,16 +92,16 @@ class AreaBossTask(BaseBattleTask):
             self.log_info("检测是否为自动")
             self.change_auto()
 
-            if self.config["Green"] != 0:
+            if self.Green_Num != 0:
                 if self.wait_ocr(
                         match=re.compile('自动'),
                         box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                         time_out=8
                 ):
                     self.sleep(0.1)
-                    x, y = self.green[self.config["Green"]]
+                    x, y = self.green[self.Green_Num]
                     self.click_relative(x, y, after_sleep=1)
-            res = self.Find_finish(self.config["BattleTime"])
+            res = self.Find_finish(self.BattleTime)
             if res == 2:
                 self.log_warning("战斗失败！！")
                 return False
@@ -115,7 +115,7 @@ class AreaBossTask(BaseBattleTask):
                 self.log_warning("找不到Daily_New_Cancel")
                 self.Back_Home()
                 return False
-            self.log_info(f"第 {self.count} 次战斗结束 总共{self.config["AttackNumber"]} 第 {self.trigger_count} 次战斗")
+            self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
             self.count+=1
             self.trigger_count+=1
         return True

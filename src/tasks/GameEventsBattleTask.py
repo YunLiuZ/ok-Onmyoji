@@ -26,7 +26,7 @@ class GameEventsBattleTask(BaseBattleTask):
 
     def run(self):
         self.in_home_and_back()
-        self.group, self.team = self._parse_preset(self.config["RealmRaid_Team"])
+        self.group, self.team = self._parse_preset(self.config["Preset Team"])
         if self.config["Preset Enable"]:
             self.SwitchSoul_by_num(self.group, self.team)
 
@@ -99,7 +99,7 @@ class GameEventsBattleTask(BaseBattleTask):
                 self.sleep(0.5)
             else:
                 self.log_info("体力")
-            num = self.config["AttackNumber"] if (self.config["AttackNumber"] < self.ap_tickets) else self.ap_tickets
+            num = self.AttackNumber if (self.AttackNumber < self.ap_tickets) else self.ap_tickets
             while self.count < num:
                 self.Battle_process()
                 self.count += 1
@@ -149,17 +149,17 @@ class GameEventsBattleTask(BaseBattleTask):
 
             self.log_info("检测是否为自动")
             self.change_auto()
-        if self.config["Green"] != 0:
+        if self.Green_Num != 0:
             if self.wait_ocr(
                     match=re.compile('自动'),
                     box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                     time_out=8
             ):
                 self.sleep(0.1)
-                x, y = self.green[self.config["Green"]]
+                x, y = self.green[self.Green_Num]
                 self.click_relative(x, y, after_sleep=1)
 
-        if self.wait_until(check, time_out=self.config["BattleTime"], raise_if_not_found=False):
+        if self.wait_until(check, time_out=self.BattleTime, raise_if_not_found=False):
             return True
 
         

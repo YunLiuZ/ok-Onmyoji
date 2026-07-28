@@ -23,9 +23,9 @@ class BaseBattleTask(BaseOmjTask):
             "Preset Enable": False,
             "Preset Team": "1,1",
             "Team Name":"",
-            "AttackNumber":1,
-            "BattleTime": 300,
-            "Green": 0,
+            "AttackNumber":"1",
+            "BattleTime": "180",
+            "Green": "0",
         })
 
         self.config_description.update({
@@ -38,6 +38,10 @@ class BaseBattleTask(BaseOmjTask):
         })
         self.config_type.update({
         })
+
+        self.AttackNumber = int(self.config["AttackNumber"])
+        self.Green_Num = int(self.config["Green"])
+        self.BattleTime = int(self.config["BattleTime"])
 
     # ---------- 预设队伍解析 ----------preset="Preset Team",team="1,1"
 
@@ -128,7 +132,7 @@ class BaseBattleTask(BaseOmjTask):
                 self.click(text[0],after_sleep=0.5)
             if text := self.ocr('确认',box=self.box_of_screen(0.50,0.53,0.66,0.63)):
                 self.click(text[0],after_sleep=0.5)
-            if not self.wait_click_feature('Back', threshold=0.7,
+            if self.wait_click_feature('Back', threshold=0.7,
                                             box=self.B('Back'),
                                             raise_if_not_found=False, time_out=6, after_sleep=1):
             
@@ -174,7 +178,7 @@ class BaseBattleTask(BaseOmjTask):
         self.log_info("进入检测2")
         if self.wait_click_ocr(match=re.compile("预设"),
                             box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
-                            raise_if_not_found=False, time_out=60):
+                            raise_if_not_found=False, time_out=120):
             self.sleep(2)
             group_rows = {1: 0.36, 2: 0.45, 3: 0.54, 4: 0.63, 5: 0.72, 6: 0.81, 7: 0.90}
             self.click_nth('x', 0.08, group_rows, group, "预设组")
@@ -371,20 +375,19 @@ class BaseBattleTask(BaseOmjTask):
         return True
 
     def change_auto(self):
-        results = self.wait_ocr(
-            match=re.compile('自动|手动'),
-            box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
-            time_out = 6
-        )
-        if not results:
-            self.log_info("没检测到自动手动，可能战斗已经结束")
-            return True
-        for r in results:
-            if '手动' in r.name:
-                self.click_box(r)
-                self.log_info("点击 切换自动")
-                return True
-            if '自动' in r.name:
+        def check():
+            if self.wait_ocr(
+                    match=re.compile('自动'),
+                    box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
+                    time_out=1
+            ):
                 self.log_info("自动")
                 return True
-
+            elif res := self.ocr( match=re.compile('手动'),
+                                  box=self.box_of_screen(0.02, 0.88, 0.08, 0.96)):
+                self.click(res[0])
+                self.log_info("点击 切换自动")
+                return False
+            return False
+        if self.wait_until(check, time_out=10, raise_if_not_found=False):
+            return True

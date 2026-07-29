@@ -13,28 +13,29 @@ class DelegationTask(BaseOmjTask):
         "Miyoshino": "接|送弥助",
         "Strange Trace": "奇怪的|痕迹",
         "Miyoshino Painting": "弥助的|画",
-        "以鱼为礼":"以鱼|为礼"
+        "Fish":"以鱼|为礼"
     }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "日常-式神委派"
         self.default_config.update({
-            "Bird Feather": True,
-            "Find Earring": True,
-            "Cat Boss": True,
-            "Miyoshino": True,
-            "Strange Trace": True,
-            "Miyoshino Painting": True,
-            "以鱼为礼":True ,
+            "Bird Feather": False,
+            "Find Earring": False,
+            "Cat Boss": False,
+            "Miyoshino": False,
+            "Strange Trace": False,
+            "Miyoshino Painting": False,
+            "Fish":False ,
         })
         self.config_description.update({
-            "Bird Feather": "bird_feather_help",
-            "Find Earring": "find_earring_help",
-            "Cat Boss": "Cat Boss_help",
-            "Miyoshino": "Miyoshino_help",
-            "Miyoshino Painting": "Miyoshino Painting_help",
-            "Strange Trace": "Strange Trace_help",
+            "Bird Feather": "50体力->20片大蛇的逆鳞",
+            "Find Earring": "300体力->金币28万",
+            "Cat Boss": "300体力->四星白蛋",
+            "Miyoshino": "100体力->三星结界卡",
+            "Miyoshino Painting": "300体力->六星变异卡",
+            "Strange Trace": "100体力->金币九万八",
+            "Fish":"四星结界卡" ,
         })
 
     def run(self):

@@ -20,8 +20,6 @@ class RealmRaidTask(BaseBattleTask):
         self.config_description.update({
             "Tickets": "至少有多少张票才去挑战个人突破",
             "AttackNumber":"对于结界突破无需填写",
-            "RealmRaid_Team": "个人突破的队伍预设",
-            "RyouToppa_Team": "寮突破的队伍预设",
         })
     def run(self):
         self.in_home_and_back()

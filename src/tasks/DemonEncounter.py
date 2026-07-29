@@ -6,7 +6,7 @@ from src.tasks.BaseBattleTask import BaseBattleTask
 class DemonEncounter(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "封魔之时"
+        self.name = "日常-逢魔之时"
         self.default_config.update({
             "DemonEncounter":True,
             "Another_DemonEncounter":False,

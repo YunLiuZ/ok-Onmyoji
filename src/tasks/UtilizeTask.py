@@ -6,32 +6,37 @@ class UtilizeTask(BaseOmjTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "日常-结界"
+        self.name = "日常-寄养"
 
         self.default_config.update({
             "KekkaiActivation": False,
             "KekkaiUtilize": False,
-            "寄养优先": "好友优先",
-            "卡片优先级": "太鼓优先",
-            "检测对象":"只检测太鼓",
+            "Card Rule": "太鼓",
+            "UtilizeConfig": "好友优先",
+            "UtilizeRule": "太鼓优先",
+            "UtilizeTarget":"只检测太鼓",
         })
         self.config_description.update({
-            "寄养优先": "优先搜索好友寄养还是跨区寄养。",
-            "卡片优先级": "优先选择哪一种结界卡。",
-            "检测对象": "搜索时检测哪些结界卡。",
+            "UtilizeConfig": "优先搜索好友寄养还是跨区寄养。",
+            "UtilizeRule": "优先选择哪一种结界卡。",
+            "UtilizeTarget": "搜索时检测哪些结界卡。",
         })
         self.config_type.update({
-            "寄养优先": {
+            "UtilizeConfig": {
                 "type": "drop_down",
                 "options": ["好友优先", "跨区优先"],
             },
-            "卡片优先级": {
+            "UtilizeRule": {
                 "type": "drop_down",
                 "options": ["斗鱼优先", "太鼓优先"],
             },
-            "检测对象": {
+            "UtilizeTarget": {
                 "type": "drop_down",
                 "options": ["都检测", "只检测斗鱼", "只检测太鼓"],
+            },
+            "Card Rule": {
+                "type": "drop_down",
+                "options": ["太鼓", "斗鱼"],
             },
         })
 
@@ -85,27 +90,53 @@ class UtilizeTask(BaseOmjTask):
         
 
     def KekkaiActivation(self):
-        if text := self.ocr_and_click(['界卡'],
-                                  box=self.box_of_screen(0.67, 0.36, 0.75, 0.58), time_out=6):
-            print(text)
+        if not self.wait_ocr(match=re.compile("界卡"),
+                         time_out=6,
+                         box=self.box_of_screen(0.67, 0.36, 0.75, 0.58),
+                         raise_if_not_found=False,):
+            self.log_warning("没有进入结界")
+            return False
+        self.log_info("进入结界")
+        self.sleep(0.5)
+        self.click_relative(0.72, 0.27)
+        self.log_info("收取奖励")
+        if not self.wait_click_ocr(match=re.compile("界卡"),
+                               time_out=6,
+                               box=self.box_of_screen(0.67, 0.36, 0.75, 0.58),
+                               raise_if_not_found=False,
+                               ):
+            self.log_warning("没有进入挂卡")
+        if not self.wait_ocr(match=re.compile("结界"),
+                         time_out=6,
+                         box=self.box_of_screen(0.45, 0.05, 0.56, 0.13),
+                         raise_if_not_found=False,
+                         ):
+            self.log_warning("没有进入挂卡页面")
+        self.sleep(0.5)
+        if text :=self.ocr(match=re.compile("位置"),
+                           box=self.box_of_screen(0.45, 0.84, 0.64, 0.94)):
+            self.log_info("结界卡还在")
+            if text := self.ocr(box=self.box_of_screen(0.63, 0.36, 0.8, 0.41)):
+                # 从 OCR 结果中提取时间 (HH:MM:SS)
+                self._extract_kekkai_time(text)
+                return True
 
-        if text := self.ocr_and_click(['升序'],
-                                  box=self.box_of_screen(0.13, 0.12, 0.42, 0.22), time_out=6):
-            print(text)
-        if text := self.ocr_and_click(['全部'],
-                                  box=self.box_of_screen(0.13, 0.12, 0.42, 0.22), time_out=6):
-            print(text)
-
-            text = self.ocr_and_click(['太鼓'],1,
-                                  box=self.box_of_screen(0.28, 0.21, 0.41, 0.61), time_out=6)
-            if text :=self.ocr(match=re.compile("位置"),
-                               box=self.box_of_screen(0.45, 0.84, 0.64, 0.94)):
-                self.log_info("结界卡还在")
-                if text := self.ocr(box=self.box_of_screen(0.63, 0.36, 0.8, 0.41)):
-                    # 从 OCR 结果中提取时间 (HH:MM:SS)
-                    self._extract_kekkai_time(text)
-                    return True
-            self.click_relative(0.26, 0.32,after_sleep=1)
+        if not self.wait_click_ocr(match=re.compile("升序"),
+                         time_out=2,
+                         box=self.box_of_screen(0.13, 0.12, 0.42, 0.22),
+                         raise_if_not_found=False,):
+            self.log_info("降序")
+        if self.wait_click_ocr(match=re.compile("全部"),
+                                   time_out=2,
+                                   box=self.box_of_screen(0.13, 0.12, 0.42, 0.22),
+                                   raise_if_not_found=False, ):
+            self.wait_click_ocr(match=re.compile(self.config["Card Rule"]),
+                                time_out=3,
+                                box=self.box_of_screen(0.28, 0.21, 0.41, 0.61),
+                                raise_if_not_found=False, )
+            self.sleep(1)
+            self.click_relative(0.26, 0.32)
+            self.sleep(1)
             # rgb(221,199,136) → BGR(136,199,221) ±20
             if res := self.ocr(match="结界寄养", box=self.box_of_screen(0.44, 0.7, 0.54, 0.78)):
                 print(res)
@@ -115,15 +146,16 @@ class UtilizeTask(BaseOmjTask):
                 if self.ocr_and_click("确定",box=self.box_of_screen(0.51, 0.53, 0.67, 0.67),time_out=6):
                     self.log_info(f"确定")
                     self.sleep(0.5)
-                else:
-                    self.log_info("该卡没有上四星")
-                if not self.wait_click_feature('Cancel_Old', threshold=0.7,
-                                    box=self.box_of_screen(0.89, 0.11, 0.95, 0.21),
-                                    raise_if_not_found=False, time_out=6, after_sleep=1):
-                    self.log_warning("找不到Cancel_Old")
             else:
-                print(res)
-                self.log_warning("找不到结界寄养")
+                self.log_info("该卡没有上四星")
+            if not self.wait_click_feature('Cancel_Old', threshold=0.7,
+                                box=self.box_of_screen(0.89, 0.11, 0.95, 0.21),
+                                raise_if_not_found=False, time_out=6, after_sleep=1):
+                self.log_warning("找不到Cancel_Old")
+                return False
+        else:
+            self.log_warning("找不到结界寄养")
+            return False
         self.info_set("步骤", "回到结界")
         # 找到合适的星级并寄养 可以选择私有或者公开寄养 激活会变亮
 
@@ -149,7 +181,7 @@ class UtilizeTask(BaseOmjTask):
             #     self._extract_kekkai_time(results)
             self.log_warning("找不到Utilize_Select")
 
-        tabs = ['好友', '跨区'] if self.config.get("寄养优先", "好友优先") == "好友优先" else ['跨区', '好友']
+        tabs = ['好友', '跨区'] if self.config.get("UtilizeConfig", "好友优先") == "好友优先" else ['跨区', '好友']
 
         for tab in tabs:
                 if not self.ocr_and_click(tab, box=self.box_of_screen(0.17, 0.15, 0.35, 0.22)):
@@ -159,8 +191,8 @@ class UtilizeTask(BaseOmjTask):
                 self.log_info(f"切换到 {tab} 标签")
 
                 # 根据用户配置生成检测列表（同卡种内6星优先）
-                priority = self.config.get("卡片优先级", "斗鱼优先")
-                detect = self.config.get("检测对象", "都检测")
+                priority = self.config.get("UtilizeRule", "太鼓优先")
+                detect = self.config.get("UtilizeTarget", "都检测")
 
                 if detect == "只检测斗鱼":
                     feature_list = ['Douyu_6', 'Douyu']

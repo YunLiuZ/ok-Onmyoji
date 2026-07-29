@@ -28,7 +28,7 @@ class BaseBattleTask(BaseOmjTask):
             "Team Name":"",
             "AttackNumber":"1",
             "BattleTime": "180",
-            "Green": "0",
+            "Green Enable": "0",
         })
 
         self.config_description.update({
@@ -37,7 +37,7 @@ class BaseBattleTask(BaseOmjTask):
             "Preset Team": "预设队伍编号，格式：组,队  例如 1,5 表示第1组第4个队伍，最大支持7和4。和Team Name二选一填写",
             "Team Name": "此功能暂时没设置好不要使用，预设组，队伍名，理论上可以让队伍选择更多，但是推荐尽量用上面那个，因为更稳定",
             "BattleTime": "通过时间 一般情况下不用修改",
-            "Green": "是否绿标，从左到右填写1-6，6为阴阳师，0为不绿标"
+            "Green Enable": "是否绿标，从左到右填写1-6，6为阴阳师，0为不绿标"
         })
         self.config_type.update({
         })
@@ -52,7 +52,7 @@ class BaseBattleTask(BaseOmjTask):
 
     @property
     def GreenNum(self):
-        return int(self.config["Green"])
+        return int(self.config["Green Enable"])
 
     def _parse_preset(self, preset="1,1"):
         """解析 组,队 字符串（如 "1,5"），返回 (group, team)。"""
@@ -157,7 +157,7 @@ class BaseBattleTask(BaseOmjTask):
         if base_tabs is None:
             base_tabs = ["最近", "好友", "跨区", "寮友"]
         tabs = list(base_tabs)
-        first = self.config.get("优先搜索", tabs[0])
+        first = self.config.get("FindMode", tabs[0])
         if first in tabs:
             tabs.remove(first)
             tabs.insert(0, first)
@@ -398,5 +398,5 @@ class BaseBattleTask(BaseOmjTask):
                 self.log_info("点击 切换自动")
                 return False
             return False
-        if self.wait_until(check, time_out=10, raise_if_not_found=False):
+        if self.wait_until(check, time_out=5, raise_if_not_found=False):
             return True

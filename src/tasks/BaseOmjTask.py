@@ -13,10 +13,10 @@ class BaseOmjTask(BaseTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.default_config.update({
-            "角色": "",
+            "User": "",
         })
         self.config_description.update({
-            "角色": "当前控制哪个角色，帮助多开时识别",
+            "User": "当前控制哪个角色，帮助多开时识别",
         })
 # region global
     @property

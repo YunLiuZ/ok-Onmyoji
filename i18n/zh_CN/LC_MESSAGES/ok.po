@@ -8,6 +8,54 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+# ==============================================================================
+# ===== BEGIN: merged from i18n_omj.zip (Qt TS/XML -> gettext PO) =====
+# ===== 下面内容为本次追加，便于后续查找和修改 =====
+# ==============================================================================
+
+msgid "User"
+msgstr "角色"
+
+msgid "Area Boss"
+msgstr "地域鬼王分组"
+
+msgid "Auto Login"
+msgstr "自动登录"
+
+msgid "Awake"
+msgstr "觉醒分组"
+
+msgid "BattleTime"
+msgstr "战斗耗时"
+
+msgid "Fish"
+msgstr "以鱼为礼"
+
+msgid "First"
+msgstr "启用者先开始邀请"
+
+msgid "RealmRaid_Team"
+msgstr "个人突破的队伍预设"
+
+msgid "RyouToppa_Team"
+msgstr "寮突破的队伍预设"
+
+msgid "OrochiNothingness"
+msgstr "御魂虚无"
+
+msgid "UtilizeTarget"
+msgstr "结界卡类型"
+
+msgid ""
+msgstr ""
+
+
+
+
+# ==============================================================================
+# ===== END: merged from i18n_omj.zip =====
+# ==============================================================================
+
 msgid "Tickets"
 msgstr "结界挑战票"
 

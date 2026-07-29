@@ -13,16 +13,16 @@ class SoulZonesTask(BuffBattleTask):
             "Friend 1": "",
             "Friend 2": "",
             "Soul Zones": "悲鸣",
-            "魂十一": "",
-            "魂十二": "",
-            "魂十三": "",
+            "OrochiMoans": "",
+            "OrochiJudgement": "",
+            "OrochiNothingness": "",
         })
         self.config_description.update({
             "UserStatus": "队伍角色：队长创建的队伍，队员加入队伍，单人独自挑战。",
             "Friend 1": "邀请几位就填几位，不邀请请不要填写",
-            "魂十一": "预设队伍编号，格式：组,队  例如 1,5 表示第1组第5个队伍（对应悲鸣）",
-            "魂十二": "预设队伍编号，格式：组,队  例如 2,3 表示第2组第3个队伍（对应神罚）",
-            "魂十三": "预设队伍编号，格式：组,队  例如 3,1 表示第3组第1个队伍（对应虚无）",
+            "OrochiMoans": "预设队伍编号，格式：组,队（对应悲鸣）请务必填写，不填写会全部用默认队伍，十层使用默认队伍（真的会有大佬打第十层吗）",
+            "OrochiJudgement": "预设队伍编号，格式：组,队（对应神罚）请务必填写，不填写会全部用默认队伍",
+            "OrochiNothingness": "预设队伍编号，格式：组,队（对应虚无）请务必填写，不填写会全部用默认队伍",
         })
         self.config_type.update({
             "UserStatus": {
@@ -89,9 +89,9 @@ class SoulZonesTask(BuffBattleTask):
     def _switch_preset_by_soul_zone(self):
         """根据 Soul Zones 选择，从对应的魂XX配置中解析 组,队 并切换预设。"""
         zone_map = {
-            "悲鸣": "魂十一",
-            "神罚": "魂十二",
-            "虚无": "魂十三",
+            "悲鸣": "OrochiMoans",
+            "神罚": "OrochiJudgement",
+            "虚无": "OrochiNothingness",
         }
         key = zone_map.get(self.config["Soul Zones"])
         if key and self.config.get(key):
@@ -187,6 +187,9 @@ class SoulZonesTask(BuffBattleTask):
     def _invite_one(self, f: str, invite_xy: tuple, confirm_box: tuple) -> bool:
         """邀请单个好友：invite_xy=(x,y) 邀请按钮位置，confirm_box 确认区域。"""
         self.click_relative(*invite_xy, after_sleep=1)
+        a = self._invite_tabs()
+        print("11111111111111111111111111111111111111")
+        print(a)
         for tab in self._invite_tabs():
             if self.ocr_and_click(tab,time_out=3,box=self.B("Friend_Index")):
                 if self.ocr_and_click(f,time_out=3, box=self.B("Friend")):

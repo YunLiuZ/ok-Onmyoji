@@ -16,17 +16,23 @@ from src.tasks.RealmRaidTask import RealmRaidTask
 from src.tasks.GameEventsBattleTask import GameEventsBattleTask
 from src.tasks.UtilizeTask import UtilizeTask
 from src.tasks.OrchidsTask import OrchidsTask
+from src.tasks.DemonEncounter import DemonEncounter
+from src.tasks.ExperienceYoukaiTask import ExperienceYoukaiTask
+from src.tasks.GoldYoukaiTask import GoldYoukaiTask
 
 TASK_MAP = {
     "日常-签到": DailyTask,
-    "日常-式神委派": DelegationTask,
-    "日常-结界": UtilizeTask,
     "日常-同心之兰": OrchidsTask,
+    "日常-式神委派": DelegationTask,
+    "日常-寄养": UtilizeTask,
+    "日常-逢魔之时":DemonEncounter,
     "日常-战斗-地域鬼王": AreaBossTask,
     "日常-战斗-个人突破": RealmRaidTask,
+    "日常-战斗-经验妖怪": ExperienceYoukaiTask,
+    "日常-战斗-金币妖怪": GoldYoukaiTask,
     "战斗-魂土": SoulZonesTask,
-    "战斗-困28": ExplorationTask,
-    "战斗-活动": GameEventsBattleTask,
+    "战斗-困难二十八": ExplorationTask,
+    "战斗-活动爬塔": GameEventsBattleTask,
 }
 
 ALL_TASK_NAMES = list(TASK_MAP.keys())

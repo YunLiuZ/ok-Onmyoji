@@ -121,7 +121,7 @@ config = {
             }
         },
     'screenshots_folder': "screenshots", #截图存放目录, 每次重新启动会清空目录
-    'custom_tabs': [['src.ui.MyTab', 'MyTab'], ['src.ui.ScheduleTab', 'ScheduleTab'], ['src.ui.MultiTaskTab', 'MultiTaskTab']],  # 自定义Tab
+    'custom_tabs': [['src.ui.MyTab', 'MyTab'], ['src.ui.ScheduleTab', 'ScheduleTab']],  # 自定义Tab
     'gui_title': f'ok-Onmyoji #{_instance_id}',  #窗口名
     'template_matching': { # 可选, 如使用OpenCV的模板匹配
         'coco_feature_json': os.path.join('assets', 'coco_annotations.json'), #coco格式标记, 需要png图片, 在debug模式运行后, 会对进行切图仅保留被标记部分以减少图片大小
@@ -133,11 +133,12 @@ config = {
     'my_app': ['src.globals', 'Globals'], #可选. 全局单例对象, 可以存放加载的模型, 使用og.my_app调用
     'onetime_tasks': [  # 用户点击触发的任务
         # ── 日常 ──
+        ["src.tasks.TaskScheduler", "TaskScheduler"],
         ["src.tasks.DailyTask", "DailyTask"],
         ["src.tasks.DelegationTask", "DelegationTask"],
         ["src.tasks.UtilizeTask", "UtilizeTask"],
         ["src.tasks.OrchidsTask", "OrchidsTask"],
-        ["src.tasks.TaskScheduler", "TaskScheduler"],
+
 
         # ── 日常-战斗 ──
         ["src.tasks.AreaBossTask", "AreaBossTask"],

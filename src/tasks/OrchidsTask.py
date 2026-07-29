@@ -15,7 +15,8 @@ class OrchidsTask(BaseOmjTask):
             "Friend 1": "",
         })
         self.config_description.update({
-            "Friend 1": "在使用之前，请给好友发个消息，保证好友在最近列表，同心之兰队友",
+            "First": "谁先邀请，一个启用另一个不启用，强烈建议让没有什么好友的小号优先邀请，大号添加好友可能会导致小号在最近消失",
+            "Friend 1": "在使用之前请给好友发个消息，保证好友在最近列表，",
         })
 
     def run(self):

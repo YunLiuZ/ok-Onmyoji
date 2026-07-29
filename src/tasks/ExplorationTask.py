@@ -7,24 +7,25 @@ class ExplorationTask(BuffBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.name = "战斗-困28"
+        self.name = "战斗-困难二十八"
         self.default_config.update({
             "UserStatus": "队长",
             "Friend 1": "",
             "Friend 2": "",
-            "优先搜索": "好友",
+            "FindMode": "好友",
         })
         self.config_description.update({
             "UserStatus": "队伍角色：队长创建的队伍，队员加入队伍，单人独自挑战。",
             "Friend 1": "邀请几位就填几位，不邀请请不要填写",
-            "Lock Team Enable":"困28的锁阵容为自动轮换，在使用之前请务必设置好自动轮换，任务会自动打开"
+            "Lock Team Enable":"困28的锁阵容为自动轮换，在使用之前请务必设置好自动轮换，任务会自动打开",
+
         })
         self.config_type.update({
             "UserStatus": {
                 "type": "drop_down",
                 "options": ["队长", "队员", "单人"],
             },
-            "优先搜索": {
+            "FindMode": {
                 "type": "drop_down",
                 "options": ["好友", "跨区", "寮友"],
             },
@@ -133,49 +134,36 @@ class ExplorationTask(BuffBattleTask):
         self.log_info("进入leader_battle")
         self.count = 1
         def battle():
-            if (self.wait_click_feature('Exploration_Battle', threshold=0.9,
+            if self.wait_until(
+                condition= lambda :self.wait_ocr(match=re.compile("自动|手动"),
+                                                 time_out=3,
+                                                 box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
+                                                 raise_if_not_found=False),
+                time_out=10,
+                pre_action=lambda :self.wait_click_feature('Exploration_Battle', threshold=0.9,
                                     box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
-                                    raise_if_not_found=False, time_out=3,after_sleep=0.5)):
-                if (self.wait_click_feature('Exploration_Battle', threshold=0.7,
-                                        box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
-                                        raise_if_not_found=False, time_out=2, after_sleep=0.5)):
-                    self.log_info("第一次没点到")
-                    self.log_info("进入战斗")
-                    if self.count == 1:
-                        self.log_info("检测是否为自动")
-                        self.change_auto()
-                    res = self.Find_finish(self.BattleTime)
-                    if res == 2:
-                        self.log_warning("战斗失败！！")
-                        return False
-                    elif res == 3:
-                        self.log_warning("战斗超时！！")
-                        return False
-                    self.log_info(
-                        f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
-                    self.count += 1
-                    self.trigger_count += 1
-                    self.sleep(3)  # 等等队友
-                else:
-                    self.log_info("第一次点到")
-                    self.log_info("进入战斗")
-                    if self.count == 1:
-                        self.log_info("检测是否为自动")
-                        self.change_auto()
-                    res = self.Find_finish(self.BattleTime)
-                    if res == 2:
-                        self.log_warning("战斗失败！！")
-                        return False
-                    elif res == 3:
-                        self.log_warning("战斗超时！！")
-                        return False
-                    self.log_info(
-                        f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
-                    self.count += 1
-                    self.trigger_count += 1
-                    self.sleep(3)  # 等等队友
+                                    raise_if_not_found=False, time_out=2,after_sleep=0.5),
+                raise_if_not_found=False,
+            ):
+                self.log_info("进入战斗")
+                if self.count == 1:
+                    self.log_info("检测是否为自动")
+                    if not self.change_auto():
+                        self.log_info("战斗可能太快没检测到自动")
+                res = self.Find_finish(self.BattleTime)
+                if res == 2:
+                    self.log_warning("战斗失败！！")
+                    return False
+                elif res == 3:
+                    self.log_warning("战斗超时！！")
+                    return False
+                self.log_info(
+                    f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
+                self.count += 1
+                self.trigger_count += 1
+                self.sleep(3)  # 等等队友
             else:
-                self.click_relative(0.97, 0.85)
+                self.click_relative(0.94, 0.87)
                 self.sleep(1)# 走一步
                 self.log_info("移动")
         def final_battle():
@@ -217,7 +205,9 @@ class ExplorationTask(BuffBattleTask):
                 else:
                     self.click_relative(0.1,0.93,after_sleep=0.5)
                     self.log_info("打开自动轮换")
-            for _ in range(3):
+            self.click_relative(0.69, 0.87)
+            self.sleep(2)
+            for _ in range(2):
                 battle()
             if not self.wait_until(
             final_battle,
@@ -247,6 +237,7 @@ class ExplorationTask(BuffBattleTask):
             return False
 
     def Member_battle(self):
+
         def battle():
             res = self.Find_finish(self.BattleTime)
             if res == 1:
@@ -262,9 +253,9 @@ class ExplorationTask(BuffBattleTask):
                 self.log_warning("战斗超时！！")
                 return False
         def final_battle():
-            if self.wait_feature('Exploration_Finish_Treasure', threshold=0.7,
-                                    box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
-                                    raise_if_not_found=False, time_out=3,):
+            if self.wait_click_feature('Exploration_Final_Battle', threshold=0.9,
+                                       box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
+                                       raise_if_not_found=False, time_out=3, after_sleep=2):
                 res = self.Find_finish(self.BattleTime)
                 if res == 2:
                     self.log_warning("战斗失败！！")
@@ -279,6 +270,10 @@ class ExplorationTask(BuffBattleTask):
                 return True
             else:
                 return False
+            # if self.wait_feature('Exploration_Finish_Treasure', threshold=0.7,
+            #                      box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
+            #                      raise_if_not_found=False, time_out=3, ):
+
             # elif self.wait_feature('Exploration_Finish_Treasure', threshold=0.7,
             #                         box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),time_out=6,):
             #     if not self.wait_click_feature('Back', threshold=0.7,
@@ -310,7 +305,7 @@ class ExplorationTask(BuffBattleTask):
                         self.click_relative(0.1, 0.93, after_sleep=0.5)
                         self.log_info("打开自动轮换")
 
-                for _ in range(3):
+                for _ in range(2):
                     if not battle():
                         return False
                 if not self.wait_until(final_battle,

@@ -1,4 +1,4 @@
-"""任务编排器：勾选任务后在「一键多任务」设优先级。"""
+"""任务编排器：勾选任务并设优先级后一键启动。"""
 from ok import communicate
 from src.globals import ALL_TASK_NAMES, TASK_MAP as TM
 from src.tasks.BaseOmjTask import BaseOmjTask
@@ -11,15 +11,18 @@ class TaskScheduler(BaseOmjTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = "任务编排"
-        self.description = "在「一键多任务」中勾选任务、设置优先级后启动"
+        self.name = "一键多任务"
+        self.description = "勾选任务、设置优先级后启动"
+
 
         self.default_config.update({
             "任务列表": self.ALL_TASKS.copy(),
         })
+        for name in self.ALL_TASKS:
+            self.default_config.update({f"{name}": "20"})
 
         self.config_description.update({
-            "任务列表": "勾选要执行的任务。优先级在「一键多任务」Tab 中设置。",
+            "任务列表": "勾选要执行的任务，数字越小，越快执行。",
         })
 
         self.config_type.update({
@@ -33,9 +36,13 @@ class TaskScheduler(BaseOmjTask):
 
         enabled = self.config.get("任务列表", [])
 
-        # 从「一键多任务」获取优先级排序后的任务列表
-        from src.ui.MultiTaskTab import get_enabled_in_order
-        ordered = get_enabled_in_order()
+        tasks = []
+        for name in enabled:
+            pri = int(self.config.get(f"{name}-优先", "20") or 20)
+            idx = ALL_TASK_NAMES.index(name) if name in ALL_TASK_NAMES else 99
+            tasks.append((pri, idx, name))
+        tasks.sort(key=lambda x: (x[0], x[1]))
+        ordered = [t[2] for t in tasks]
 
         self._clear_flags()
 

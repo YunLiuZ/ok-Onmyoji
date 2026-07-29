@@ -18,6 +18,9 @@ class BaseBattleTask(BaseOmjTask):
         self.group = 0
         self.team = 0
 
+        self.trigger_count = 1 #想法是 多次启动多次记录
+        self.count = 1 #每次启动战斗的次数 每次启动刷新的
+
         self.default_config.update({
             "Lock Team Enable": True,
             "Preset Enable": False,
@@ -39,11 +42,17 @@ class BaseBattleTask(BaseOmjTask):
         self.config_type.update({
         })
 
-        self.AttackNumber = int(self.default_config["AttackNumber"])
-        self.Green_Num = int(self.default_config["Green"])
-        self.BattleTime = int(self.default_config["BattleTime"])
+    @property
+    def AttackNumber(self):
+        return int(self.config["AttackNumber"])
 
-    # ---------- 预设队伍解析 ----------preset="Preset Team",team="1,1"
+    @property
+    def BattleTime(self):
+        return int(self.config["BattleTime"])
+
+    @property
+    def GreenNum(self):
+        return int(self.config["Green"])
 
     def _parse_preset(self, preset="1,1"):
         """解析 组,队 字符串（如 "1,5"），返回 (group, team)。"""

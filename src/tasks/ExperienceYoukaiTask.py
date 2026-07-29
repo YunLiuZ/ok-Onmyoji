@@ -6,9 +6,9 @@ from src.tasks.BuffBattleTask import BuffBattleTask
 class ExperienceYoukaiTask(BuffBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         self.name = "日常-战斗-经验妖怪"
-        self.trigger_count = 1
-        self.count = 1
+
         self.default_config.update({
             "UserStatus": "队长",
             "Friend 1": "",
@@ -95,15 +95,24 @@ class ExperienceYoukaiTask(BuffBattleTask):
             self.log_info("经验妖怪")
         else:
             self._swipe(0.22, 0.22, 0.22, 0.82, 0.2)
+            self.sleep(0.5)
             self.log_info("滑到顶")
-            self._swipe(0.22, 0.22, 0.22, 0.82, 0.5)
+            self._swipe(0.22, 0.82, 0.22, 0.22, 0.7)
+            self.sleep(1)
             if self.wait_click_ocr(match=re.compile("经验"),
                                    box=self.box_of_screen(0.11, 0.18, 0.29, 0.87),
                                    raise_if_not_found=False, time_out=6, ):
                 self.click_relative(0.51, 0.18)
                 self.sleep(0.5)
             else:
+                self._swipe(0.22, 0.82, 0.22, 0.22, 0.7)
+                if self.wait_click_ocr(match=re.compile("经验"),
+                                       box=self.box_of_screen(0.11, 0.18, 0.29, 0.87),
+                                       raise_if_not_found=False, time_out=6, ):
+                    self.click_relative(0.51, 0.18)
+                    self.sleep(0.5)
                 self.log_warning("找不到经验妖怪")
+                return False
 
         if self.wait_click_ocr(re.compile("创建|队伍"), threshold=0.7,
                                box=self.box_of_screen(0.74, 0.79, 0.94, 0.94),
@@ -163,7 +172,6 @@ class ExperienceYoukaiTask(BuffBattleTask):
         return True
 
     def Leader_battle(self):
-        # 经验妖怪暂时不做 有点奇怪 这些识别区域是正确的
         targets = [self.config["Friend 1"]]
         if self.config["Friend 2"]:
             targets.append(self.config["Friend 2"])
@@ -184,20 +192,21 @@ class ExperienceYoukaiTask(BuffBattleTask):
                                            raise_if_not_found=False, time_out=60):
                         self.sleep(0.5)
                         self.click_relative(0.91, 0.79)
-                if self.wait_click_feature('Youkai_Success', threshold=0.7,
-                                           box=self.box_of_screen(0.2,0,0.5,0.43),
-                                           raise_if_not_found=False, time_out=self.BattleTime,
-                                           after_sleep=0.5):
-                    self.sleep(0.5)
-                    if self.wait_click_feature('Youkai_Success', threshold=0.7,
-                                           box=self.box_of_screen(0.2,0,0.5,0.43),
-                                           raise_if_not_found=False, time_out=2,
-                                           after_sleep=0.5):
-                        self.log_info("出现战斗结束")
-                self.log_info(
-                    f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
-                self.count += 1
-                self.trigger_count += 1
+                if self.wait_until(condition=lambda: self.base_scene(),
+                                   time_out=self.BattleTime,
+                                   pre_action=lambda: self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                                                              box=self.box_of_screen(0.2, 0, 0.5, 0.43),
+                                                                              raise_if_not_found=False,
+                                                                              time_out=self.BattleTime,
+                                                                              after_sleep=0.5),
+                                   raise_if_not_found=False):
+                    self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
+                    self.count += 1
+                    self.trigger_count += 1
+                    return True
+                else:
+                    self.log_warning("没有检测到战斗结束")
+                    return False
             else:
                 self.log_info("队友不在了")
                 self.Back_Home()
@@ -215,19 +224,21 @@ class ExperienceYoukaiTask(BuffBattleTask):
                              raise_if_not_found=False, time_out=60):
                 self.sleep(0.5)
                 self.click_relative(0.91, 0.79)
-        if self.wait_click_feature('Youkai_Success', threshold=0.7,
-                                   box=self.box_of_screen(0.2, 0, 0.5, 0.43),
-                                   raise_if_not_found=False, time_out=self.BattleTime,
-                                   after_sleep=0.5):
-            self.sleep(0.5)
-            if self.wait_click_feature('Youkai_Success', threshold=0.7,
-                                       box=self.box_of_screen(0.2, 0, 0.5, 0.43),
-                                       raise_if_not_found=False, time_out=2,
-                                       after_sleep=0.5):
-                self.log_info("出现战斗结束")
-        self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
-        self.count += 1
-        self.trigger_count += 1
+        if self.wait_until(condition=lambda: self.base_scene(),
+                           time_out=self.BattleTime,
+                           pre_action=lambda: self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                                                      box=self.box_of_screen(0.2, 0, 0.5, 0.43),
+                                                                      raise_if_not_found=False,
+                                                                      time_out=self.BattleTime,
+                                                                      after_sleep=0.5),
+                           raise_if_not_found=False):
+            self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
+            self.count += 1
+            self.trigger_count += 1
+            return True
+        else:
+            self.log_warning("没有检测到战斗结束")
+            return False
 
     def Member_battle(self):
         # 经验副本的success是独立的
@@ -239,18 +250,20 @@ class ExperienceYoukaiTask(BuffBattleTask):
                              raise_if_not_found=False, time_out=120):
                 self.sleep(0.5)
                 self.click_relative(0.91, 0.79)
-        if self.wait_click_feature('Youkai_Success', threshold=0.7,
-                                   box=self.box_of_screen(0.2, 0, 0.5, 0.43),
-                                   raise_if_not_found=False, time_out=self.BattleTime,
-                                   after_sleep=0.5):
-            self.sleep(0.5)
-            if self.wait_click_feature('Youkai_Success', threshold=0.7,
-                                       box=self.box_of_screen(0.2, 0, 0.5, 0.43),
-                                       raise_if_not_found=False, time_out=2,
-                                       after_sleep=0.5):
-                self.log_info("出现战斗结束")
-        self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
-        self.count += 1
-        self.trigger_count += 1
+        if self.wait_until(condition=lambda: self.base_scene(),
+                           time_out=self.BattleTime,
+                           pre_action=lambda: self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                                                      box=self.box_of_screen(0.2, 0, 0.5, 0.43),
+                                                                      raise_if_not_found=False,
+                                                                      time_out=self.BattleTime,
+                                                                      after_sleep=0.5),
+                           raise_if_not_found=False):
+            self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
+            self.count += 1
+            self.trigger_count += 1
+            return True
+        else:
+            self.log_warning("没有检测到战斗结束")
+            return False
 
 

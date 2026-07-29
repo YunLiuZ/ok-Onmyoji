@@ -10,6 +10,7 @@ class GameEventsBattleTask(BaseBattleTask):
         self.name = "战斗-活动"
         self.count = 0
 
+
         self.isap = True
 
         self.ap_tickets = 0
@@ -39,9 +40,7 @@ class GameEventsBattleTask(BaseBattleTask):
                                     box=self.box_of_screen(0.78, 0.17, 0.87, 0.53)):
             print(text)
 
-
     def Battle(self):
-        self.ocr_and_click("式神",box=self.box_of_screen(0.65,0.82,0.84,0.9))
         if self.wait_ocr(match=re.compile("养成|协战|式神"),
                          time_out=3,
                          box=self.box_of_screen(0.65,0.82,0.84,0.9)):
@@ -149,14 +148,14 @@ class GameEventsBattleTask(BaseBattleTask):
 
             self.log_info("检测是否为自动")
             self.change_auto()
-        if self.Green_Num != 0:
+        if self.GreenNum != 0:
             if self.wait_ocr(
                     match=re.compile('自动'),
                     box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                     time_out=8
             ):
                 self.sleep(0.1)
-                x, y = self.green[self.Green_Num]
+                x, y = self.green[self.GreenNum]
                 self.click_relative(x, y, after_sleep=1)
 
         if self.wait_until(check, time_out=self.BattleTime, raise_if_not_found=False):

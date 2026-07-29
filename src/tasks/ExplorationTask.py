@@ -6,9 +6,8 @@ from src.tasks.BuffBattleTask import BuffBattleTask
 class ExplorationTask(BuffBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         self.name = "战斗-困28"
-        self.trigger_count = 1
-        self.count = 1
         self.default_config.update({
             "UserStatus": "队长",
             "Friend 1": "",

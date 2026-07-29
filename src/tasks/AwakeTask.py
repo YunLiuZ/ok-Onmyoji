@@ -7,15 +7,13 @@ class AwakeTask(BuffBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "战斗-觉醒"
-        self.trigger_count = 1
-        self.count = 1
+
 
         self.default_config.update({
             "UserStatus": "队长",
             "Friend 1": "",
             "Friend 2": "",
             "Awake": "火",
-
         })
         self.config_description.update({
             "UserStatus": "队伍角色：队长创建的队伍，队员加入队伍，单人独自挑战。",
@@ -193,14 +191,14 @@ class AwakeTask(BuffBattleTask):
 
                         self.log_info("检测是否为自动")
                         self.change_auto()
-                    if self.Green_Num != 0:
+                    if self.GreenNum != 0:
                         if self.wait_ocr(
                                 match=re.compile('自动'),
                                 box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                                 time_out=8
                         ):
                             self.sleep(0.1)
-                            x, y = self.green[self.Green_Num]
+                            x, y = self.green[self.GreenNum]
                             self.click_relative(x, y, after_sleep=1)
 
                     res = self.Find_finish(self.BattleTime)
@@ -245,14 +243,14 @@ class AwakeTask(BuffBattleTask):
 
                 self.log_info("检测是否为自动")
                 self.change_auto()
-            if self.Green_Num != 0:
+            if self.GreenNum != 0:
                 if self.wait_ocr(
                         match=re.compile('自动'),
                         box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                         time_out=8
                 ):
                     self.sleep(0.1)
-                    x, y = self.green[self.Green_Num]
+                    x, y = self.green[self.GreenNum]
                     self.click_relative(x, y, after_sleep=1)
 
             res = self.Find_finish(self.BattleTime)

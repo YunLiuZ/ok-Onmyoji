@@ -6,11 +6,10 @@ class RealmRaidTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "日常-战斗-个人、寮突破"
-        self.trigger_count = 1 #整体的任务打了几次了
-        self.count = 1
 
         self.tickets = 0
         self.forward = True
+
         self.default_config.update({
             "Tickets": 1,
             "RealmRaid":True,
@@ -210,14 +209,14 @@ class RealmRaidTask(BaseBattleTask):
                     self.log_info("检测是否为自动")
                     self.change_auto()
 
-                if self.Green_Num !=0:
+                if self.GreenNum !=0:
                     if self.wait_ocr(
                         match=re.compile('自动'),
                         box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                         time_out=8
                     ):
                         self.sleep(0.1)
-                        x, y = self.green[self.Green_Num]
+                        x, y = self.green[self.GreenNum]
                         self.click_relative(x, y, after_sleep=1)
 
             else:
@@ -289,7 +288,6 @@ class RealmRaidTask(BaseBattleTask):
             if target > 4:
                 self.log_warning("四个对手全部失败")
                 return False
-            # 11111111111111111111111111111111111111111111111111111
             if self.config["Lock Team Enable"] and self.trigger_count == 2:
                 self.log_info("进入第二次战斗锁住阵容")
                 self.Lock_team((0.14, 0.82, 0.2, 0.9), lock=True)
@@ -303,7 +301,6 @@ class RealmRaidTask(BaseBattleTask):
             else:
                 self.log_warning("找不到进攻")
                 return False
-            #11111111111111111111111111111111111111111111111111111
             if self.trigger_count == 1:
                 self.log_info("进入检测1")
                 if self.config["Lock Team Enable"]:
@@ -312,14 +309,14 @@ class RealmRaidTask(BaseBattleTask):
                 self.log_info("检测是否为自动")
                 self.change_auto()
 
-            if self.Green_Num != 0:
+            if self.GreenNum != 0:
                 if self.wait_ocr(
                         match=re.compile('自动'),
                         box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                         time_out=8
                 ):
                     self.sleep(0.1)
-                    x, y = self.green[self.Green_Num]
+                    x, y = self.green[self.GreenNum]
                     self.click_relative(x, y, after_sleep=1)
 
             res = self.Find_finish(self.BattleTime)

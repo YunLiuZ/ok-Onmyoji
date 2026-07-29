@@ -7,8 +7,7 @@ class AreaBossTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "日常-战斗-地域鬼王"
-        self.trigger_count = 1
-        self.count = 1
+
         self.default_config.update({
             "Area Boss": "悬赏",
         })
@@ -23,7 +22,9 @@ class AreaBossTask(BaseBattleTask):
             },
         })
 
+
     def run(self):
+
         self.in_home_and_back()
         self.group, self.team = self._parse_preset(self.config["Preset Team"])
         if self.config["Preset Enable"]:
@@ -92,14 +93,14 @@ class AreaBossTask(BaseBattleTask):
             self.log_info("检测是否为自动")
             self.change_auto()
 
-            if self.Green_Num != 0:
+            if self.GreenNum != 0:
                 if self.wait_ocr(
                         match=re.compile('自动'),
                         box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
                         time_out=8
                 ):
                     self.sleep(0.1)
-                    x, y = self.green[self.Green_Num]
+                    x, y = self.green[self.GreenNum]
                     self.click_relative(x, y, after_sleep=1)
             res = self.Find_finish(self.BattleTime)
             if res == 2:

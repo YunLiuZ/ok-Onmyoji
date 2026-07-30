@@ -156,7 +156,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
     def Invitation(self):
         if text := self.wait_ocr(match=re.compile("协战|召回"),
                                  box=self.box_of_screen(0, 0, 0.17, 0.1), time_out=6):
-            print(text)
+            self.log_info(f"OCR: {text}")
 
         targets = [self.config["Friend 1"]]
         if self.config["Friend 2"]:

@@ -86,7 +86,7 @@ class ExplorationTask(BuffBattleTask):
         else:
             self.log_info("not open buff")
         if not (text:=self.ocr_and_click(['二十八'],1,box=self.box_of_screen(0.82, 0.62, 0.92, 0.68))):
-            print(text)
+            self.log_info(f"OCR: {text}")
             self.log_info('找不到二十八')
         if  (text:=self.ocr_and_click(['困难'],1,box=self.box_of_screen(0.01, 0.25, 0.13, 0.51))):
             return True
@@ -96,15 +96,15 @@ class ExplorationTask(BuffBattleTask):
 
     def Leader_page(self):
         if not (text:=self.ocr_and_click(['组队'],1,box=self.box_of_screen(0.68, 0.79, 0.93, 0.94))):
-            print(text)
+            self.log_info(f"OCR: {text}")
             self.log_info('找不到组队')
 
 
         if text:=self.ocr_and_click(['不公开','仅邀请',],box=self.box_of_screen(0.3457, 0.5653, 0.5074, 0.6243)):
-            print(text)
+            self.log_info(f"OCR: {text}")
             self.click_relative(0.68,0.80,after_sleep=1)
         if text:=self.ocr_and_click('创建',box=self.box_of_screen(0.45, 0.68, 0.55, 0.74)):#困28创建
-            print(text)
+            self.log_info(f"OCR: {text}")
             self.click_relative(0.68,0.80,after_sleep=1)
             return True
         else:
@@ -125,7 +125,7 @@ class ExplorationTask(BuffBattleTask):
     def Invitation(self):#完成了 应该从点击挑战开始重新思考
         if text := self.wait_ocr(['协战', '队伍'],
                                   box=self.box_of_screen(0, 0, 0.17, 0.1), time_out=6,):
-            print(text)
+            self.log_info(f"OCR: {text}")
         if self._invite_one(self.config["Friend 1"], (0.83, 0.34), (0.73, 0.09, 0.94, 0.24)):
             return True
             

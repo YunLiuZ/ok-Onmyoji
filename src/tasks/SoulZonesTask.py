@@ -127,7 +127,7 @@ class SoulZonesTask(BuffBattleTask):
             self.log_info("探索 Soul")
             self.info_set("步骤", "进入Soul")
         elif text:=self.ocr_and_click(['御魂','御','魂'],1,box=self.box_of_screen(0.18, 0.86, 0.26, 0.99)):
-            print(text)
+            self.log_info(f"OCR: {text}")
         else:
             self.log_info('找不到Soul')
             return False
@@ -179,7 +179,7 @@ class SoulZonesTask(BuffBattleTask):
         self.click_relative(0.84,0.87,after_sleep=1) #组队  
 
         if text:=self.ocr_and_click(['不公开','仅邀请',],box=self.box_of_screen(0.61,0.67,0.78,0.74)):
-            print(text)
+            self.log_info(f"OCR: {text}")
             self.click_relative(0.68,0.80,after_sleep=1)
             return True
         return False
@@ -201,7 +201,7 @@ class SoulZonesTask(BuffBattleTask):
     def Invitation(self):
         if text := self.wait_ocr(match = re.compile("协战|队伍"),
                                   box=self.box_of_screen(0, 0, 0.17, 0.1), time_out=6):
-            print(text)
+            self.log_info(f"OCR: {text}")
 
         targets = [self.config["Friend 1"]]
         if self.config["Friend 2"]:

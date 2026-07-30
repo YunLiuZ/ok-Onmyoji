@@ -22,7 +22,7 @@ class AutoLoginTask(TriggerTask, BaseOmjTask):
     def run(self):
         if self.logged_in:
             self.log_info(f"{self.logged_in} logged in")
-            print(self.logged_in)
+            self.log_info(f"logged in: {self.logged_in}")
             pass
         elif self.base_scene():
             self.logged_in = True

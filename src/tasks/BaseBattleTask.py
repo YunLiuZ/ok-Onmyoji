@@ -68,7 +68,7 @@ class BaseBattleTask(BaseOmjTask):
             self.log_info("Home_Shikigami_Chronicles")
             self.info_set("步骤", "进入Home_Shikigami_Chronicles")
         elif text := self.ocr_and_click(['式神'], 1, box=self.B('Home_Shikigami_Chronicles')):
-            print(text)
+            self.log_info(f"OCR: {text}")
         else:
             self.log_info('找不到Home_Shikigami_Chronicles')
             return False
@@ -119,7 +119,7 @@ class BaseBattleTask(BaseOmjTask):
             self.log_info("Home_Shikigami_Chronicles")
             self.info_set("步骤", "进入Home_Shikigami_Chronicles")
         elif text:=self.ocr_and_click(['式神'],1,box=self.B('Home_Shikigami_Chronicles')):
-            print(text)
+            self.log_info(f"OCR: {text}")
         else:
             self.log_info('找不到Home_Shikigami_Chronicles')
             return False

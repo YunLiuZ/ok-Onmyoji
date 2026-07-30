@@ -203,10 +203,9 @@ class BaseOmjTask(BaseTask):
     def restart_game(self, wait_load=True):
         """通过 ADB 强制停止并重新启动游戏。返回 True 表示重启成功。"""
         pkg = self.executor.config.get('adb', {}).get('packages', [''])[0]
-        print("1111111111111111111111111111111111")
-        print(pkg)
-        self.log_info({pkg})
-        print("1111111111111111111111111111111111")
+        self.log_info("1111111111111111111111111111111111")
+        self.log_info(f"pkg: {pkg}")
+        self.log_info("1111111111111111111111111111111111")
         if not pkg:
             self.log_error("未配置 ADB packages，无法重启游戏")
             return False
@@ -469,8 +468,7 @@ class BaseOmjTask(BaseTask):
             return
         x, y = (fixed, coord) if axis == 'x' else (coord, fixed)
         self.click_relative(x, y, after_sleep=1)
-        print(x,y)
-        self.log_info(f"选择第 {n} 个{label}")
+        self.log_info(f"选择第 {n} 个{label} ({x}, {y})")
     def _swipe(self,x:float,y:float,to_x:float,to_y:float,duration:float):
         h, w = self.frame.shape[:2]
         self.swipe(

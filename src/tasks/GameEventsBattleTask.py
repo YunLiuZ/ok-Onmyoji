@@ -38,7 +38,7 @@ class GameEventsBattleTask(BaseBattleTask):
         self.click_relative(0.34,0.25,after_sleep=2)
         if text:=self.ocr_and_click(['砂影','迷城','战斗'],1,
                                     box=self.box_of_screen(0.78, 0.17, 0.87, 0.53)):
-            print(text)
+            self.log_info(f"OCR: {text}")
 
     def Battle(self):
         if self.wait_ocr(match=re.compile("养成|协战|式神"),
@@ -47,11 +47,11 @@ class GameEventsBattleTask(BaseBattleTask):
             self.sleep(0.5)
             if text:=self.ocr(match=re.compile("必定|双倍|掉落"),
                              box=self.box_of_screen(0.01, 0.75, 0.32, 0.88)):
-                print(text)
+                self.log_info(f"OCR: {text}")
                 self.log_info("现在是体力模式")
                 self.isap = True
             else:
-                print(text)
+                self.log_info(f"OCR: {text}")
                 self.log_info("现在是爬塔模式")
                 self.isap = False
         else:
@@ -140,7 +140,7 @@ class GameEventsBattleTask(BaseBattleTask):
             self.Lock_team((0.14, 0.82, 0.2, 0.9), lock=True)
 
         if text := self.wait_click_ocr(match=re.compile("挑战"),box=self.box_of_screen(0.88,0.83,0.95,0.91)):
-                print(text)
+                self.log_info(f"OCR: {text}")
         if self.count == 1:
             self.log_info("进入检测1")
             if self.config["Lock Team Enable"]:

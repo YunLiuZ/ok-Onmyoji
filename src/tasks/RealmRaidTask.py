@@ -140,7 +140,7 @@ class RealmRaidTask(BaseBattleTask):
       # 判断方向：lens=0 默认正着；
         if lens > 0:
             ys = [b.y for b in res]
-            print(ys)
+            self.log_info(f"ys: {ys}")
             self.forward = sum(ys) / len(ys) < self.frame.shape[0] * 0.43  # 偏上=正着，偏下=倒着
         else:
             self.forward = True
@@ -180,7 +180,7 @@ class RealmRaidTask(BaseBattleTask):
                             if  self.wait_click_feature('Battle_Failure', threshold=0.7,
                                         box=self.B('Battle_Failure'),
                                         raise_if_not_found=False, time_out=10, after_sleep=1):
-                                print(i)
+                                self.log_info(f"Battle_Failure found, i={i}")
                                 self.info_set("步骤", "返回结界突破")
                             else:
                                 self.log_warning("找不到 Battle_Failure")
@@ -194,7 +194,7 @@ class RealmRaidTask(BaseBattleTask):
                     self.Lock_team((0.50, 0.70, 0.70, 0.90), lock=True)
                 self.sleep(0.5)
                 self.click_relative(x, y, after_sleep=0.5)
-                print(x,y)
+                self.log_info(f"click: {x}, {y}")
                 self.log_info("进攻")
             if self.ocr_and_click("进攻",box=self.box_of_screen(*group_rows_2[target-1])):
                 self.log_info(f"点击第 {target} 个")

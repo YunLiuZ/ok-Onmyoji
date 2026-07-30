@@ -80,7 +80,7 @@ class UtilizeTask(BaseOmjTask):
                 
                 self.log_warning("找不到Utilize_Kekkai")
             else:
-                print(text)
+                self.log_info(f"OCR: {text}")
         self.info_set("步骤", "进入Utilize_Kekkai")
 
         
@@ -139,7 +139,7 @@ class UtilizeTask(BaseOmjTask):
             self.sleep(1)
             # rgb(221,199,136) → BGR(136,199,221) ±20
             if res := self.ocr(match="结界寄养", box=self.box_of_screen(0.44, 0.7, 0.54, 0.78)):
-                print(res)
+                self.log_info(f"OCR result: {res}")
                 self.log_info(f"找到{res}")
                 self.sleep(1)
                 self.click_relative(0.84,0.84,after_sleep=1)
@@ -162,14 +162,14 @@ class UtilizeTask(BaseOmjTask):
     def KekkaiUtilize(self):
         if text := self.ocr_and_click(['育成'],
                                   box=self.box_of_screen(0.44, 0.36, 0.52, 0.57), time_out=6):
-            print(text)
-        
-        
+            self.log_info(f"OCR: {text}")
+
+
         if text := self.ocr_and_click(['智能','放入'],2,
                                   box=self.box_of_screen(0.89, 0.69, 0.94, 0.78), time_out=3):
             self.sleep(1)
             self.log_info("式神经验已满 切换式神")
-            print(text)
+            self.log_info(f"OCR: {text}")
         if self.wait_click_feature('Utilize_Select', threshold=0.7,
                                     box=self.box_of_screen(0.87, 0.04, 0.98, 0.24),
                                     raise_if_not_found=False, time_out=6, after_sleep=1):

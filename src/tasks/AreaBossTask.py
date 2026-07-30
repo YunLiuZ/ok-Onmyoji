@@ -53,7 +53,7 @@ class AreaBossTask(BaseBattleTask):
             return True
         else:
             if text:=self.ocr_and_click(['地域','鬼王'],1,box=self.box_of_screen(0.48,0.94,0.55,0.98)):
-                print(text)
+                self.log_info(f"OCR: {text}")
                 return True
             else:
                 return False
@@ -64,14 +64,14 @@ class AreaBossTask(BaseBattleTask):
         self.count = 1
         while(self.count <= self.AttackNumber):
             if not (text := self.ocr_and_click(['收', '藏'],0.5, time_out=2, box=self.B('Areaboss_Filter_Page'))):
-                print(text)
+                self.log_info(f"OCR: {text}")
                 if self.wait_click_feature('Areaboss_Filter', threshold=0.7,
                                             box=self.B('Areaboss_Filter'),
                                             raise_if_not_found=False, time_out=5, after_sleep=1):
                     self.log_info("探索 AreaBoss")
                     self.info_set("步骤", "进入探索页面")
                 elif text:=self.ocr_and_click(['筛','选'],time_out=5,box=self.B('Areaboss_Filter')):
-                    print(text)
+                    self.log_info(f"OCR: {text}")
                 self.wait_click_ocr(match=re.compile(self.config["Area Boss"]),
                                     box=self.B('Areaboss_Filter_Page'),
                                     time_out=3)
@@ -87,7 +87,7 @@ class AreaBossTask(BaseBattleTask):
              
 
             if text:=self.ocr_and_click(['挑战'],0.5,box=self.box_of_screen(0.86,0.73,0.93,0.79)):
-                print(text)
+                self.log_info(f"OCR: {text}")
             if self.config["Lock Team Enable"]:
                 self.Change_team(self.group, self.team)
             self.log_info("检测是否为自动")

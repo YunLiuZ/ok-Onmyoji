@@ -109,7 +109,6 @@ class ScheduleRunner(TriggerTask,BaseOmjTask):
         now >= next_run → 执行 → 更新 last_run 和 next_run。
         """
         self.trigger_count += 1
-        print(self.trigger_count)
         self.log_debug(f'MyTriggerTask run {self.trigger_count}')
         now = datetime.now()
         cfg = _load_cfg()

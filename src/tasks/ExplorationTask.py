@@ -239,6 +239,7 @@ class ExplorationTask(BuffBattleTask):
     def Member_battle(self):
 
         def battle():
+            self.log_info("进入battle")
             res = self.Find_finish(self.BattleTime)
             if res == 1:
                 self.log_info(
@@ -256,6 +257,7 @@ class ExplorationTask(BuffBattleTask):
             if self.wait_click_feature('Exploration_Final_Battle', threshold=0.9,
                                        box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
                                        raise_if_not_found=False, time_out=3, after_sleep=2):
+                self.log_info("找到了")
                 res = self.Find_finish(self.BattleTime)
                 if res == 2:
                     self.log_warning("战斗失败！！")
@@ -269,6 +271,7 @@ class ExplorationTask(BuffBattleTask):
                 self.trigger_count+=1
                 return True
             else:
+                self.log_info("mei找到了")
                 return False
             # if self.wait_feature('Exploration_Finish_Treasure', threshold=0.7,
             #                      box=self.box_of_screen(0.16, 0.22, 1.0, 0.88),
@@ -318,7 +321,10 @@ class ExplorationTask(BuffBattleTask):
                                            box=self.B('Back'),
                                            raise_if_not_found=False, time_out=4, after_sleep=1):
                     self.log_info("找到Back")
-                    self.ocr_and_click("确认", 1, box=self.box_of_screen(0.53, 0.5, 0.68, 0.62))
+                    self.wait_click_ocr(match=re.compile("确认"),
+                                        time_out=3,
+                                        box=self.box_of_screen(0.53, 0.5, 0.68, 0.62),
+                                        raise_if_not_found=False,)
                 else:
                     self.log_warning("找不到Back")
             else:

@@ -208,6 +208,14 @@ class AwakeTask(BuffBattleTask):
                     elif res == 3:
                         self.log_warning("战斗超时！！")
                         return False
+                    if self.count == 1:
+                        if  self.wait_click_feature('Leader_Invitation', threshold=0.7,
+                                            box=self.B('Leader_Invitation'),
+                                            raise_if_not_found=False, time_out=6, after_sleep=1):
+                            if not (self.ocr_and_click('确定',time_out=6,box=self.box_of_screen(0.51,0.53,0.67,0.63))):
+                                self.log_warning("找不到确定")
+                        else:
+                            self.log_warning("找不到Leader_Invitation")
 
                     self.log_info(
                         f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")

@@ -1,0 +1,177 @@
+2026-07-15 09:50:33,842 INFO MainThread ok:ok-script init dev, ['D:\\project\\GITHUB\\AAA_My\\ok-script-app\\tests\\test5.py'], pid=1068 config: {'check_mutex': False, 'custom_tasks': True, 'debug': True, 'use_gui': True, 'config_folder': 'configs', 'global_configs': [<ok.util.config.ConfigOption object at 0x000001B5259CEA80>], 'screenshot_processor': <function make_bottom_right_black at 0x000001B5259DC680>, 'gui_icon': 'icons/icon.png', 'wait_until_before_delay': 0, 'wait_until_check_delay': 0, 'wait_until_settle_time': 0, 'ocr': {'lib': 'onnxocr', 'auto_simplify': True, 'params': {'use_openvino': True}}, 'windows': {'exe': ['MuMuNxDevice.exe'], 'interaction': ['Pynput', 'PostMessage', 'Genshin', 'PyDirect', 'ForegroundPostMessage'], 'capture_method': ['WGC', 'BitBlt_RenderFull', 'BitBlt'], 'check_hdr': False, 'force_no_hdr': False, 'require_bg': True}, 'adb': {'packages': ['com.netease.onmyoji.wyzymnqsd_cps']}, 'start_timeout': 120, 'window_size': {'width': 1200, 'height': 800, 'min_width': 600, 'min_height': 450}, 'supported_resolution': {'ratio': '16:9', 'min_size': (1280, 720), 'resize_to': [(2560, 1440), (1920, 1080), (1600, 900), (1280, 720)]}, 'links': {'default': {'github': 'https://github.com/ok-oldking/ok-py', 'discord': 'https://discord.gg/vVyCatEBgA', 'share': 'Download from https://github.com/ok-oldking/ok-py', 'qq_group': 'https://qm.qq.com/q/3Gq4VLvQe', 'qq_channel': 'https://pd.qq.com/s/djmm6l44y', 'faq': 'https://github.com/ok-oldking/ok-py'}}, 'screenshots_folder': 'screenshots', 'custom_tabs': [['src.ui.MyTab', 'MyTab'], ['src.ui.ScheduleTab', 'ScheduleTab']], 'gui_title': 'ok-Onmyoji #1', 'template_matching': {'coco_feature_json': 'assets\\coco_annotations.json', 'default_horizontal_variance': 0.002, 'default_vertical_variance': 0.002, 'default_threshold': 0.8}, 'version': 'dev', 'my_app': ['src.globals', 'Globals'], 'onetime_tasks': [['src.tasks.DailyTask', 'DailyTask'], ['src.tasks.ExplorationTask', 'ExplorationTask'], ['src.tasks.DelegationTask', 'DelegationTask'], ['src.tasks.SoulZonesTask', 'SoulZonesTask'], ['src.tasks.AreaBossTask', 'AreaBossTask'], ['src.tasks.RealmRaidTask', 'RealmRaidTask'], ['src.tasks.GameEventsBattleTask', 'GameEventsBattleTask'], ['src.tasks.UtilizeTask', 'UtilizeTask'], ['src.tasks.TaskScheduler', 'TaskScheduler'], ['ok', 'DiagnosisTask']], 'trigger_tasks': [], 'analytics': None}
+2026-07-15 09:50:33,844 INFO MainThread ok:env ALLUSERSPROFILE=C:\ProgramData
+2026-07-15 09:50:33,844 INFO MainThread ok:env APPDATA=C:\Users\ZFY\AppData\Roaming
+2026-07-15 09:50:33,845 INFO MainThread ok:env COMMONPROGRAMFILES=C:\Program Files\Common Files
+2026-07-15 09:50:33,845 INFO MainThread ok:env COMMONPROGRAMFILES(X86)=C:\Program Files (x86)\Common Files
+2026-07-15 09:50:33,845 INFO MainThread ok:env COMMONPROGRAMW6432=C:\Program Files\Common Files
+2026-07-15 09:50:33,845 INFO MainThread ok:env COMPUTERNAME=DESKTOP-AR8UAS0
+2026-07-15 09:50:33,845 INFO MainThread ok:env COMSPEC=C:\WINDOWS\system32\cmd.exe
+2026-07-15 09:50:33,845 INFO MainThread ok:env CONDA_DEFAULT_ENV=okscr
+2026-07-15 09:50:33,845 INFO MainThread ok:env CONDA_PREFIX=D:\software\Anaconda\envs\okscr
+2026-07-15 09:50:33,845 INFO MainThread ok:env CONDA_PROMPT_MODIFIER=(okscr) 
+2026-07-15 09:50:33,845 INFO MainThread ok:env CONDA_SHLVL=1
+2026-07-15 09:50:33,845 INFO MainThread ok:env DEVECO STUDIO=D:\IDE\DevEco Studio\bin;
+2026-07-15 09:50:33,845 INFO MainThread ok:env DRIVERDATA=C:\Windows\System32\Drivers\DriverData
+2026-07-15 09:50:33,845 INFO MainThread ok:env EFC_20552_1262719628=1
+2026-07-15 09:50:33,845 INFO MainThread ok:env EFC_20552_1592913036=1
+2026-07-15 09:50:33,845 INFO MainThread ok:env EFC_20552_2283032206=1
+2026-07-15 09:50:33,845 INFO MainThread ok:env EFC_20552_2775293581=1
+2026-07-15 09:50:33,845 INFO MainThread ok:env EFC_20552_3789132940=1
+2026-07-15 09:50:33,845 INFO MainThread ok:env EFC_20552_4126798990=1
+2026-07-15 09:50:33,845 INFO MainThread ok:env FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+2026-07-15 09:50:33,845 INFO MainThread ok:env FPS_BROWSER_USER_PROFILE_STRING=Default
+2026-07-15 09:50:33,845 INFO MainThread ok:env HERMES_GIT_BASH_PATH=C:\Program Files\Git\bin\bash.exe
+2026-07-15 09:50:33,845 INFO MainThread ok:env HERMES_HOME=C:\Users\ZFY\AppData\Local\hermes
+2026-07-15 09:50:33,845 INFO MainThread ok:env HOMEDRIVE=C:
+2026-07-15 09:50:33,845 INFO MainThread ok:env HOMEPATH=\Users\ZFY
+2026-07-15 09:50:33,845 INFO MainThread ok:env IDEA_INITIAL_DIRECTORY=C:\Users\ZFY
+2026-07-15 09:50:33,845 INFO MainThread ok:env IJ_RESTARTER_LOG=C:\Users\ZFY\AppData\Local\JetBrains\PyCharm2024.1\log\restarter.log
+2026-07-15 09:50:33,845 INFO MainThread ok:env INTELLIJ IDEA=D:\IDE\IntelliJ IDEA 2024.1.7\bin;
+2026-07-15 09:50:33,845 INFO MainThread ok:env LOCALAPPDATA=C:\Users\ZFY\AppData\Local
+2026-07-15 09:50:33,845 INFO MainThread ok:env LOGONSERVER=\\DESKTOP-AR8UAS0
+2026-07-15 09:50:33,845 INFO MainThread ok:env NUMBER_OF_PROCESSORS=20
+2026-07-15 09:50:33,845 INFO MainThread ok:env ONEDRIVE=C:\Users\ZFY\OneDrive
+2026-07-15 09:50:33,845 INFO MainThread ok:env OS=Windows_NT
+2026-07-15 09:50:33,845 INFO MainThread ok:env PATH=D:\software\Anaconda\envs\okscr\Lib\site-packages\PySide6;D:\software\Anaconda\envs\okscr\Lib\site-packages\cv2\../../x64/vc17/bin;D:\software\Anaconda\envs\okscr;D:\software\Anaconda\envs\okscr\Library\mingw-w64\bin;D:\software\Anaconda\envs\okscr\Library\usr\bin;D:\software\Anaconda\envs\okscr\Library\bin;D:\software\Anaconda\envs\okscr\Scripts;D:\software\Anaconda\envs\okscr\bin;D:\software\Anaconda\condabin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Program Files\Bandizip;D:\software\Anaconda;D:\software\Anaconda\Scripts;D:\software\Anaconda\Library;D:\software\Anaconda\Library\bin;C:\Users\ZFY\AppData\Local\hermes\hermes-agent;C:\Users\ZFY\AppData\Local\hermes\hermes-agent\venv\Scripts;C:\Users\ZFY\AppData\Local\Programs\Python\Python312\Scripts;C:\Users\ZFY\AppData\Local\Programs\Python\Python312;C:\Users\ZFY\AppData\Local\Programs\Python\Launcher;C:\Users\ZFY\.local\bin;C:\Users\ZFY\AppData\Local\Microsoft\WindowsApps;D:\software\Microsoft VS Code\bin;C:\Users\ZFY\AppData\Roaming\npm;D:\IDE\DevEco Studio\bin;.;C:\Users\ZFY\AppData\Local\Microsoft\WinGet\Packages\BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe\ripgrep-15.1.0-x86_64-pc-windows-msvc;C:\Users\ZFY\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin;.;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Program Files\Bandizip;D:\software\Anaconda;D:\software\Anaconda\Scripts;D:\software\Anaconda\Library;D:\software\Anaconda\Library\bin;.;C:\Users\ZFY\AppData\Local\hermes\hermes-agent;D:\IDE\IntelliJ IDEA 2024.1.7\bin;.;D:\JetBrains\PyCharm 2024.1.7\bin;.;D:\software\Anaconda\Library\Bin
+2026-07-15 09:50:33,847 INFO MainThread ok:env PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+2026-07-15 09:50:33,847 INFO MainThread ok:env PROCESSOR_ARCHITECTURE=AMD64
+2026-07-15 09:50:33,847 INFO MainThread ok:env PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 151 Stepping 2, GenuineIntel
+2026-07-15 09:50:33,847 INFO MainThread ok:env PROCESSOR_LEVEL=6
+2026-07-15 09:50:33,847 INFO MainThread ok:env PROCESSOR_REVISION=9702
+2026-07-15 09:50:33,847 INFO MainThread ok:env PROGRAMDATA=C:\ProgramData
+2026-07-15 09:50:33,847 INFO MainThread ok:env PROGRAMFILES=C:\Program Files
+2026-07-15 09:50:33,847 INFO MainThread ok:env PROGRAMFILES(X86)=C:\Program Files (x86)
+2026-07-15 09:50:33,847 INFO MainThread ok:env PROGRAMW6432=C:\Program Files
+2026-07-15 09:50:33,847 INFO MainThread ok:env PROMPT=(okscr) $P$G
+2026-07-15 09:50:33,847 INFO MainThread ok:env PSMODULEPATH=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+2026-07-15 09:50:33,847 INFO MainThread ok:env PUBLIC=C:\Users\Public
+2026-07-15 09:50:33,847 INFO MainThread ok:env PYCHARM=D:\JetBrains\PyCharm 2024.1.7\bin;
+2026-07-15 09:50:33,847 INFO MainThread ok:env PYCHARM_DISPLAY_PORT=63343
+2026-07-15 09:50:33,847 INFO MainThread ok:env PYCHARM_HOSTED=1
+2026-07-15 09:50:33,847 INFO MainThread ok:env PYCHARM_INTERACTIVE_PLOTS=1
+2026-07-15 09:50:33,847 INFO MainThread ok:env PYSIDE6_OPTION_PYTHON_ENUM=True
+2026-07-15 09:50:33,847 INFO MainThread ok:env PYTHONIOENCODING=utf-8
+2026-07-15 09:50:33,847 INFO MainThread ok:env PYTHONPATH=D:\project\GITHUB\AAA_My\ok-script-app;D:/JetBrains/PyCharm 2024.1.7/plugins/python/helpers/pycharm_matplotlib_backend;D:/JetBrains/PyCharm 2024.1.7/plugins/python/helpers/pycharm_display
+2026-07-15 09:50:33,848 INFO MainThread ok:env PYTHONUNBUFFERED=1
+2026-07-15 09:50:33,848 INFO MainThread ok:env SESSIONNAME=Console
+2026-07-15 09:50:33,848 INFO MainThread ok:env SYSTEMDRIVE=C:
+2026-07-15 09:50:33,848 INFO MainThread ok:env SYSTEMROOT=C:\WINDOWS
+2026-07-15 09:50:33,848 INFO MainThread ok:env TEMP=C:\Users\ZFY\AppData\Local\Temp
+2026-07-15 09:50:33,848 INFO MainThread ok:env TMP=C:\Users\ZFY\AppData\Local\Temp
+2026-07-15 09:50:33,848 INFO MainThread ok:env USERDOMAIN=DESKTOP-AR8UAS0
+2026-07-15 09:50:33,848 INFO MainThread ok:env USERDOMAIN_ROAMINGPROFILE=DESKTOP-AR8UAS0
+2026-07-15 09:50:33,848 INFO MainThread ok:env USERNAME=ZFY
+2026-07-15 09:50:33,848 INFO MainThread ok:env USERPROFILE=C:\Users\ZFY
+2026-07-15 09:50:33,848 INFO MainThread ok:env WINDIR=C:\WINDOWS
+2026-07-15 09:50:33,848 INFO MainThread ok:env ZES_ENABLE_SYSMAN=1
+2026-07-15 09:50:33,848 INFO MainThread ok:pyappify  app_version:None, app_profile:None, pyappify_version:None pyappify_upgradeable:False, pyappify_executable:None
+2026-07-15 09:50:33,849 DEBUG MainThread Config:reset_to_default self.config = {'Echo Key': 'q', 'Liberation Key': 'r', 'Resonance Key': 'e', 'Tool Key': 't'}
+2026-07-15 09:50:33,849 DEBUG MainThread Config:init self.config = {'Echo Key': 'q', 'Liberation Key': 'r', 'Resonance Key': 'e', 'Tool Key': 't'}
+2026-07-15 09:50:33,849 INFO MainThread capture:check available WINDOWS_BUILD_NUMBER:26200 >= 20348 True
+2026-07-15 09:50:33,861 DEBUG MainThread Config:reset_to_default self.config = {'Auto Start Game When App Starts': False, 'Minimize Window to System Tray when Closing': False, 'Mute Game while in Background': False, 'Auto Resize Game Window': True, 'Exit App when Game Exits': False, 'Use DirectML': 'Yes', 'Trigger Interval': 1, 'Start/Stop': 'F9', 'Kill Launcher after Start': False, 'Launch with DX11': False}
+2026-07-15 09:50:33,861 DEBUG MainThread Config:init self.config = {'Auto Start Game When App Starts': False, 'Minimize Window to System Tray when Closing': False, 'Mute Game while in Background': False, 'Auto Resize Game Window': True, 'Exit App when Game Exits': False, 'Use DirectML': 'Yes', 'Trigger Interval': 1, 'Start/Stop': 'F9', 'Kill Launcher after Start': False, 'Launch with DX11': False}
+2026-07-15 09:50:33,861 INFO MainThread ok:use_dml result is True
+2026-07-15 09:50:33,861 INFO MainThread ok:SetProcessDpiAwareness 0
+2026-07-15 09:50:33,861 INFO MainThread ok:do_init, config: {'check_mutex': False, 'custom_tasks': True, 'debug': True, 'use_gui': True, 'config_folder': 'configs', 'global_configs': [<ok.util.config.ConfigOption object at 0x000001B5259CEA80>], 'screenshot_processor': <function make_bottom_right_black at 0x000001B5259DC680>, 'gui_icon': 'icons/icon.png', 'wait_until_before_delay': 0, 'wait_until_check_delay': 0, 'wait_until_settle_time': 0, 'ocr': {'lib': 'onnxocr', 'auto_simplify': True, 'params': {'use_openvino': True}}, 'windows': {'exe': ['MuMuNxDevice.exe'], 'interaction': ['Pynput', 'PostMessage', 'Genshin', 'PyDirect', 'ForegroundPostMessage'], 'capture_method': ['WGC', 'BitBlt_RenderFull', 'BitBlt'], 'check_hdr': False, 'force_no_hdr': False, 'require_bg': True, 'start_exe': True}, 'adb': {'packages': ['com.netease.onmyoji.wyzymnqsd_cps']}, 'start_timeout': 120, 'window_size': {'width': 1200, 'height': 800, 'min_width': 600, 'min_height': 450}, 'supported_resolution': {'ratio': '16:9', 'min_size': (1280, 720), 'resize_to': [(2560, 1440), (1920, 1080), (1600, 900), (1280, 720)]}, 'links': {'default': {'github': 'https://github.com/ok-oldking/ok-py', 'discord': 'https://discord.gg/vVyCatEBgA', 'share': 'Download from https://github.com/ok-oldking/ok-py', 'qq_group': 'https://qm.qq.com/q/3Gq4VLvQe', 'qq_channel': 'https://pd.qq.com/s/djmm6l44y', 'faq': 'https://github.com/ok-oldking/ok-py'}}, 'screenshots_folder': 'screenshots', 'custom_tabs': [['src.ui.MyTab', 'MyTab'], ['src.ui.ScheduleTab', 'ScheduleTab']], 'gui_title': 'ok-Onmyoji #1', 'template_matching': {'coco_feature_json': 'assets\\coco_annotations.json', 'default_horizontal_variance': 0.002, 'default_vertical_variance': 0.002, 'default_threshold': 0.8}, 'version': 'dev', 'my_app': ['src.globals', 'Globals'], 'onetime_tasks': [['src.tasks.DailyTask', 'DailyTask'], ['src.tasks.ExplorationTask', 'ExplorationTask'], ['src.tasks.DelegationTask', 'DelegationTask'], ['src.tasks.SoulZonesTask', 'SoulZonesTask'], ['src.tasks.AreaBossTask', 'AreaBossTask'], ['src.tasks.RealmRaidTask', 'RealmRaidTask'], ['src.tasks.GameEventsBattleTask', 'GameEventsBattleTask'], ['src.tasks.UtilizeTask', 'UtilizeTask'], ['src.tasks.TaskScheduler', 'TaskScheduler'], ['ok', 'DiagnosisTask']], 'trigger_tasks': [], 'analytics': None}
+2026-07-15 09:50:33,862 INFO MainThread DeviceManager:__init__ start
+2026-07-15 09:50:33,862 DEBUG MainThread Config:reset_to_default self.config = {'preferred': '', 'pc_full_path': '', 'capture': 'windows', 'selected_exe': '', 'selected_hwnd': 0, 'interaction': ''}
+2026-07-15 09:50:33,862 DEBUG MainThread Config:init self.config = {'preferred': '', 'pc_full_path': '', 'capture': 'windows', 'selected_exe': '', 'selected_hwnd': 0, 'interaction': ''}
+2026-07-15 09:50:33,863 INFO MainThread hwnd_window:HwndWindow init title:None player_id:-1 exe_name:['MuMuNxDevice.exe'] hwnd_class:None top_hwnd_class:None
+2026-07-15 09:50:33,863 DEBUG MainThread hwnd_window:update_frame_size:0x0 to 0x0
+2026-07-15 09:50:33,865 INFO MainThread DeviceManager:__init__ end
+2026-07-15 09:50:33,877 DEBUG MainThread Screenshot:init Screenshot D:\project\GITHUB\AAA_My\ok-script-app\tests\screenshots None
+2026-07-15 09:50:33,877 DEBUG MainThread Screenshot:load font C:\WINDOWS\Fonts\msyh.ttc
+2026-07-15 09:50:33,880 INFO MainThread Screenshot:clear D:\project\GITHUB\AAA_My\ok-script-app\tests\screenshots
+2026-07-15 09:50:33,880 DEBUG MainThread FeatureSet:Loading features from D:\project\GITHUB\AAA_My\ok-script-app\tests\assets\coco_annotations.json
+2026-07-15 09:50:33,883 INFO MainThread TaskExecutor:install ocr translations error for zh_CN
+2026-07-15 09:50:33,883 INFO DefaultOCRInit TaskExecutor:start init default ocr
+2026-07-15 09:50:33,888 DEBUG MainThread app:resources.qt_resource_name b'\x00\x03\x00\x00x\xa3\x00q\x00s\x00s\x00\x04\x00\x06\xc4\xee\x00i\x001\x008\x00n\x00\x08\t:h\xfd\x00e\x00s\x00_\x00E\x00S\x00.\x00q\x00m\x00\x08\x0eI\xb5}\x00z\x00h\x00_\x00T\x00W\x00.\x00q\x00m\x00\x08\x05@[=\x00k\x00o\x00_\x00K\x00R\x00.\x00q\x00m\x00\x08\x0e8\x05}\x00z\x00h\x00_\x00C\x00N\x00.\x00q\x00m\x00\x08\x07?;}\x00j\x00a\x00_\x00J\x00P\x00.\x00q\x00m\x00\x04\x00\x06\xa8\x8b\x00d\x00a\x00r\x00k\x00\x05\x00r\xfd\xf4\x00l\x00i\x00g\x00h\x00t\x00\x12\x0c\xf9E\xe3\x00m\x00e\x00s\x00s\x00a\x00g\x00e\x00_\x00w\x00i\x00n\x00d\x00o\x00w\x00.\x00q\x00s\x00s\x00\x0b\x06QI\x87\x00d\x00i\x00s\x00c\x00o\x00r\x00d\x00.\x00s\x00v\x00g\x00\x0e\r\x92\xd4\xa3\x00s\x00t\x00a\x00t\x00u\x00s\x00_\x00b\x00a\x00r\x00.\x00q\x00s\x00s\x00\x08\x08\x87U\x83\x00c\x00a\x00r\x00d\x00.\x00q\x00s\x00s\x00\t\x08\x97\x87\xa7\x00h\x00e\x00a\x00r\x00t\x00.\x00s\x00v\x00g\x00\x08\x0bcU\x87\x00s\x00t\x00o\x00p\x00.\x00s\x00v\x00g\x00\x07\nuXC\x00t\x00a\x00b\x00.\x00q\x00s\x00s' cfg.themeMode
+2026-07-15 09:50:33,900 INFO MainThread app:translator install success <PySide6.QtCore.QLocale()/* Chinese, Simplified Han, China */ at 0x000001B5296B0940>, 开发工具
+2026-07-15 09:50:33,901 DEBUG MainThread Config:reset_to_default self.config = {'window_x': -1, 'window_y': -1, 'window_width': -1, 'window_height': -1, 'window_maximized': False, 'navigation_expanded': True, 'use_overlay': False, 'show_overlay_logs': True}
+2026-07-15 09:50:33,901 DEBUG MainThread Config:init self.config = {'window_x': -1, 'window_y': -1, 'window_width': -1, 'window_height': -1, 'window_maximized': False, 'navigation_expanded': True, 'use_overlay': False, 'show_overlay_logs': True}
+2026-07-15 09:50:33,901 DEBUG MainThread ok:locale name zh_CN
+2026-07-15 09:50:34,365 DEBUG MainThread ok:init app end
+2026-07-15 09:50:34,368 DEBUG MainThread DailyTask:ExecutorOperation init None
+2026-07-15 09:50:34,369 DEBUG MainThread Config:reset_to_default self.config = {'Orchids': True, 'Friend 1': ''}
+2026-07-15 09:50:34,369 DEBUG MainThread Config:init self.config = {'Orchids': True, 'Friend 1': ''}
+2026-07-15 09:50:34,371 DEBUG MainThread ExplorationTask:ExecutorOperation init None
+2026-07-15 09:50:34,373 DEBUG MainThread Config:reset_to_default self.config = {'Lock Team Enable': True, 'Preset Enable': False, 'Preset Team': '1,1', 'AttackNumber': 10, 'BattleTime': 300, 'UserStatus': '队长', 'Friend 1': '', 'Friend 2': ''}
+2026-07-15 09:50:34,373 DEBUG MainThread Config:init self.config = {'Lock Team Enable': True, 'Preset Enable': False, 'Preset Team': '1,1', 'AttackNumber': 10, 'BattleTime': 300, 'UserStatus': '队长', 'Friend 1': '', 'Friend 2': ''}
+2026-07-15 09:50:34,374 DEBUG MainThread DelegationTask:ExecutorOperation init None
+2026-07-15 09:50:34,375 DEBUG MainThread Config:reset_to_default self.config = {'Bird Feather': True, 'Find Earring': True, 'Cat Boss': True, 'Miyoshino': True, 'Strange Trace': True, 'Miyoshino Painting': True, '以鱼为礼': True}
+2026-07-15 09:50:34,376 DEBUG MainThread Config:init self.config = {'Bird Feather': True, 'Find Earring': True, 'Cat Boss': True, 'Miyoshino': True, 'Strange Trace': True, 'Miyoshino Painting': True, '以鱼为礼': True}
+2026-07-15 09:50:34,377 DEBUG MainThread SoulZonesTask:ExecutorOperation init None
+2026-07-15 09:50:34,378 DEBUG MainThread Config:reset_to_default self.config = {'Lock Team Enable': True, 'Preset Enable': False, 'Preset Team': '1,1', 'AttackNumber': 10, 'BattleTime': 300, 'UserStatus': '队长', 'Friend 1': '', 'Friend 2': '', 'Soul Zones': '悲鸣', '魂十一': '', '魂十二': '', '魂十三': ''}
+2026-07-15 09:50:34,378 DEBUG MainThread Config:init self.config = {'Lock Team Enable': True, 'Preset Enable': False, 'Preset Team': '1,1', 'AttackNumber': 10, 'BattleTime': 300, 'UserStatus': '队长', 'Friend 1': '', 'Friend 2': '', 'Soul Zones': '悲鸣', '魂十一': '', '魂十二': '', '魂十三': ''}
+2026-07-15 09:50:34,379 DEBUG MainThread AreaBossTask:ExecutorOperation init None
+2026-07-15 09:50:34,381 DEBUG MainThread Config:reset_to_default self.config = {'Lock Team Enable': True, 'Preset Enable': False, 'Preset Team': '1,1', 'AttackNumber': 10, 'BattleTime': 300}
+2026-07-15 09:50:34,381 DEBUG MainThread Config:init self.config = {'Lock Team Enable': True, 'Preset Enable': False, 'Preset Team': '1,1', 'AttackNumber': 10, 'BattleTime': 300}
+2026-07-15 09:50:34,382 DEBUG MainThread RealmRaidTask:ExecutorOperation init None
+2026-07-15 09:50:34,383 DEBUG MainThread Config:reset_to_default self.config = {'Lock Team Enable': True, 'Preset Enable': False, 'Preset Team': '1,1', 'AttackNumber': 10, 'BattleTime': 300, 'Tickets': 10}
+2026-07-15 09:50:34,383 DEBUG MainThread Config:init self.config = {'Lock Team Enable': True, 'Preset Enable': False, 'Preset Team': '1,1', 'AttackNumber': 10, 'BattleTime': 300, 'Tickets': 10}
+2026-07-15 09:50:34,384 DEBUG MainThread GameEventsBattleTask:ExecutorOperation init None
+2026-07-15 09:50:34,384 DEBUG MainThread Config:reset_to_default self.config = {'Lock Team Enable': True, 'Preset Enable': False, 'Preset Team': '1,1', 'AttackNumber': 10, 'BattleTime': 300, 'ApMode': True, 'GeneralClimb': True, 'GeneralClimbNum': 10}
+2026-07-15 09:50:34,384 DEBUG MainThread Config:init self.config = {'Lock Team Enable': True, 'Preset Enable': False, 'Preset Team': '1,1', 'AttackNumber': 10, 'BattleTime': 300, 'ApMode': True, 'GeneralClimb': True, 'GeneralClimbNum': 10}
+2026-07-15 09:50:34,385 DEBUG MainThread UtilizeTask:ExecutorOperation init None
+2026-07-15 09:50:34,387 DEBUG MainThread Config:reset_to_default self.config = {'KekkaiActivation': True, 'KekkaiUtilize': True, '寄养优先': '好友优先', '卡片优先级': 'Douyu优先', '检测对象': '都检测'}
+2026-07-15 09:50:34,387 DEBUG MainThread Config:init self.config = {'KekkaiActivation': True, 'KekkaiUtilize': True, '寄养优先': '好友优先', '卡片优先级': 'Douyu优先', '检测对象': '都检测'}
+2026-07-15 09:50:34,388 DEBUG MainThread TaskScheduler:ExecutorOperation init None
+2026-07-15 09:50:34,389 DEBUG MainThread Config:reset_to_default self.config = {'任务列表': ['每日签到', '困28', '式神委派', '魂土', '地域鬼王', '个人突破', '活动', '结界'], '每日签到顺序': 1, '困28顺序': 2, '式神委派顺序': 3, '魂土顺序': 4, '地域鬼王顺序': 5, '个人突破顺序': 6, '活动顺序': 7, '结界顺序': 8}
+2026-07-15 09:50:34,389 DEBUG MainThread Config:init self.config = {'任务列表': ['每日签到', '困28', '式神委派', '魂土', '地域鬼王', '个人突破', '活动', '结界'], '每日签到顺序': 1, '困28顺序': 2, '式神委派顺序': 3, '魂土顺序': 4, '地域鬼王顺序': 5, '个人突破顺序': 6, '活动顺序': 7, '结界顺序': 8}
+2026-07-15 09:50:34,389 DEBUG MainThread DiagnosisTask:ExecutorOperation init None
+2026-07-15 09:50:34,390 DEBUG MainThread Config:reset_to_default self.config = {}
+2026-07-15 09:50:34,390 DEBUG MainThread Config:init self.config = {}
+2026-07-15 09:50:34,391 INFO MainThread TaskManger:Found tasks: []
+2026-07-15 09:50:34,393 INFO MainThread TaskManger:Built-in task file map: 10 files
+2026-07-15 09:50:34,394 INFO MainThread TaskManger:Debug file watcher initialized, watching dirs ['D:\\project\\GITHUB\\AAA_My\\ok-script-app\\tests\\ok_tasks', 'D:\\project\\GITHUB\\AAA_My\\ok-script-app\\src\\tasks', 'D:\\software\\Anaconda\\envs\\okscr\\Lib\\site-packages\\ok\\task']
+2026-07-15 09:50:34,394 INFO MainThread ok:do_init, end
+2026-07-15 09:50:34,395 INFO TaskExecutor TaskExecutor:start execute
+2026-07-15 09:50:34,395 INFO TaskExecutor TaskExecutor:executor is paused sleep
+2026-07-15 09:50:34,395 DEBUG MainThread DailyTask:ExecutorOperation init None
+2026-07-15 09:50:34,396 DEBUG MainThread Config:init self.config = {'Orchids': True, 'Friend 1': ''}
+2026-07-15 09:50:34,397 ERROR MainThread Uncaught exception: Traceback (most recent call last):
+  File "D:\software\Anaconda\envs\okscr\Lib\site-packages\ok\device\capture_methods\base.py", line 35, in get_frame
+    frame = self.do_get_frame()
+            ^^^^^^^^^^^^^^^^^^^
+  File "D:\software\Anaconda\envs\okscr\Lib\site-packages\ok\device\capture_methods\image.py", line 30, in do_get_frame
+    frame = cv2.imdecode(np.fromfile(image_path, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'tests\\img/2.png'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\project\GITHUB\AAA_My\ok-script-app\tests\test5.py", line 21, in <module>
+    ok_test.device_manager.capture_method.set_images([IMAGE])
+  File "D:\software\Anaconda\envs\okscr\Lib\site-packages\ok\device\capture_methods\image.py", line 21, in set_images
+    self.get_frame()
+  File "D:\software\Anaconda\envs\okscr\Lib\site-packages\ok\device\capture_methods\base.py", line 44, in get_frame
+    raise CaptureException(str(e)) from e
+ok.task.exceptions.CaptureException: [Errno 2] No such file or directory: 'tests\\img/2.png'
+
+2026-07-15 09:50:34,399 INFO DefaultOCRInit TaskExecutor:init onnxocr {'use_openvino': True}
+2026-07-15 09:50:34,400 INFO DefaultOCRInit TaskExecutor:use_openvino: True
+2026-07-15 09:50:34,400 INFO DefaultOCRInit TaskExecutor:use_npu: True
+2026-07-15 09:50:34,400 INFO DefaultOCRInit TaskExecutor:use_angle_cls: False
+2026-07-15 09:50:34,400 INFO DefaultOCRInit TaskExecutor:det_model_dir: D:\software\Anaconda\envs\okscr\Lib\site-packages\onnxocr\models\ppocrv5\det\det.onnx
+2026-07-15 09:50:34,400 INFO DefaultOCRInit TaskExecutor:rec_model_dir: D:\software\Anaconda\envs\okscr\Lib\site-packages\onnxocr\models\ppocrv5\rec\rec.onnx
+2026-07-15 09:50:34,400 INFO DefaultOCRInit TaskExecutor:rec_image_shape: 3, 48, 320
+2026-07-15 09:50:34,762 INFO DefaultOCRInit TaskExecutor:openvino core.available_devices ['CPU', 'GPU']
+2026-07-15 09:50:35,197 INFO DefaultOCRInit TaskExecutor:openvino core.available_devices ['CPU', 'GPU']
+2026-07-15 09:50:35,454 INFO DefaultOCRInit TaskExecutor:ocr_lib init <onnxocr.onnx_paddleocr.ONNXPaddleOcr object at 0x000001B529687BC0> onnxocr
+2026-07-15 09:50:35,454 INFO DefaultOCRInit TaskExecutor:default ocr init end, cost: 1.57s
+2026-07-15 09:50:40,141 INFO Dummy-2 ok:CTRL+C event dump threads
+2026-07-15 09:50:40,144 INFO Dummy-2 ok:quit app
+2026-07-15 09:50:40,144 DEBUG Dummy-2 handler:ExitEvent set event empty queues {<queue.Queue object at 0x000001B529640F50>} to_stops: {<ok.util.handler.Handler object at 0x000001B5293A3F80>, <ok.util.handler.Handler object at 0x000001B5296D3020>, <ok.util.handler.Handler object at 0x000001B529687FB0>}
+2026-07-15 09:50:40,144 INFO Dummy-2 handler:handler stop raised exception RefreshAdb
+2026-07-15 09:50:40,144 INFO Dummy-2 handler:handler stop raised exception ok.gui.StartController
+2026-07-15 09:50:40,144 INFO Dummy-2 handler:handler stop raised exception global
+2026-07-15 09:50:40,144 DEBUG Dummy-2 handler:ExitEvent set event empty queues {<queue.Queue object at 0x000001B529640F50>} to_stops: {<ok.util.handler.Handler object at 0x000001B5293A3F80>, <ok.util.handler.Handler object at 0x000001B5296D3020>, <ok.util.handler.Handler object at 0x000001B529687FB0>}
+2026-07-15 09:50:40,144 INFO Dummy-2 handler:handler stop raised exception RefreshAdb
+2026-07-15 09:50:40,144 INFO Dummy-2 handler:handler stop raised exception ok.gui.StartController
+2026-07-15 09:50:40,144 INFO Dummy-2 handler:handler stop raised exception global
+2026-07-15 09:50:40,145 DEBUG screenshot Screenshot:Task queue get is None quit
+2026-07-15 09:50:40,145 DEBUG global handler:handler global processing loop finished due to exit event.
+2026-07-15 09:50:40,145 DEBUG RefreshAdb handler:handler RefreshAdb processing loop finished due to exit event.
+2026-07-15 09:50:40,145 DEBUG ok.gui.StartController handler:handler ok.gui.StartController processing loop finished due to exit event.
+2026-07-15 09:50:40,398 INFO TaskExecutor TaskExecutor:Executor destroy

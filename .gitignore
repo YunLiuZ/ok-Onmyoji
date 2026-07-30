@@ -33,7 +33,8 @@ thread_dumps.txt
 
 # Distribution / packaging
 .Python
-logs/
+logs/*
+!logs/.gitkeep
 build/
 develop-eggs/
 dist/

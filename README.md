@@ -114,7 +114,7 @@ An image-recognition-based automation tool for Onmyoji, with background mode sup
 
 ## 💬 加入我们
 
-* **QQ 交流群**：`1033950808`（入群答案：`老王同学OK`）
+* **QQ 交流群**：`938132715`（入群答案：`老王同学OK`）
 
 本项目基于 [ok-script](https://github.com/ok-oldking/ok-script) 框架开发，简单易维护。欢迎有兴趣的开发者使用 [ok-script](https://github.com/ok-oldking/ok-script) 开发您自己的自动化项目。
 

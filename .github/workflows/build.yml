@@ -57,6 +57,7 @@ jobs:
         uses: ok-oldking/partial-sync-repo@master
         with:
           repos: |
+            https://${{ secrets.GITEE_USERNAME }}:${{ secrets.GITEE_TOKEN }}@gitee.com/yunliu123/ok-onmyoji.git
             https://x-access-token:${{ secrets.OMJ }}@github.com/YunLiuZ/ok-Onmyoji-update.git
           sync_list: 'deploy.txt'
           tag: ${{ github.ref_name }}
@@ -66,8 +67,6 @@ jobs:
       - name: Build with PyAppify Action
         id: build-app
         uses: ok-oldking/pyappify-action@master #使用pyappify打包exe
-        with:
-          use_release: https://api.github.com/repos/YunLiuZ/ok-Onmyoji/releases/tags/v0.2.1
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -84,11 +83,11 @@ jobs:
               * 不要下载SourceCode, Do Not Download the SourceCode
           files: pyappify_dist/*
 
-      - name: Trigger MirrorChyanUploading
-        if: startsWith(github.ref, 'refs/tags/')
-        shell: bash
-        run: |
-          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_uploading.yml -f tag=${{ github.ref_name }}
-          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note.yml -f tag=${{ github.ref_name }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Trigger MirrorChyanUploading
+#        if: startsWith(github.ref, 'refs/tags/')
+#        shell: bash
+#        run: |
+#          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_uploading.yml -f tag=${{ github.ref_name }}
+#          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note.yml -f tag=${{ github.ref_name }}
+#        env:
+#          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

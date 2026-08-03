@@ -126,6 +126,10 @@ class DelegationTask(BaseOmjTask):
         return True
 
     def Finish_delegation(self):
+        def click():
+            for _ in range(3):
+                self.click_relative(0.47, 0.91)
+                self.sleep(0.5)
         if self.wait_ocr(match=re.compile("式神|委派"),
                          box=self.box_of_screen(0, 0, 0.17, 0.1), time_out=6):
             self.log_info("回到式神委派页面")
@@ -137,15 +141,19 @@ class DelegationTask(BaseOmjTask):
             self.sleep(0.5)
             self.click_relative(0.93, 0.27)
             # self.click_relative(0.89, 0.44, after_sleep=1) ？？？
-            self.wait_until(condition=lambda: self.ocr_and_click(['完成'], 1, time_out=0.5,
-                                            box=self.box_of_screen(0.73, 0.35, 0.93, 0.53)),
-                                            time_out=20, post_action=lambda: self.click_relative(0.47, 0.81, after_sleep=0.5)
+            self.wait_until(condition=lambda:self.wait_click_ocr(match=re.compile("完成"),time_out=1,
+                                                                 box=self.box_of_screen(0.73, 0.35, 0.93, 0.53)),
+                                            time_out=20, pre_action= click
                                             , raise_if_not_found=False)
 
             if not self.ocr_and_click(['顺利', "达成"], 1,
                                         box=self.box_of_screen(0.26, 0.05, 0.8, 0.29), raise_if_not_found=False):
                 self.log_warning("找不到Battle_Success_Soul")
-            self.sleep(2)
+            if not self.wait_ocr(match=re.compile("式神|委派"),time_out=6,
+                                 box=self.box_of_screen(0.11,0,0.17,0.1),
+                                 raise_if_not_found=False):
+                self.log_warning("没有回到式神委派")
+                return False
         self.log_info('没有待完成')
         return True
 

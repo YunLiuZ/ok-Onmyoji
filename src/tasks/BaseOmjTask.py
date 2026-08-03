@@ -6,7 +6,7 @@ from typing import List
 
 import numpy as np
 
-from ok import BaseTask, Logger, og, CannotFindException
+from ok import BaseTask, Logger, og, CannotFindException, TaskDisabledException
 
 class BaseOmjTask(BaseTask):
 
@@ -93,6 +93,9 @@ class BaseOmjTask(BaseTask):
                 return False
             og.my_app.fail_count[self.name] = 0  # 成功归零
             return True
+        except TaskDisabledException:
+            self.log_info(f"[{self.name}] 已停止")
+            raise
         except Exception as e:
             og.my_app.fail_count[self.name] = og.my_app.fail_count.get(self.name, 0) + 1
             self.onetime_failed = True
@@ -284,14 +287,13 @@ class BaseOmjTask(BaseTask):
         return True
     def In_Home(self):
         self.log_info("寻找町中")
-        self.sleep(1)
-        home = self.find_one(["Home_Store","Home_Shikigami_Chronicles","YinYang_Lodge"], threshold=0.75, box=self.B('bottom'))
-        self.sleep(0.5)
-        if not (town := self.find_feature('Home_Town', threshold=0.8, box=self.B('Home_Town'))):
+        if not (town := self.wait_feature('Home_Town', threshold=0.8,
+                          time_out=6,box=self.B('Home_Town'),
+                          raise_if_not_found=False)):
             town = self.find_feature('Home_Explore', threshold=0.8, box=self.B('Home_Explore'))
         town1 = self.find_one(["Home_Town", "Home_Explore"], threshold=0.8, box=self.B('Home_Exp'))
-        town_ocr = self.ocr(match=re.compile('町中|探索'))
-
+        self.sleep(1)
+        home = self.find_one(["Home_Store","Home_Shikigami_Chronicles","YinYang_Lodge"], threshold=0.75, box=self.B('bottom'))
         if town and home:
             self.log_info("主页")
             return True

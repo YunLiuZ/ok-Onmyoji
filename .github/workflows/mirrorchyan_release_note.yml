@@ -12,16 +12,16 @@ on:
 jobs:
   mirrorchyan:
     runs-on: macos-latest
-    if: ${{ github.repository_owner == 'ok-oldking' }}
+    if: ${{ github.repository_owner == 'YunLiuZ' }}
 
     steps:
       - id: uploading
         uses: MirrorChyan/release-note-action@v1
         with:
-          mirrorchyan_rid: ok-script-app
+          mirrorchyan_rid: ok-Onmyoji
           version_name: ${{ inputs.tag }}
 
-          owner: ok-oldking
-          repo: ok-script-app
+          owner: YunLiuZ
+          repo: ok-Onmyoji
           github_token: ${{ secrets.GITHUB_TOKEN }}
           upload_token: ${{ secrets.MirrorChyanUploadToken }}

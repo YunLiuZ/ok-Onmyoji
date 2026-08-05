@@ -10,20 +10,20 @@ on:
 jobs:
   mirrorchyan:
     runs-on: macos-latest
-    if: ${{ github.repository_owner == 'ok-oldking' }}
+    if: ${{ github.repository_owner == 'YunLiuZ' }}
 
     steps:
       - uses: MirrorChyan/uploading-action@v1
         with:
           filetype: latest-release
-          filename: "ok-script-app-win32-China-setup.exe"
-          mirrorchyan_rid: ok-script-app
+          filename: "ok-Onmyoji-win32-China-setup.exe"
+          mirrorchyan_rid: ok-Onmyoji
           tag: ${{ inputs.tag }}
 
-          os: ${{ matrix.os }}
-          arch: ${{ matrix.arch }}
+          os: win
+          arch: x86_64
 
-          owner: ok-oldking
-          repo: ok-script-app
+          owner: YunLiuZ
+          repo: ok-Onmyoji
           github_token: ${{ secrets.GITHUB_TOKEN }}
           upload_token: ${{ secrets.MirrorChyanUploadToken }}

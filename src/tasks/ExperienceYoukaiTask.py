@@ -186,12 +186,16 @@ class ExperienceYoukaiTask(BuffBattleTask):
                 # 经验副本的success是独立的
                 if self.config["Lock Team Enable"]:
                     self.Change_team(self.group, self.team)
+                    self.log_info("检测是否为自动")
+                    self.change_auto(self.GreenNum)
                 else:
                     if self.wait_ocr(match=re.compile("预设"),
-                                           box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
-                                           raise_if_not_found=False, time_out=60):
+                                     box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
+                                     raise_if_not_found=False, time_out=120):
                         self.sleep(0.5)
                         self.click_relative(0.91, 0.79)
+                        self.log_info("检测是否为自动")
+                        self.change_auto(self.GreenNum)
                 if self.wait_until(condition=lambda: self.base_scene(),
                                    time_out=self.BattleTime,
                                    pre_action=lambda: self.wait_click_feature('Youkai_Success', threshold=0.7,
@@ -218,12 +222,16 @@ class ExperienceYoukaiTask(BuffBattleTask):
         # 经验副本的success是独立的
         if self.config["Lock Team Enable"]:
             self.Change_team(self.group, self.team)
+            self.log_info("检测是否为自动")
+            self.change_auto(self.GreenNum)
         else:
             if self.wait_ocr(match=re.compile("预设"),
                              box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
-                             raise_if_not_found=False, time_out=60):
+                             raise_if_not_found=False, time_out=120):
                 self.sleep(0.5)
                 self.click_relative(0.91, 0.79)
+                self.log_info("检测是否为自动")
+                self.change_auto(self.GreenNum)
         if self.wait_until(condition=lambda: self.base_scene(),
                            time_out=self.BattleTime,
                            pre_action=lambda: self.wait_click_feature('Youkai_Success', threshold=0.7,
@@ -244,12 +252,15 @@ class ExperienceYoukaiTask(BuffBattleTask):
         # 经验副本的success是独立的
         if self.config["Lock Team Enable"]:
             self.Change_team(self.group, self.team)
+            self.log_info("检测是否为自动")
+            self.change_auto(self.GreenNum)
         else:
             if self.wait_ocr(match=re.compile("预设"),
                              box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
                              raise_if_not_found=False, time_out=120):
                 self.sleep(0.5)
                 self.click_relative(0.91, 0.79)
+                self.change_auto(self.GreenNum)
         if self.wait_until(condition=lambda: self.base_scene(),
                            time_out=self.BattleTime,
                            pre_action=lambda: self.wait_click_feature('Youkai_Success', threshold=0.7,

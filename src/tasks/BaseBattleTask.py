@@ -8,12 +8,12 @@ class BaseBattleTask(BaseOmjTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.green = {
-            1: (0.17, 0.65),
-            2: (0.35, 0.6),
-            3: (0.49, 0.55),
-            4: (0.64, 0.56),
-            5: (0.78, 0.76),
-            6: (0.48, 0.82),
+            1: (0.1, 0.75),
+            2: (0.3, 0.67),
+            3: (0.45, 0.62),
+            4: (0.61, 0.71),
+            5: (0.79, 0.75),
+            6: (0.44, 0.85),
         }
         self.group = 0
         self.team = 0
@@ -32,7 +32,7 @@ class BaseBattleTask(BaseOmjTask):
         })
 
         self.config_description.update({
-            "Lock Team Enable": "不开启时默认锁定阵容，开启后第一次将切换阵容第二次锁定，建议第一次手动调整以后锁定即可，使用此功能时队伍预设请使用Preset Team",
+            "Lock Team Enable": "不开启时默认锁定阵容，开启后第一次将切换阵容第二次锁定",
             "Preset Enable": "开启后战斗前自动切换到指定的预设队伍。",
             "Preset Team": "预设队伍编号，格式：组,队  例如 1,5 表示第1组第4个队伍，最大支持7和4。和Team Name二选一填写",
             "Team Name": "此功能暂时没设置好不要使用，预设组，队伍名，理论上可以让队伍选择更多，但是推荐尽量用上面那个，因为更稳定",
@@ -164,8 +164,8 @@ class BaseBattleTask(BaseOmjTask):
         return tabs
 # region 预设
     def Lock_team(self, confirm_box: tuple,lock = True):
-        LOCK_NAMES = ["Soul_Lock", "Lock", "Areaboss_Lock", "RealmRaid_Lock"]
-        NOT_LOCK_NAMES = ["Soul_Not_Lock", "Not_Lock", "Areaboss_Not_Lock", "RealmRaid_Not_Lock"]
+        LOCK_NAMES = ["Soul_Lock", "Lock", "Areaboss_Lock", "RealmRaid_Lock","Secret_Lock"]
+        NOT_LOCK_NAMES = ["Soul_Not_Lock", "Not_Lock", "Areaboss_Not_Lock", "RealmRaid_Not_Lock","Secret_Not_Lock"]
         if res := self.find_one(LOCK_NAMES, threshold=0.85, box=self.box_of_screen(*confirm_box)):
             self.log_info("检查到上锁")
             if lock:
@@ -383,20 +383,45 @@ class BaseBattleTask(BaseOmjTask):
         self.click_relative(0.32,0.07)
         return True
 
-    def change_auto(self):
+    def change_auto(self,GreenNum=0):
         def check():
             if self.wait_ocr(
-                    match=re.compile('自动'),
-                    box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
+                    match=re.compile('妖术|普攻|自动'),
+                    box=self.box_of_screen(0.02, 0.85, 0.99, 1.0),
                     time_out=1
             ):
                 self.log_info("自动")
+                self.sleep(0.3)
+                if GreenNum != 0:
+                    x, y = self.green[GreenNum]
+                    self.click_relative(x, y, after_sleep=1)
+                    return True
                 return True
             elif res := self.ocr( match=re.compile('手动'),
                                   box=self.box_of_screen(0.02, 0.88, 0.08, 0.96)):
                 self.click(res[0])
+                self.sleep(0.3)
                 self.log_info("点击 切换自动")
+                if GreenNum != 0:
+                    x, y = self.green[GreenNum]
+                    self.click_relative(x, y, after_sleep=1)
                 return False
             return False
         if self.wait_until(check, time_out=5, raise_if_not_found=False):
             return True
+    def click_green(self,GreenNum):
+        self.log_info("进入绿标")
+        if GreenNum != 0:
+            self.log_info("进入绿标2")
+            self.log_info(GreenNum)
+            if self.wait_ocr(
+                    match=re.compile('妖术|普攻|自动'),
+                    box=self.box_of_screen(0.02, 0.85, 0.99, 1.0),
+                    time_out=8
+            ):
+                self.sleep(0.3)
+                x, y = self.green[GreenNum]
+                self.log_info(x,y)
+                self.click_relative(x, y, after_sleep=1)
+                return True
+        return False

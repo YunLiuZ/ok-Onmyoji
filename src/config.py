@@ -98,7 +98,7 @@ config = {
         # optional, if set, will start the pacakge and ensure installed
         'packages': ['com.netease.onmyoji.wyzymnqsd_cps']
     },
-    'start_timeout': 120,  # default 60
+    'start_timeout': 60,  # default 60
     'window_size': { #ok-script窗口大小
         'width': 1200,
         'height': 800,
@@ -146,6 +146,9 @@ config = {
         ["src.tasks.ExplorationTask", "ExplorationTask"],
         ["src.tasks.AwakeTask", "AwakeTask"],
         ["src.tasks.GameEventsBattleTask", "GameEventsBattleTask"],
+        # ── 周常 ──
+        ["src.tasks.SecretTask", "SecretTask"],
+
 
         # ── 其他 ──
         ["src.tasks.RestartGameTask", "RestartGameTask"],

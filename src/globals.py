@@ -19,6 +19,7 @@ from src.tasks.OrchidsTask import OrchidsTask
 from src.tasks.DemonEncounter import DemonEncounter
 from src.tasks.ExperienceYoukaiTask import ExperienceYoukaiTask
 from src.tasks.GoldYoukaiTask import GoldYoukaiTask
+from src.tasks.SecretTask import SecretTask
 
 TASK_MAP = {
     "日常-签到": DailyTask,
@@ -33,6 +34,7 @@ TASK_MAP = {
     "战斗-魂土": SoulZonesTask,
     "战斗-困难二十八": ExplorationTask,
     "战斗-活动爬塔": GameEventsBattleTask,
+    "周常-秘闻竞速":SecretTask,
 }
 
 ALL_TASK_NAMES = list(TASK_MAP.keys())

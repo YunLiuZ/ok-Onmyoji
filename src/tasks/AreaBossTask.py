@@ -93,15 +93,7 @@ class AreaBossTask(BaseBattleTask):
             self.log_info("检测是否为自动")
             self.change_auto()
 
-            if self.GreenNum != 0:
-                if self.wait_ocr(
-                        match=re.compile('自动'),
-                        box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
-                        time_out=8
-                ):
-                    self.sleep(0.1)
-                    x, y = self.green[self.GreenNum]
-                    self.click_relative(x, y, after_sleep=1)
+            self.click_green(self.GreenNum)
             res = self.Find_finish(self.BattleTime)
             if res == 2:
                 self.log_warning("战斗失败！！")

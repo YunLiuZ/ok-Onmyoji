@@ -1,5 +1,5 @@
 import re
-
+from datetime import datetime, timedelta
 from src.tasks.BaseBattleTask import BaseBattleTask
 from datetime import datetime, timedelta
 class RealmRaidTask(BaseBattleTask):
@@ -103,7 +103,7 @@ class RealmRaidTask(BaseBattleTask):
             nums = re.findall(r'\d+', text[0].name)
             self.tickets = int(nums[0]) if nums else 0
             self.log_info(f"{self.tickets}")
-            if self.tickets > self.config["Tickets"]:
+            if self.tickets >= self.config["Tickets"]:
                 self.log_info("开打开打")
             else:
                 self.log_info("票数不够")
@@ -205,17 +205,9 @@ class RealmRaidTask(BaseBattleTask):
                         self.Change_team(self.group, self.team)
 
                     self.log_info("检测是否为自动")
-                    self.change_auto()
-
-                if self.GreenNum !=0:
-                    if self.wait_ocr(
-                        match=re.compile('自动'),
-                        box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
-                        time_out=8
-                    ):
-                        self.sleep(0.1)
-                        x, y = self.green[self.GreenNum]
-                        self.click_relative(x, y, after_sleep=1)
+                    self.change_auto(self.GreenNum)
+                else:
+                    self.click_green(self.GreenNum)
 
             else:
                 self.log_info("没找到进攻")
@@ -290,32 +282,42 @@ class RealmRaidTask(BaseBattleTask):
                 self.log_info("进入第二次战斗锁住阵容")
                 self.Lock_team((0.14, 0.82, 0.2, 0.9), lock=True)
             x, y = group_rows[target]
+            self.sleep(1)
             self.click_relative(x, y, after_sleep=0.5)
             if self.wait_click_ocr(match=re.compile("进攻"),
                                 time_out=6,
                                 box=self.box_of_screen(0.32, 0.18, 0.87, 0.92)):
                 self.log_info(f"挑战第 {target} 个")
+                self.sleep(0.3)
+                if datetime.now() < datetime.now().replace(hour=21, minute=0, second=0, microsecond=0) \
+                        and self.ocr(match=re.compile("进攻"),
+                                     box=self.box_of_screen(0.32, 0.18, 0.87, 0.92)):
+                    self.log_info("次数耗尽结束战斗")
+                    return True
 
             else:
-                self.log_warning("找不到进攻")
-                return False
+                self.click_relative(x, y, after_sleep=0.5)
+                if self.wait_click_ocr(match=re.compile("进攻"),
+                                       time_out=6,
+                                       box=self.box_of_screen(0.32, 0.18, 0.87, 0.92)):
+                    self.log_info(f"挑战第 {target} 个")
+                    if datetime.now() < datetime.now().replace(hour=21, minute=0, second=0, microsecond=0) \
+                            and self.ocr(match=re.compile("进攻"),
+                                         box=self.box_of_screen(0.32, 0.18, 0.87, 0.92)):
+                        self.log_info("次数耗尽结束战斗")
+                        return True
+                else:
+                    self.log_warning("找不到进攻")
+                    return False
             if self.trigger_count == 1:
                 self.log_info("进入检测1")
                 if self.config["Lock Team Enable"]:
                     self.Change_team(self.group, self.team)
 
                 self.log_info("检测是否为自动")
-                self.change_auto()
-
-            if self.GreenNum != 0:
-                if self.wait_ocr(
-                        match=re.compile('自动'),
-                        box=self.box_of_screen(0.02, 0.88, 0.08, 0.96),
-                        time_out=8
-                ):
-                    self.sleep(0.1)
-                    x, y = self.green[self.GreenNum]
-                    self.click_relative(x, y, after_sleep=1)
+                self.change_auto(self.GreenNum)
+            else:
+                self.click_green(self.GreenNum)
 
             res = self.Find_finish(self.BattleTime)
             if res == 1:

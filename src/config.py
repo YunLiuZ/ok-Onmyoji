@@ -72,7 +72,7 @@ config = {
     'use_gui': True, # 目前只支持True
     'config_folder': f'configs{_instance_suffix}',  # 多开时自动使用子目录（如 configs/instance_2）
     'global_configs': [key_config_option, character_config],
-    'screenshot_processor': make_bottom_right_black, # 在截图的时候对frame进行修改, 可选
+    # 'screenshot_processor': make_bottom_right_black, # 在截图的时候对frame进行修改, 可选
     'gui_icon': 'icons/icon.png', #窗口图标, 最好不需要修改文件名
     'wait_until_before_delay': 0,
     'wait_until_check_delay': 0,

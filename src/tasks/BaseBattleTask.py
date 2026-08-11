@@ -152,12 +152,13 @@ class BaseBattleTask(BaseOmjTask):
 
 
 
-    def _invite_tabs(self, base_tabs=None):
+    def _invite_tabs(self, base_tabs=None, first=None):
         """返回按优先搜索重排后的标签页列表。"""
         if base_tabs is None:
             base_tabs = ["最近", "好友", "跨区", "寮友"]
         tabs = list(base_tabs)
-        first = self.config.get("FindMode", tabs[0])
+        if first is None:
+            first = tabs[0]
         if first in tabs:
             tabs.remove(first)
             tabs.insert(0, first)

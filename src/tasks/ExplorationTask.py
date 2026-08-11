@@ -30,8 +30,8 @@ class ExplorationTask(BuffBattleTask):
                 "options": ["好友", "跨区", "寮友"],
             },
         })
-    def _invite_tabs(self, base_tabs=None):
-        return super()._invite_tabs(["好友", "跨区", "寮友"])
+    def _invite_tabs(self, base_tabs=None, first=None):
+        return super()._invite_tabs(["好友", "跨区", "寮友"], first=first)
     def run(self):
         self.in_home_and_back()
         if self.config["Preset Enable"]:
@@ -114,7 +114,7 @@ class ExplorationTask(BuffBattleTask):
     def _invite_one(self, f: str, invite_xy: tuple, confirm_box: tuple) -> bool:
         """邀请单个好友：invite_xy=(x,y) 邀请按钮位置，confirm_box 确认区域。"""
         self.click_relative(*invite_xy, after_sleep=1)
-        for tab in self._invite_tabs():
+        for tab in self._invite_tabs(first=self.config.get("FindMode")):
             if self.ocr_and_click(tab,time_out=3, box=self.B("Exp_Friend_Index")):
                 if self.ocr_and_click(f,time_out=3, box=self.B("Friend")):
                     self.click_relative(0.60, 0.79, after_sleep=1)

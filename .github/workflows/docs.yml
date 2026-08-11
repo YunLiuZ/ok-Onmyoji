@@ -5,8 +5,10 @@ on:
     branches:
       - master
     paths:
+      - "README.md"
       - "mkdocs.yml"
       - "docs/**"
+      - "icons/**"
       - ".github/workflows/docs.yml"
 
   workflow_dispatch:
@@ -31,10 +33,18 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.12"
 
       - name: Install MkDocs
         run: pip install mkdocs-material
+
+      - name: Prepare README
+        run: |
+          cp README.md docs/index.md
+          sed -i 's#docs/images/#images/#g' docs/index.md
+
+          mkdir -p docs/icons
+          cp icons/icon.png docs/icons/icon.png
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

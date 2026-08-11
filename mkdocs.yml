@@ -1,75 +1,51 @@
-name: Deploy MkDocs
+site_name: ok-Onmyoji
+site_description: Documentation for the ok-Onmyoji Onmyoji automation tool
+site_url: https://yunliuz.github.io/ok-Onmyoji/
 
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - "README.md"
-      - "mkdocs.yml"
-      - "docs/**"
-      - "icons/**"
-      - ".github/workflows/docs.yml"
+repo_url: https://github.com/YunLiuZ/ok-Onmyoji
+repo_name: YunLiuZ/ok-Onmyoji
 
-  workflow_dispatch:
+theme:
+  name: material
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  icon:
+    repo: fontawesome/brands/github
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
+  features:
+    - navigation.footer
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.suggest
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+nav:
+  - Home: index.md
 
-      - name: Install MkDocs
-        run: pip install mkdocs-material
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
 
-      - name: Prepare README
-        run: |
-          cp README.md docs/index.md
+plugins:
+  - search
 
-          # README 原本在项目根目录
-          # 复制到 docs 后修正图片相对路径
-          sed -i 's#docs/images/#images/#g' docs/index.md
-
-          # README 中如果使用 icons/icon.png，则复制进去
-          mkdir -p docs/icons
-          cp icons/icon.png docs/icons/icon.png
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Build MkDocs
-        run: mkdocs build --clean --site-dir site
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: site
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Deploy GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+strict: false

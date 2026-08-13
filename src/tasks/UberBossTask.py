@@ -7,10 +7,12 @@ class UberBossTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "活动-战斗-超鬼王"
-        self.description = "2026.8.12武道大会,每日清票,本任务暂时只支持打合训，爬塔暂时没写，并且只支持一套阵容打所有Boss（真的不把体力留给周年庆吗）"
+        self.description = "2026.8.12武道大会,每日清票,本任务暂时只支持打合训，爬塔暂时没写，并且只支持一套阵容打所有Boss"
         self.default_config.update({
             "ApMode": True,
             "GeneralClimb": True,
+            "GeneralTickets":"0",
+            "ApTickets":"0"
         })
         self.config_description.update({
             "ApMode": "注灵票战斗",
@@ -18,6 +20,8 @@ class UberBossTask(BaseBattleTask):
             "Lock Team Enable":"！！这次活动的队伍预设非常抽象，第一次遇到的怪物的队伍预设并不会是上次打的阵容，必须打过一次才能记住队伍，所以建议候选，每次战斗都会先预设队伍",
             "Preset Enable":"！！切换队伍的逻辑是在搜索后，会出现收服页面，点击预设队伍，然后直接点击出战，所以这次活动本脚本只支持一个队伍，请预先设置一次，这样预设队伍点进去就是默认的队伍",
             "AttackNumber": "无需填写",
+            "GeneralTickets": "普通票数量",
+            "ApTickets": "注灵票数量"
 
         })
         self.green = {
@@ -53,7 +57,6 @@ class UberBossTask(BaseBattleTask):
                              raise_if_not_found=False):
             self.log_warning("没有进入战斗页面")
             return False
-        self.sleep(0.5)
         if text := self.ocr(match=re.compile("注灵"),
                             box=self.box_of_screen(0.83, 0.79, 0.94, 0.93)):
             self.log_info(f"OCR: {text}")
@@ -63,14 +66,16 @@ class UberBossTask(BaseBattleTask):
             self.log_info(f"OCR: {text}")
             self.log_info("现在是爬塔模式")
             self.isap = False
-        if text := self.ocr(threshold=0.8,box=self.box_of_screen(0.75, 0.02, 0.8, 0.06)):
-            nums = re.findall(r'\d+', text[0].name)
-            self.general_tickets = int(nums[0]) if nums else 0
-            self.log_info(f"普通搜索票数：{self.general_tickets}")
-        if text := self.ocr(threshold=0.8,box=self.box_of_screen(0.87, 0.02, 0.99, 0.07)):
-            nums = re.findall(r'\d+', text[0].name)
-            self.ap_tickets = int(nums[0]) if nums else 0
-            self.log_info(f"注灵搜索的票数{self.ap_tickets}")
+        self.ap_tickets = int(self.config["ApTickets"])
+        self.general_tickets = int(self.config["GeneralClimb"])
+        # if text := self.ocr(threshold=0.8,box=self.box_of_screen(0.76, 0.02, 0.79, 0.06)):
+        #     nums = re.findall(r'\d+', text[0].name)
+        #     self.general_tickets = int(nums[0]) if nums else 0
+        #     self.log_info(f"普通搜索票数：{self.general_tickets}")
+        # if text := self.ocr(threshold=0.8,box=self.box_of_screen(0.93, 0.03, 0.95, 0.06)):
+        #     nums = re.findall(r'\d+', text[0].name)
+        #     self.ap_tickets = int(nums[0]) if nums else 0
+        #     self.log_info(f"注灵搜索的票数{self.ap_tickets}")
         if self.config["GeneralClimb"]:
             self.count = 0
             if self.isap:
@@ -93,7 +98,6 @@ class UberBossTask(BaseBattleTask):
                 self.sleep(0.5)
             else:
                 self.log_info("体力")
-            print(self.count,self.ap_tickets)
             while self.count < self.ap_tickets:
                 self.log_info("123")
                 self.Battle_process()

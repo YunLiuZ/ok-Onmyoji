@@ -68,7 +68,7 @@ jobs:
         id: build-app
         uses: ok-oldking/pyappify-action@master
         with:
-          use_release: 'https://api.github.com/repos/YunLiuZ/ok-Onmyoji/releases/tags/v1.0.7'
+          use_release: 'https://api.github.com/repos/YunLiuZ/ok-Onmyoji/releases/tags/v1.0.10'
 
       - name: Release
         uses: softprops/action-gh-release@v2

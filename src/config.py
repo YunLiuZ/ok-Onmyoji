@@ -145,9 +145,12 @@ config = {
         ["src.tasks.SoulZonesTask", "SoulZonesTask"],
         ["src.tasks.ExplorationTask", "ExplorationTask"],
         ["src.tasks.AwakeTask", "AwakeTask"],
-        ["src.tasks.GameEventsBattleTask", "GameEventsBattleTask"],
+
         # ── 周常 ──
         ["src.tasks.SecretTask", "SecretTask"],
+        # ── 活动 ──
+        ["src.tasks.GameEventsBattleTask", "GameEventsBattleTask"],
+        ["src.tasks.UberBossTask", "UberBossTask"],
 
 
         # ── 其他 ──

@@ -26,7 +26,7 @@ h, w = frame.shape[:2]
 # 修改 box= 参数即可，蓝色区域会自动跟着变
 searches = [
     # ("Lock",  task.box_of_screen(0.86, 0.93, 0.9, 1.0)),
-    ("Battle_Failure",  task.box_of_screen(0.25,0.09,0.49,0.43)),
+    ("Battle_Success",  task.box_of_screen(0,0.09,0.49,0.43)),
     # ("Exploration_Lock",  task.box_of_screen(0.86, 0.93, 0.9, 1.0)),
     # ("Exploration_GoryouRealm",  task.box_of_screen(0.86, 0.93, 0.9, 1.0)),
     

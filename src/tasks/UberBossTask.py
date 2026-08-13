@@ -67,7 +67,9 @@ class UberBossTask(BaseBattleTask):
             self.log_info("现在是爬塔模式")
             self.isap = False
         self.ap_tickets = int(self.config["ApTickets"])
-        self.general_tickets = int(self.config["GeneralClimb"])
+        self.general_tickets = int(self.config["GeneralTickets"])
+        self.log_info(f"普通搜索票数：{self.general_tickets}")
+        self.log_info(f"注灵搜索的票数{self.ap_tickets}")
         # if text := self.ocr(threshold=0.8,box=self.box_of_screen(0.76, 0.02, 0.79, 0.06)):
         #     nums = re.findall(r'\d+', text[0].name)
         #     self.general_tickets = int(nums[0]) if nums else 0

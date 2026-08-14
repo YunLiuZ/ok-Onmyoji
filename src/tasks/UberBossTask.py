@@ -92,6 +92,10 @@ class UberBossTask(BaseBattleTask):
                 self.count += 1
                 self.log_info(f"第 {self.count} 次爬塔战斗结束 总共{self.general_tickets}")
         if self.config["ApMode"]:
+            if not self.wait_ocr(match=re.compile("修行|合训"),
+                                       time_out=6,
+                                       raise_if_not_found=False):
+                self.log_warning("没有进入战斗")
             self.count = 0
             if not self.isap:
                 self.click_relative(0.92, 0.77)

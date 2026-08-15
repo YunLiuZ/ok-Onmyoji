@@ -1,4 +1,5 @@
 import re
+import random
 
 from src.tasks.BaseBattleTask import BaseBattleTask
 
@@ -22,7 +23,6 @@ class UberBossTask(BaseBattleTask):
             "AttackNumber": "无需填写",
             "GeneralTickets": "普通票数量",
             "ApTickets": "注灵票数量"
-
         })
         self.green = {
             1: (0.19, 0.75),
@@ -38,6 +38,8 @@ class UberBossTask(BaseBattleTask):
         self.isap = True
     def run(self):
         self.in_home_and_back()
+        if self.config["RandomSleep"]:
+            self.randomsleep = random.randrange(15, 30)
         self.group, self.team = self._parse_preset(self.config["Preset Team"])
         if self.config["Preset Enable"]:
             self.SwitchSoul_by_num(self.group, self.team)
@@ -108,6 +110,11 @@ class UberBossTask(BaseBattleTask):
                 self.log_info("123")
                 self.Battle_process()
                 self.count += 1
+                if self.config["RandomSleep"] and self.count >= self.randomsleep:
+                    self.randomsleep = self.count + random.randrange(15, 30)
+                    a = random.randrange(15, 60)
+                    self.sleep(a)
+                    self.log_info(f"第 {self.count} 次体力爬塔战斗结束,休息{a}")
                 self.log_info(f"第 {self.count} 次体力爬塔战斗结束")
         self.Back_Home()
 
@@ -130,9 +137,9 @@ class UberBossTask(BaseBattleTask):
                                        box=self.box_of_screen(0.86, 0.72, 0.94, 0.9)):
             self.log_info(f"OCR: {text},进入战斗")
         self.sleep(1)
-        self.click_relative(0.73,0.85)
+        self.click_relative(random.uniform(0.705, 0.745), random.uniform(0.827, 0.883))
         self.sleep(1)
-        self.click_relative(0.68, 0.74)
+        self.click_relative(random.uniform(0.639, 0.711), random.uniform(0.725, 0.765))
         self.Lock_team((0.85, 0.6, 0.93, 0.68), lock=True)
         if not self.wait_click_ocr(match=re.compile("挑战"),
                                        box=self.box_of_screen(0.86, 0.72, 0.94, 0.9),

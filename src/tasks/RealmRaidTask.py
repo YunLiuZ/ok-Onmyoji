@@ -1,4 +1,5 @@
 import re
+import random
 from datetime import datetime, timedelta
 from src.tasks.BaseBattleTask import BaseBattleTask
 from datetime import datetime, timedelta
@@ -9,6 +10,8 @@ class RealmRaidTask(BaseBattleTask):
 
         self.tickets = 0
         self.forward = True
+
+
 
         self.default_config.update({
             "Tickets": 1,
@@ -111,16 +114,18 @@ class RealmRaidTask(BaseBattleTask):
         self.log_info("进入battle")
         self.count = 1
         self.trigger_count = 1
+        if self.config["RandomSleep"]:
+            self.randomsleep = self.trigger_count + random.randrange(15,30)
         group_rows = {
-            1: (0.23, 0.27),  # (594, 395)
-            2: (0.50, 0.27),  # (1300, 398)
-            3: (0.76, 0.27),  # (1951, 398)
-            4: (0.23, 0.46),  # (613, 665)
-            5: (0.51, 0.46),  # (1315, 662)
-            6: (0.77, 0.46),  # (1980, 669)
-            7: (0.23, 0.65),  # (609, 939)
-            8: (0.50, 0.65),  # (1296, 939)
-            9: (0.77, 0.65),  # (1973, 939)
+            1: (0.19, 0.22, 0.35, 0.36),
+            2: (0.44, 0.22, 0.60, 0.35),
+            3: (0.71, 0.22, 0.86, 0.35),
+            4: (0.18, 0.41, 0.35, 0.54),
+            5: (0.45, 0.41, 0.61, 0.54),
+            6: (0.71, 0.42, 0.87, 0.54),
+            7: (0.18, 0.60, 0.35, 0.73),
+            8: (0.45, 0.60, 0.61, 0.72),
+            9: (0.71, 0.60, 0.87, 0.73),
         }
         group_rows_2 = [
             (0.25, 0.50, 0.35, 0.57),  # (x1, y1, x2, y2) 相对
@@ -163,7 +168,9 @@ class RealmRaidTask(BaseBattleTask):
         while(attack_num):
 
             target = self.count if self.forward else (10 - self.count)
-            x, y = group_rows[target]
+            x1, y1, x2, y2 = group_rows[target]
+            x = random.uniform(x1 + (x2 - x1) * 0.1, x2 - (x2 - x1) * 0.1)
+            y = random.uniform(y1 + (y2 - y1) * 0.1, y2 - (y2 - y1) * 0.1)
 
             #退四
             if(self.forward and self.count == 9):
@@ -236,20 +243,23 @@ class RealmRaidTask(BaseBattleTask):
                 self.forward = (not self.forward)
             self.count = self.count%9 + 1
             self.trigger_count+=1
+            if self.config["RandomSleep"] and self.trigger_count >= self.randomsleep:
+                self.randomsleep = self.trigger_count + random.randrange(15, 30)
+                a = random.randrange(15, 60)
+                self.sleep(a)
+                self.log_info(f"第{target}个 挑战成功，继续休息{a}")
             attack_num -= 1
         return True
 
     def ryoutoppa_battle(self):
         self.count = 1
+        if self.config["RandomSleep"]:
+            self.randomsleep = self.trigger_count + random.randrange(15,30)
         group_rows = {
-            1: (0.47, 0.27),
-            2: (0.72, 0.27),
-            3: (0.47, 0.45),
-            4: (0.73, 0.46),
-            5: (0.46, 0.65),
-            6: (0.71, 0.66),
-            7: (0.48, 0.84),
-            8: (0.72, 0.85),
+            1: (0.40, 0.20, 0.57, 0.35),
+            2: (0.67, 0.21, 0.83, 0.35),
+            3: (0.40, 0.40, 0.56, 0.53),
+            4: (0.67, 0.39, 0.83, 0.53),
         }
         target = 1
         # 11111111111111111111111111111111111111111111111111111
@@ -281,7 +291,9 @@ class RealmRaidTask(BaseBattleTask):
             if self.config["Lock Team Enable"] and self.trigger_count == 2:
                 self.log_info("进入第二次战斗锁住阵容")
                 self.Lock_team((0.14, 0.82, 0.2, 0.9), lock=True)
-            x, y = group_rows[target]
+            x1, y1, x2, y2 = group_rows[target]
+            x = random.uniform(x1 + (x2 - x1) * 0.1, x2 - (x2 - x1) * 0.1)
+            y = random.uniform(y1 + (y2 - y1) * 0.1, y2 - (y2 - y1) * 0.1)
             self.sleep(1)
             self.click_relative(x, y, after_sleep=0.5)
             if self.wait_click_ocr(match=re.compile("进攻"),
@@ -324,6 +336,11 @@ class RealmRaidTask(BaseBattleTask):
                 self.log_info(f"第{target}个 挑战成功，继续")
                 self.count += 1
                 self.trigger_count += 1
+                if self.config["RandomSleep"] and self.trigger_count >= self.randomsleep:
+                    self.randomsleep = self.trigger_count + random.randrange(15, 30)
+                    a =random.randrange(15, 60)
+                    self.sleep(a)
+                    self.log_info(f"第{target}个 挑战成功，继续休息{a}")
             elif res == 2:
                 self.log_warning(f"第{target}个 挑战失败，换下一个")
                 target += 1

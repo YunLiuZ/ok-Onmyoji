@@ -1,4 +1,5 @@
 import math
+import random
 import re
 import time
 from datetime import datetime, timedelta
@@ -9,6 +10,30 @@ import numpy as np
 from ok import BaseTask, Logger, og, CannotFindException, TaskDisabledException
 
 class BaseOmjTask(BaseTask):
+
+    def wait_click_feature(self, feature, *args, relative_x=None, relative_y=None, **kwargs):
+        """重写框架方法：默认在匹配框内随机位置点击，而非固定中心。"""
+        if relative_x is None:
+            relative_x = random.uniform(0.15, 0.85)
+        if relative_y is None:
+            relative_y = random.uniform(0.15, 0.85)
+        result = super().wait_click_feature(feature, *args,
+                                            relative_x=relative_x,
+                                            relative_y=relative_y, **kwargs)
+        if result:
+            self.log_info(f"随机点击相对位置: {relative_x:.3f}, {relative_y:.3f}")
+        return result
+
+    def wait_click_ocr(self, *args, after_sleep=0, recheck_time=0, **kwargs):
+        """重写框架方法：OCR 识别后随机点击匹配框内位置，而非中心。"""
+        result = super().wait_ocr(*args, **kwargs)
+        if result is not None:
+            rx = random.uniform(0.15, 0.85)
+            ry = random.uniform(0.15, 0.85)
+            self.log_info(f"随机点击相对位置: {rx:.3f}, {ry:.3f}")
+            self.click_box(result, relative_x=rx, relative_y=ry, after_sleep=after_sleep)
+            return result
+        return None
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -428,12 +453,12 @@ class BaseOmjTask(BaseTask):
 #endregion     
     
     
-    def ocr_and_click(self, match, sleep: float = 0.5,time_out :float =6, box=None, random_click: bool = False,raise_if_not_found=False) -> bool:
+    def ocr_and_click(self, match, sleep: float = 0.5,time_out :float =6, box=None, random_click: bool = True,raise_if_not_found=False) -> bool:
         """OCR 指定区域按优先级模糊匹配文字并点击。返回 True/False。
         match: str 或 list[str]，内部自动转正则（包含即匹配）。
-        random_click=True 时在识别区域内随机选点点击。
+        random_click=True 时在识别框内随机选点点击，False 时点中心。
         """
-        import re, random
+        import re
         if isinstance(match, str):
             match = [match]
         for m in match:
@@ -441,11 +466,9 @@ class BaseOmjTask(BaseTask):
             if results:
                 r = results[0]
                 if random_click:
-                    h = self.frame.shape[0] if hasattr(self, 'frame') else 1440
-                    w = self.frame.shape[1] if hasattr(self, 'frame') else 2560
-                    rx = random.randint(r.x, r.x + r.width)
-                    ry = random.randint(r.y, r.y + r.height)
-                    self.click_relative(rx / w, ry / h, after_sleep=sleep)
+                    rx = random.uniform(0.15, 0.85)
+                    ry = random.uniform(0.15, 0.85)
+                    self.click_box(r, relative_x=rx, relative_y=ry, after_sleep=sleep)
                 else:
                     self.click_box(r, after_sleep=sleep)
                 self.log_info(f"OCR '{m}' -> '{r.name}' 并点击")

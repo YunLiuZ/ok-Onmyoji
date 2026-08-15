@@ -20,8 +20,10 @@ class BaseBattleTask(BaseOmjTask):
 
         self.trigger_count = 1 #想法是 多次启动多次记录
         self.count = 1 #每次启动战斗的次数 每次启动刷新的
+        self.randomsleep = 0
 
         self.default_config.update({
+            "RandomSleep":True,
             "Lock Team Enable": True,
             "Preset Enable": False,
             "Preset Team": "1,1",
@@ -32,6 +34,7 @@ class BaseBattleTask(BaseOmjTask):
         })
 
         self.config_description.update({
+            "RandomSleep": "对于大量的重复战斗，勾选后每次战斗10至30次会随机休息15至60秒，建议勾选，模拟人操作",
             "Lock Team Enable": "不开启时默认锁定阵容，开启后第一次将切换阵容第二次锁定",
             "Preset Enable": "开启后战斗前自动切换到指定的预设队伍。",
             "Preset Team": "预设队伍编号，格式：组,队  例如 1,5 表示第1组第4个队伍，最大支持7和4。和Team Name二选一填写",

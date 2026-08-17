@@ -1,4 +1,5 @@
 import re
+import random
 
 from src.tasks.BaseBattleTask import BaseBattleTask
 
@@ -76,7 +77,9 @@ class GameEventsBattleTask(BaseBattleTask):
 
 
         if self.config["GeneralClimb"]:
-            self.count = 1
+            self.count = 0
+            if self.is_sleep:
+                self.next_sleep_count = random.randrange(*(self.count_range))
             if self.isap:
                 self.click_relative(0.98,0.77)
                 self.log_info("切换为爬塔")
@@ -87,10 +90,19 @@ class GameEventsBattleTask(BaseBattleTask):
             while self.count < self.general_tickets:
                 self.Battle_process()
                 self.count += 1
+                if self.is_sleep:
+                    self.log_info(f"会在第{self.next_sleep_count}次休息")
+                    if self.count >= self.next_sleep_count:
+                        self.next_sleep_count = self.count + random.randrange(*(self.count_range))
+                        a = random.randrange(*(self.time_range))
+                        self.log_info(f"第 {self.count} 次体力爬塔战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
+                        self.sleep(a)
                 self.log_info(f"第 {self.count} 次爬塔战斗结束 总共{self.general_tickets}")
 
         if self.config["ApMode"]:
-            self.count=1
+            self.count=0
+            if self.is_sleep:
+                self.next_sleep_count = random.randrange(*(self.count_range))
             if not self.isap:
                 self.click_relative(0.98, 0.77)
                 self.log_info("切换为刷体力")
@@ -102,6 +114,13 @@ class GameEventsBattleTask(BaseBattleTask):
             while self.count < num:
                 self.Battle_process()
                 self.count += 1
+                if self.is_sleep:
+                    self.log_info(f"会在第{self.next_sleep_count}次休息")
+                    if self.count >= self.next_sleep_count:
+                        self.next_sleep_count = self.count + random.randrange(*(self.count_range))
+                        a = random.randrange(*(self.time_range))
+                        self.log_info(f"第 {self.count} 次体力爬塔战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
+                        self.sleep(a)
                 self.log_info(f"第 {self.count} 次体力爬塔战斗结束 总共{num}")
         self.Back_Home()
 

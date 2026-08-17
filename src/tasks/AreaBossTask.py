@@ -12,6 +12,7 @@ class AreaBossTask(BaseBattleTask):
             "Area Boss": "悬赏",
         })
         self.config_description.update({
+            "RandomSleep": "对于鬼王来说这个功能没什么用将参数改为0,0,0,0,0即可",
             "Area Boss": "打谁，强烈建议打收藏",
             "Lock Team Enable": "地域鬼王很特殊，为了避免出现打鬼王限定式神建议不要勾选此项，锁定阵容打1级自动战斗即可",
         })
@@ -76,8 +77,12 @@ class AreaBossTask(BaseBattleTask):
                                     box=self.B('Areaboss_Filter_Page'),
                                     time_out=3)
             self.sleep(1)
-            group_rows = {1: 0.36, 2: 0.58,3:0.78}
-            self.click_nth('x', 0.86, group_rows,self.trigger_count ,"鬼王")
+            group_rows = {
+                1: (0.84, 0.32, 0.9, 0.42),
+                2: (0.84, 0.53, 0.9, 0.63),
+                3: (0.84, 0.75, 0.9, 0.84),
+            }
+            self.click_rect_random(group_rows[self.trigger_count])
             if self.config["Lock Team Enable"]:#地域鬼王的锁定是放在循环内部的
                 # 解锁状态 准备换队伍
                 self.Lock_team((0.86,0.88,1,1), lock=False)

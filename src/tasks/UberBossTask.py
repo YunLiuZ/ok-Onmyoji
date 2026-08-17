@@ -80,11 +80,13 @@ class UberBossTask(BaseBattleTask):
         #     self.log_info(f"注灵搜索的票数{self.ap_tickets}")
         if self.config["GeneralClimb"]:
             self.count = 0
-            self.next_sleep_count = random.randrange(*(self.count_range))
+            if self.is_sleep:
+                self.next_sleep_count = random.randrange(*(self.count_range))
             if self.isap:
-                self.click_relative(0.92, 0.77)
+                self.click_rect_random((0.91, 0.75, 0.93, 0.78))
                 self.log_info("切换为爬塔")
                 self.isap = False
+
                 self.sleep(0.5)
             else:
                 self.log_info("爬塔")
@@ -96,8 +98,8 @@ class UberBossTask(BaseBattleTask):
                     if self.count >= self.next_sleep_count:
                         self.next_sleep_count = self.count + random.randrange(*(self.count_range))
                         a = random.randrange(*(self.time_range))
-                        self.sleep(a)
                         self.log_info(f"第 {self.count} 次体力爬塔战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
+                        self.sleep(a)
                 self.log_info(f"第 {self.count} 次体力爬塔战斗结束")
         if self.config["ApMode"]:
             if not self.wait_ocr(match=re.compile("修行|合训"),
@@ -105,9 +107,10 @@ class UberBossTask(BaseBattleTask):
                                        raise_if_not_found=False):
                 self.log_warning("没有进入战斗")
             self.count = 0
-            self.next_sleep_count = random.randrange(*(self.count_range))
+            if self.is_sleep:
+                self.next_sleep_count = random.randrange(*(self.count_range))
             if not self.isap:
-                self.click_relative(0.92, 0.77)
+                self.click_rect_random((0.91, 0.75, 0.93, 0.78))
                 self.log_info("切换为注灵爬塔")
                 self.isap = True
                 self.sleep(0.5)
@@ -122,24 +125,26 @@ class UberBossTask(BaseBattleTask):
                     if self.count >= self.next_sleep_count:
                         self.next_sleep_count = self.count + random.randrange(*(self.count_range))
                         a = random.randrange(*(self.time_range))
-                        self.sleep(a)
                         self.log_info(f"第 {self.count} 次体力爬塔战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
+                        self.sleep(a)
                 self.log_info(f"第 {self.count} 次体力爬塔战斗结束")
         self.Back_Home()
 
     def Battle_process(self):
-        if self.wait_click_ocr(match=re.compile("尚未|发现"),
+        if self.wait_ocr(match=re.compile("尚未|发现"),
                                    box=self.box_of_screen(0.04, 0.54, 0.15, 0.62),
                                    time_out=3,
                                    raise_if_not_found=False):
             self.log_info("没有发现御灵")
-            if not self.wait_click_ocr(match=re.compile("搜寻"),
+
+            if self.wait_ocr(match=re.compile("搜寻"),
                                        box=self.box_of_screen(0.83, 0.79, 0.94, 0.93),
                                        time_out=3,
                                        raise_if_not_found=False):
-                self.log_info("没有进入战斗")
+                self.log_info("搜寻1111111111111111111111111111111111111")
+                self.click_rect_random((0.85, 0.8, 0.94, 0.92))
         else:
-            self.click_relative(0.06, 0.18)
+            self.click_rect_random((0.09, 0.18, 0.22, 0.26))
             self.log_info("发现御灵")
 
         if text := self.wait_ocr(match=re.compile("挑战"),
@@ -150,10 +155,13 @@ class UberBossTask(BaseBattleTask):
         # self.sleep(1)
         # self.click_relative(random.uniform(0.639, 0.711), random.uniform(0.725, 0.765))
         self.Lock_team((0.85, 0.6, 0.93, 0.68), lock=True)
-        if not self.wait_click_ocr(match=re.compile("挑战"),
+        self.log_info("挑战1111111111111111111111111111111111111")
+        if self.wait_ocr(match=re.compile("挑战"),
                                        box=self.box_of_screen(0.86, 0.72, 0.94, 0.9),
                                    time_out=6,
                                    raise_if_not_found=False):
+            self.click_rect_random((0.86, 0.74, 0.93, 0.86))
+        else:
             self.log_info("找不到战斗按钮")
             return False
         self.log_info("检测是否为自动")
@@ -163,10 +171,57 @@ class UberBossTask(BaseBattleTask):
             self.change_auto(self.GreenNum)
         else:
             self.click_green(self.GreenNum)
-        if self.wait_click_feature('Battle_Success',threshold=0.9,
-                                box=self.box_of_screen(0.24, 0.1, 0.83, 0.45),
-                                raise_if_not_found=False,
-                                time_out=self.BattleTime,):
-            return True
-        else:
-            return False
+        fail_count = 0
+        while fail_count < 2:
+            result = 1
+            def check():
+                nonlocal result
+                if self.wait_feature('Battle_Success', threshold=0.9,
+                                                   box=self.B('success_box'),
+                                                    raise_if_not_found=False, time_out=1,):
+                    self.log_info("战斗成功")
+                    result = 1
+                    self.sleep(0.2)
+                    self.click_rect_random((0.1, 0.1, 0.9, 0.47))
+                    if res1 := self.find_one('Battle_Success', threshold=0.95,
+                                                              box=self.B('success_box')):
+                        self.click_rect_random((0.1, 0.1, 0.9, 0.47))
+                        self.sleep(0.5)
+                        self.log_info("第一次没点到")
+                    else:
+                        self.log_info("第一次点到")
+                    return True
+                if res := self.find_one('Battle_Failure', threshold=0.95,
+                                        box=self.B('Battle_Failure')):
+                    self.log_info("战斗失败")
+                    result = 2
+                    self.click_rect_random(res)
+                    self.sleep(0.5)
+                    if res1 := self.find_one('Battle_Failure', threshold=0.9,
+                                             box=self.B('Battle_Failure')):
+                        self.click_rect_random(res1)
+                        self.log_info("第一次没点到")
+                        self.sleep(1)
+                        return True
+                    else:
+                        self.log_info("第一次点到")
+                        return True
+                return False
+
+            if self.wait_until(check, time_out=self.BattleTime, raise_if_not_found=False):
+                if result == 1:
+                    return True
+                fail_count += 1
+                self.log_warning(f"战斗失败，第 {fail_count} 次，重新挑战")
+                if self.wait_ocr(match=re.compile("挑战"),
+                                 box=self.box_of_screen(0.86, 0.72, 0.94, 0.9),
+                                 time_out=6,
+                                 raise_if_not_found=False):
+                    self.click_rect_random((0.86, 0.74, 0.93, 0.86))
+                self.sleep(1)
+            else:
+                self.log_warning("战斗结束超时")
+                return False
+        self.log_warning("失败超过2次")
+        return False
+

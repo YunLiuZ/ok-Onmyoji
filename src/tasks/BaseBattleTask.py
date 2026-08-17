@@ -1,4 +1,5 @@
 import re
+import random
 
 from src.tasks.BaseOmjTask import BaseOmjTask
 
@@ -74,6 +75,22 @@ class BaseBattleTask(BaseOmjTask):
             return (int(parts[0].strip()),[int(parts[1].strip()), int(parts[2].strip())],
                     [int(parts[3].strip()), int(parts[4].strip())])
         return 0,[0,0],[0,0]
+
+    def _rect_random_point(self, rect, margin=0.1):
+        """在矩形内取随机点（默认中间 80% 区域）。支持相对坐标元组 (x1,y1,x2,y2) 或 Box 对象。"""
+        if hasattr(rect, 'x'):  # Box 对象，转相对坐标
+            h, w = self.frame.shape[:2]
+            rect = (rect.x / w, rect.y / h, (rect.x + rect.width) / w, (rect.y + rect.height) / h)
+        x1, y1, x2, y2 = rect
+        x = random.uniform(x1 + (x2 - x1) * margin, x2 - (x2 - x1) * margin)
+        y = random.uniform(y1 + (y2 - y1) * margin, y2 - (y2 - y1) * margin)
+        return x, y
+
+    def click_rect_random(self, rect, margin=0.1, after_sleep=1):
+        """在矩形内随机点击。"""
+        x, y = self._rect_random_point(rect, margin)
+        self.click_relative(x, y, after_sleep=after_sleep)
+        self.log_info(f"点击{x:.2f},{y:.2f}")
 
     def SwitchSoul_by_name(self,group:int,team:int,team_name:str):
         if self.wait_click_feature('Home_Shikigami_Chronicles', threshold=0.7,
@@ -241,10 +258,15 @@ class BaseBattleTask(BaseOmjTask):
         result = 1
 
         def finish():
-            if self.wait_click_feature('Battle_Finish', threshold=0.7,
+            if res := self.wait_feature('Battle_Finish', threshold=0.7,
                                         box=self.B('Battle_Finish'),
                                         raise_if_not_found=False, time_out=6):
                 self.sleep(0.5)
+                if random.randint(1, 2) == 1:
+                    self.click_rect_random((0.18, 0.05, 0.9, 0.21))
+                else:
+                    self.click_rect_random(res)
+
                 if res1 := self.find_one('Battle_Finish', threshold=0.7,
                                           box=self.B('Battle_Finish')):
                     self.click(res1, after_sleep=0.1)
@@ -255,10 +277,14 @@ class BaseBattleTask(BaseOmjTask):
                 else:
                     self.log_info("第一次点到")
                 return True
-            elif self.wait_click_feature('Battle_Finish_Soul', threshold=0.7,
+            elif res :=self.wait_feature('Battle_Finish_Soul', threshold=0.7,
                                         box=self.B('Battle_Finish_Soul'),
                                         raise_if_not_found=False, time_out=6):
                 self.sleep(1)
+                if random.randint(1, 2) == 1:
+                    self.click_rect_random((0.18, 0.05, 0.9, 0.21))
+                else:
+                    self.click_rect_random(res)
                 if res1 := self.find_one('Battle_Finish_Soul', threshold=0.7,
                                           box=self.B('Battle_Finish_Soul')):
                     self.click(res1, after_sleep=0.1)
@@ -273,13 +299,14 @@ class BaseBattleTask(BaseOmjTask):
 
         def check():
             nonlocal result
-            if self.wait_click_feature('Battle_Success', threshold=0.9,
+            if self.wait_feature('Battle_Success', threshold=0.9,
                                                box=self.B('success_box'),
-                                                raise_if_not_found=False, time_out=1,
-                                                  after_sleep=0.5):
+                                                raise_if_not_found=False, time_out=1,):
+                self.sleep(0.2)
+                self.click_rect_random((0.1, 0.1, 0.9, 0.47))
                 if res1 := self.find_one('Battle_Success', threshold=0.9,
                                                           box=self.B('success_box')):
-                    self.click(res1)
+                    self.click_rect_random((0.1, 0.1, 0.9, 0.47))
                     self.sleep(0.5)
                     self.log_info("第一次没点到")
                 else:
@@ -288,28 +315,13 @@ class BaseBattleTask(BaseOmjTask):
                     return True
                 else:
                     return False
-            # if res := self.find_one('Battle_Success', threshold=0.7,
-            #                             box=self.B('success_box')):
-            #     self.click(res)
-            #     self.sleep(2)
-            #     if res1 := self.find_one('Battle_Success', threshold=0.7,
-            #                               box=self.B('success_box')):
-            #         self.click(res1)
-            #         self.sleep(0.5)
-            #         self.log_info("第一次没点到")
-            #     else:
-            #         self.log_info("第一次点到")
-            #     if finish():
-            #         return True
-            #     else:
-            #         return False
             if res := self.find_one('Battle_Finish', threshold=0.7,
                                         box=self.B('Battle_Finish')):
-                self.click(res)
+                self.click_rect_random(res)
                 self.sleep(1)
                 if res1 := self.find_one('Battle_Finish', threshold=0.7,
                                           box=self.B('Battle_Finish')):
-                    self.click(res1)
+                    self.click_rect_random(res1)
                     self.log_info("第一次没点到")
                     self.sleep(1)
                     return True
@@ -331,11 +343,11 @@ class BaseBattleTask(BaseOmjTask):
                     return True
             if res := self.find_one('Battle_Failure', threshold=0.9,
                                         box=self.B('Battle_Failure')):
-                self.click(res)
+                self.click_rect_random(res)
                 self.sleep(0.5)
                 if res1 := self.find_one('Battle_Failure', threshold=0.9,
                                         box=self.B('Battle_Failure')):
-                    self.click(res1)
+                    self.click_rect_random(res1)
                     self.log_info("第一次没点到")
                     self.sleep(1)
                     result = 2

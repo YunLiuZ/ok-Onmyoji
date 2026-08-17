@@ -1,3 +1,4 @@
+import random
 import re
 
 from src.tasks.BuffBattleTask import BuffBattleTask
@@ -231,6 +232,8 @@ class SoulZonesTask(BuffBattleTask):
 
     
         self.count = 1
+        if self.is_sleep:
+            self.next_sleep_count = random.randrange(*(self.count_range))
 
         while(self.count <= self.AttackNumber):
              for i, f in enumerate(targets):
@@ -272,6 +275,14 @@ class SoulZonesTask(BuffBattleTask):
                             self.log_warning("找不到Leader_Invitation")
 
                     self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
+                    if self.is_sleep:
+                        self.log_info(f"会在第{self.next_sleep_count}次休息")
+                        if self.count >= self.next_sleep_count:
+                            self.next_sleep_count = self.count + random.randrange(*(self.count_range))
+                            a = random.randrange(*(self.time_range))
+                            self.log_info(
+                                f"第 {self.count} 次体力爬塔战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
+                            self.sleep(a)
                     self.count+=1
                     self.trigger_count+=1
                 else:
@@ -288,8 +299,6 @@ class SoulZonesTask(BuffBattleTask):
             return True
         else:
             return False
-
-                           
 #endregion
 
     def Alone_battle(self):

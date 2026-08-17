@@ -101,6 +101,8 @@ class RealmRaidTask(BaseBattleTask):
             return False
 
     def realmraid_battle(self):
+        if self.is_sleep:
+            self.next_sleep_count = random.randrange(*(self.count_range))
         if text := self.wait_ocr(threshold=0.8,box=self.box_of_screen(0.89,0.02,0.95,0.1),
                                  time_out=6):
             nums = re.findall(r'\d+', text[0].name)
@@ -114,8 +116,6 @@ class RealmRaidTask(BaseBattleTask):
         self.log_info("进入battle")
         self.count = 1
         self.trigger_count = 1
-        if self.config["RandomSleep"]:
-            self.randomsleep = self.trigger_count + random.randrange(15,30)
         group_rows = {
             1: (0.19, 0.22, 0.35, 0.36),
             2: (0.44, 0.22, 0.60, 0.35),
@@ -168,9 +168,7 @@ class RealmRaidTask(BaseBattleTask):
         while(attack_num):
 
             target = self.count if self.forward else (10 - self.count)
-            x1, y1, x2, y2 = group_rows[target]
-            x = random.uniform(x1 + (x2 - x1) * 0.1, x2 - (x2 - x1) * 0.1)
-            y = random.uniform(y1 + (y2 - y1) * 0.1, y2 - (y2 - y1) * 0.1)
+            x, y = self._rect_random_point(group_rows[target])
 
             #退四
             if(self.forward and self.count == 9):
@@ -236,25 +234,27 @@ class RealmRaidTask(BaseBattleTask):
                     self.click(res,after_sleep=1)
                 else:
                     self.log_warning("找不到Battle_Finish 222")
-            
+
+
 
             self.log_info(f"第 {self.count} 个挑战 总共{self.tickets} 第 {self.trigger_count} 次战斗")
             if self.count == 9:
                 self.forward = (not self.forward)
             self.count = self.count%9 + 1
             self.trigger_count+=1
-            if self.config["RandomSleep"] and self.trigger_count >= self.randomsleep:
-                self.randomsleep = self.trigger_count + random.randrange(15, 30)
-                a = random.randrange(15, 60)
-                self.sleep(a)
-                self.log_info(f"第{target}个 挑战成功，继续休息{a}")
-            attack_num -= 1
+            if self.is_sleep:
+                self.log_info(f"会在第{self.next_sleep_count}次休息")
+                if self.trigger_count >= self.next_sleep_count:
+                    self.next_sleep_count = self.count + random.randrange(*(self.count_range))
+                    a = random.randrange(*(self.time_range))
+                    self.log_info(f"第 {self.count} 次战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
+                    self.sleep(a)
         return True
 
     def ryoutoppa_battle(self):
         self.count = 1
-        if self.config["RandomSleep"]:
-            self.randomsleep = self.trigger_count + random.randrange(15,30)
+        if self.is_sleep:
+            self.next_sleep_count = random.randrange(*(self.count_range))
         group_rows = {
             1: (0.40, 0.20, 0.57, 0.35),
             2: (0.67, 0.21, 0.83, 0.35),
@@ -291,9 +291,7 @@ class RealmRaidTask(BaseBattleTask):
             if self.config["Lock Team Enable"] and self.trigger_count == 2:
                 self.log_info("进入第二次战斗锁住阵容")
                 self.Lock_team((0.14, 0.82, 0.2, 0.9), lock=True)
-            x1, y1, x2, y2 = group_rows[target]
-            x = random.uniform(x1 + (x2 - x1) * 0.1, x2 - (x2 - x1) * 0.1)
-            y = random.uniform(y1 + (y2 - y1) * 0.1, y2 - (y2 - y1) * 0.1)
+            x, y = self._rect_random_point(group_rows[target])
             self.sleep(1)
             self.click_relative(x, y, after_sleep=0.5)
             if self.wait_click_ocr(match=re.compile("进攻"),
@@ -336,11 +334,13 @@ class RealmRaidTask(BaseBattleTask):
                 self.log_info(f"第{target}个 挑战成功，继续")
                 self.count += 1
                 self.trigger_count += 1
-                if self.config["RandomSleep"] and self.trigger_count >= self.randomsleep:
-                    self.randomsleep = self.trigger_count + random.randrange(15, 30)
-                    a =random.randrange(15, 60)
-                    self.sleep(a)
-                    self.log_info(f"第{target}个 挑战成功，继续休息{a}")
+                if self.is_sleep:
+                    self.log_info(f"下次会在第{self.next_sleep_count}次休息")
+                    if self.trigger_count >= self.next_sleep_count:
+                        self.next_sleep_count = self.count + random.randrange(*(self.count_range))
+                        a = random.randrange(*(self.time_range))
+                        self.log_info(f"第 {self.count} 次战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
+                        self.sleep(a)
             elif res == 2:
                 self.log_warning(f"第{target}个 挑战失败，换下一个")
                 target += 1

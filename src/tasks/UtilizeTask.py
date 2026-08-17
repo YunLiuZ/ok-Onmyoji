@@ -243,21 +243,3 @@ class UtilizeTask(BaseOmjTask):
                     break  # 找到并处理完就退出 tab 循环
                 else:
                     self.log_warning(f"{tab} 标签下未找到可寄养的好友")
-
-    
-        
-                    
-
-                    
-"""                    if 识别点击到可寄养的图标 
-                    if self.ocr_and_click('进入','结界', box=self.box_of_screen((0.61, 0.74, 0.76, 0.82)):
-                        if self.wait_o(['式神','寄养'],
-                                  box=self.box_of_screen(0.83, 0.00, 1, 0.1), time_out=3):
-                                  c_ve((0.17, 0.8))
-                                  self.ocr_and_click('que'ren', box=self.box_of_screen(0.51, 0.7, 0.64, 0.81):
-                                  sleep(2)
-                                  c_ve(0.04, 0.07) 返回
-                                  home_button
-                                结界的返回有点特别。
-
-"""

@@ -16,10 +16,9 @@ class UberBossTask(BaseBattleTask):
             "ApTickets":"0"
         })
         self.config_description.update({
-            "ApMode": "注灵票战斗",
-            "GeneralClimb": "普通票战斗",
-            "Lock Team Enable":"！！这次活动的队伍预设非常抽象，第一次遇到的怪物的队伍预设并不会是上次打的阵容，必须打过一次才能记住队伍，所以建议候选，每次战斗都会先预设队伍",
-            "Preset Enable":"！！切换队伍的逻辑是在搜索后，会出现收服页面，点击预设队伍，然后直接点击出战，所以这次活动本脚本只支持一个队伍，请预先设置一次，这样预设队伍点进去就是默认的队伍",
+            "ApMode": "注灵票战斗是否开启",
+            "GeneralClimb": "普通票战斗是否开启",
+            "Lock Team Enable":"考虑到借式神，暂时只支持一个预设队伍一直打，请手动设置每个boss的战斗队伍",
             "AttackNumber": "无需填写",
             "GeneralTickets": "普通票数量",
             "ApTickets": "注灵票数量"
@@ -38,8 +37,7 @@ class UberBossTask(BaseBattleTask):
         self.isap = True
     def run(self):
         self.in_home_and_back()
-        if self.config["RandomSleep"]:
-            self.randomsleep = random.randrange(15, 30)
+        self.is_sleep,self.count_range , self.time_range = self._random_sleep(self.config["RandomSleep"])
         self.group, self.team = self._parse_preset(self.config["Preset Team"])
         if self.config["Preset Enable"]:
             self.SwitchSoul_by_num(self.group, self.team)
@@ -82,6 +80,7 @@ class UberBossTask(BaseBattleTask):
         #     self.log_info(f"注灵搜索的票数{self.ap_tickets}")
         if self.config["GeneralClimb"]:
             self.count = 0
+            self.next_sleep_count = random.randrange(*(self.count_range))
             if self.isap:
                 self.click_relative(0.92, 0.77)
                 self.log_info("切换为爬塔")
@@ -92,13 +91,21 @@ class UberBossTask(BaseBattleTask):
             while self.count < self.general_tickets:
                 self.Battle_process()
                 self.count += 1
-                self.log_info(f"第 {self.count} 次爬塔战斗结束 总共{self.general_tickets}")
+                if self.is_sleep:
+                    self.log_info(f"会在第{self.next_sleep_count}次休息")
+                    if self.count >= self.next_sleep_count:
+                        self.next_sleep_count = self.count + random.randrange(*(self.count_range))
+                        a = random.randrange(*(self.time_range))
+                        self.sleep(a)
+                        self.log_info(f"第 {self.count} 次体力爬塔战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
+                self.log_info(f"第 {self.count} 次体力爬塔战斗结束")
         if self.config["ApMode"]:
             if not self.wait_ocr(match=re.compile("修行|合训"),
                                        time_out=6,
                                        raise_if_not_found=False):
                 self.log_warning("没有进入战斗")
             self.count = 0
+            self.next_sleep_count = random.randrange(*(self.count_range))
             if not self.isap:
                 self.click_relative(0.92, 0.77)
                 self.log_info("切换为注灵爬塔")
@@ -110,11 +117,13 @@ class UberBossTask(BaseBattleTask):
                 self.log_info("123")
                 self.Battle_process()
                 self.count += 1
-                if self.config["RandomSleep"] and self.count >= self.randomsleep:
-                    self.randomsleep = self.count + random.randrange(15, 30)
-                    a = random.randrange(15, 60)
-                    self.sleep(a)
-                    self.log_info(f"第 {self.count} 次体力爬塔战斗结束,休息{a}")
+                if self.is_sleep:
+                    self.log_info(f"会在第{self.next_sleep_count}次休息")
+                    if self.count >= self.next_sleep_count:
+                        self.next_sleep_count = self.count + random.randrange(*(self.count_range))
+                        a = random.randrange(*(self.time_range))
+                        self.sleep(a)
+                        self.log_info(f"第 {self.count} 次体力爬塔战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
                 self.log_info(f"第 {self.count} 次体力爬塔战斗结束")
         self.Back_Home()
 

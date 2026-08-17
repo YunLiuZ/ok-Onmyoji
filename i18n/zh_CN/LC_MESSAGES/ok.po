@@ -12,6 +12,8 @@ msgstr ""
 # ===== BEGIN: merged from i18n_omj.zip (Qt TS/XML -> gettext PO) =====
 # ===== 下面内容为本次追加，便于后续查找和修改 =====
 # ==============================================================================
+msgid "RandomSleep"
+msgstr "随机休息功能"
 
 msgid "User"
 msgstr "角色"

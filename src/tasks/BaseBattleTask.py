@@ -20,10 +20,15 @@ class BaseBattleTask(BaseOmjTask):
 
         self.trigger_count = 1 #想法是 多次启动多次记录
         self.count = 1 #每次启动战斗的次数 每次启动刷新的
-        self.randomsleep = 0
+
+
+        self.next_sleep_count = 0
+        self.is_sleep = 0
+        self.count_range = [0,0]
+        self.time_range = [0,0]
 
         self.default_config.update({
-            "RandomSleep":True,
+            "RandomSleep":"1,3,10,30,60",
             "Lock Team Enable": True,
             "Preset Enable": False,
             "Preset Team": "1,1",
@@ -34,7 +39,7 @@ class BaseBattleTask(BaseOmjTask):
         })
 
         self.config_description.update({
-            "RandomSleep": "对于大量的重复战斗，勾选后每次战斗10至30次会随机休息15至60秒，建议勾选，模拟人操作",
+            "RandomSleep": "以1,3,10,30,60为例，1表示开启0关闭，3，10为在这个范围随机次数打多少次会休息，30，60为随机休息多少秒，建议大量的战斗都开启这个功能，模拟人操作",
             "Lock Team Enable": "不开启时默认锁定阵容，开启后第一次将切换阵容第二次锁定",
             "Preset Enable": "开启后战斗前自动切换到指定的预设队伍。",
             "Preset Team": "预设队伍编号，格式：组,队  例如 1,5 表示第1组第4个队伍，最大支持7和4。和Team Name二选一填写",
@@ -63,6 +68,12 @@ class BaseBattleTask(BaseOmjTask):
         if len(parts) == 2:
             return int(parts[0].strip()), int(parts[1].strip())
         return 1, 1
+    def _random_sleep(self,randomsleep):
+        parts = randomsleep.split(",")
+        if len(parts) == 5:
+            return (int(parts[0].strip()),[int(parts[1].strip()), int(parts[2].strip())],
+                    [int(parts[3].strip()), int(parts[4].strip())])
+        return 0,[0,0],[0,0]
 
     def SwitchSoul_by_name(self,group:int,team:int,team_name:str):
         if self.wait_click_feature('Home_Shikigami_Chronicles', threshold=0.7,

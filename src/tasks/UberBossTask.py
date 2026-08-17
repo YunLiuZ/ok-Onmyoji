@@ -136,10 +136,10 @@ class UberBossTask(BaseBattleTask):
         if text := self.wait_ocr(match=re.compile("挑战"),
                                        box=self.box_of_screen(0.86, 0.72, 0.94, 0.9)):
             self.log_info(f"OCR: {text},进入战斗")
-        self.sleep(1)
-        self.click_relative(random.uniform(0.705, 0.745), random.uniform(0.827, 0.883))
-        self.sleep(1)
-        self.click_relative(random.uniform(0.639, 0.711), random.uniform(0.725, 0.765))
+        # self.sleep(1)
+        # self.click_relative(random.uniform(0.705, 0.745), random.uniform(0.827, 0.883))
+        # self.sleep(1)
+        # self.click_relative(random.uniform(0.639, 0.711), random.uniform(0.725, 0.765))
         self.Lock_team((0.85, 0.6, 0.93, 0.68), lock=True)
         if not self.wait_click_ocr(match=re.compile("挑战"),
                                        box=self.box_of_screen(0.86, 0.72, 0.94, 0.9),

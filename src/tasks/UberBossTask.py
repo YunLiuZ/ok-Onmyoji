@@ -141,7 +141,6 @@ class UberBossTask(BaseBattleTask):
                                        box=self.box_of_screen(0.83, 0.79, 0.94, 0.93),
                                        time_out=3,
                                        raise_if_not_found=False):
-                self.log_info("搜寻1111111111111111111111111111111111111")
                 self.click_rect_random((0.85, 0.8, 0.94, 0.92))
         else:
             self.click_rect_random((0.09, 0.18, 0.22, 0.26))
@@ -155,7 +154,6 @@ class UberBossTask(BaseBattleTask):
         # self.sleep(1)
         # self.click_relative(random.uniform(0.639, 0.711), random.uniform(0.725, 0.765))
         self.Lock_team((0.85, 0.6, 0.93, 0.68), lock=True)
-        self.log_info("挑战1111111111111111111111111111111111111")
         if self.wait_ocr(match=re.compile("挑战"),
                                        box=self.box_of_screen(0.86, 0.72, 0.94, 0.9),
                                    time_out=6,

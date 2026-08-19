@@ -17,7 +17,7 @@ task.feature_set = ok_test.feature_set
 task.after_init(executor=ok_test.task_executor, scene=ok_test.task_executor.scene)
 
 # ---- 设置测试图片 ----
-IMAGE = "tests\img/5.png"
+IMAGE = "tests\img/6.png"
 ok_test.device_manager.capture_method.set_images([IMAGE])
 frame = task.next_frame()
 h, w = frame.shape[:2]
@@ -27,8 +27,8 @@ h, w = frame.shape[:2]
 ocr_configs = [
     # (OCR区域 x,y,to_x,to_y,  匹配文本/正则,  框颜色)
     # (0.31, 0.03, 0.35, 0.11,           re.compile('觉醒|御魂|金币增加100|经验增加100'),            (255, 0, 0)),
-    (0.68, 0.02, 0.99, 0.09,None,(255, 0, 0)),
-    (0.87, 0.02, 0.95, 0.07, None, (255, 0, 0)),
+    (0.88,0.83,0.95,0.91,None,(255, 0, 0)),
+    (0.75, 0.03, 0.8, 0.09, None, (255, 0, 0)),
 
 ]
 

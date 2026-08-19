@@ -21,11 +21,16 @@ class GameEventsBattleTask(BaseBattleTask):
         self.default_config.update({
             "ApMode": True,
             "GeneralClimb": True,
+            "IsOcr":True,
+            "GeneralTickets": "0",
+            "ApTickets": "0"
         })
         self.config_description.update({
+            "IsOcr": "是否采用自动识别票数，当识别不出请关闭该参数然后手动填写",
             "GeneralTickets": "普通票数量",
             "ApTickets": "体力票数量",
-            "AttackNumber": "体力爬塔的次数，可填可不填",
+            "AttackNumber": "无需填写",
+
 
         })
 
@@ -71,28 +76,32 @@ class GameEventsBattleTask(BaseBattleTask):
                          time_out=3,
                          box=self.box_of_screen(0.65,0.82,0.84,0.9)):
             self.sleep(0.5)
-            if text:=self.ocr(match=re.compile("必定|双倍|掉落"),
+            if self.ocr(match=re.compile("必定|双倍|掉落"),
                              box=self.box_of_screen(0.01, 0.75, 0.32, 0.88)):
-                self.log_info(f"OCR: {text}")
                 self.log_info("现在是体力模式")
                 self.isap = True
             else:
-                self.log_info(f"OCR: {text}")
                 self.log_info("现在是爬塔模式")
                 self.isap = False
         else:
             self.log_warning("没有进入战斗页面")
             return False
+        if not self.config["IsOcr"]:
+            self.ap_tickets = int(self.config["ApTickets"])
+            self.general_tickets = int(self.config["GeneralTickets"])
+            self.log_info(f"体力爬塔票数{self.ap_tickets}")
+            self.log_info(f"普通爬塔票数：{self.general_tickets}")
+        else:
+            if text := self.ocr(threshold=0.8,box=self.box_of_screen(0.43, 0.03, 0.49, 0.09)):
+                nums = re.findall(r'\d+', text[0].name)
+                self.general_tickets = int(nums[0]) if nums else 0
+                self.log_info(f"普通爬塔票数：{self.general_tickets}")
 
-        if text := self.ocr(threshold=0.8,box=self.box_of_screen(0.43, 0.03, 0.49, 0.09)):
-            nums = re.findall(r'\d+', text[0].name)
-            self.general_tickets = int(nums[0]) if nums else 0
-            self.log_info(f"爬塔票数：{self.general_tickets}")
+            if text := self.ocr(threshold=0.8,box=self.box_of_screen(0.75, 0.03, 0.8, 0.09)):
+                nums = re.findall(r'\d+', text[0].name)
+                self.ap_tickets = int(nums[0]) if nums else 0
+                self.log_info(f"体力爬塔票数{self.ap_tickets}")
 
-        if text := self.ocr(threshold=0.8,box=self.box_of_screen(0.75, 0.03, 0.8, 0.09)):
-            nums = re.findall(r'\d+', text[0].name)
-            self.ap_tickets = int(nums[0]) if nums else 0
-            self.log_info(f"体力的票数{self.ap_tickets}")
         if self.config["Lock Team Enable"]:
             # 解锁状态 准备换队伍
             self.Lock_team((0.61, 0.89, 0.66, 0.97), lock=False)
@@ -105,12 +114,11 @@ class GameEventsBattleTask(BaseBattleTask):
             self.count = 0
             self.log_info(self.count_range)
             if self.is_sleep:
-                self.log_info(1111)
                 self.next_sleep_count = random.randrange(*(self.count_range))
-                self.log_info(self.next_sleep_count)
+                self.log_info(f"下次休息{self.next_sleep_count}")
             if self.isap:
                 self.click_rect_random((0.97, 0.76, 0.99, 0.79))
-                self.log_info("切换为爬塔")
+                self.log_info("切换为体力爬塔")
                 self.isap = False
                 self.sleep(0.5)
             else:
@@ -138,8 +146,7 @@ class GameEventsBattleTask(BaseBattleTask):
                 self.sleep(0.5)
             else:
                 self.log_info("体力")
-            num = self.AttackNumber if (self.AttackNumber < self.ap_tickets) else self.ap_tickets
-            while self.count < num:
+            while self.count < self.ap_tickets:
                 self.Battle_process()
                 self.count += 1
                 if self.is_sleep:
@@ -149,7 +156,7 @@ class GameEventsBattleTask(BaseBattleTask):
                         a = random.randrange(*(self.time_range))
                         self.log_info(f"第 {self.count} 次体力爬塔战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
                         self.sleep(a)
-                self.log_info(f"第 {self.count} 次体力爬塔战斗结束 总共{num}，下次休息{self.next_sleep_count}")
+                self.log_info(f"第 {self.count} 次体力爬塔战斗结束 总共{self.ap_tickets}，下次休息{self.next_sleep_count}")
         self.Back_Home()
 
 

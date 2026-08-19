@@ -140,6 +140,7 @@ config = {
         ["src.tasks.RealmRaidTask", "RealmRaidTask"],
         ["src.tasks.GoldYoukaiTask", "GoldYoukaiTask"],
         ["src.tasks.ExperienceYoukaiTask", "ExperienceYoukaiTask"],
+        ["src.tasks.DemonEncounter", "DemonEncounter"],
 
         # ── 战斗 ──
         ["src.tasks.SoulZonesTask", "SoulZonesTask"],

@@ -7,6 +7,7 @@ class DemonEncounter(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "日常-逢魔之时"
+        self.description ="暂时未完成测试使用"
         self.default_config.update({
             "DemonEncounter":True,
             "Another_DemonEncounter":False,

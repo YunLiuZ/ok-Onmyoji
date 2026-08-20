@@ -251,7 +251,7 @@ class SoulZonesTask(BuffBattleTask):
                             self.Change_team(self.group, self.team)
 
                         self.log_info("检测是否为自动")
-                        self.change_auto(self.GreenNum)
+                        self.change_auto(self.green,self.GreenNum)
                     else:
                         self.click_green(self.GreenNum)
 
@@ -351,9 +351,9 @@ class SoulZonesTask(BuffBattleTask):
                     self.Change_team(self.group, self.team)
 
                 self.log_info("检测是否为自动")
-                self.change_auto(self.GreenNum)
+                self.change_auto(self.green,self.GreenNum)
             else:
-                self.click_green(self.GreenNum)
+                self.click_green(self.green,self.GreenNum)
 
             if self.Find_finish(self.BattleTime) != 1:
                 self.Back_Home()

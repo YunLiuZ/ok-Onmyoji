@@ -166,9 +166,9 @@ class UberBossTask(BaseBattleTask):
         if self.count == 1:
             self.log_info("进入检测1")
             self.log_info("检测是否为自动")
-            self.change_auto(self.GreenNum)
+            self.change_auto(self.green,self.GreenNum)
         else:
-            self.click_green(self.GreenNum)
+            self.click_green(self.green,self.GreenNum)
         fail_count = 0
         while fail_count < 2:
             result = 1

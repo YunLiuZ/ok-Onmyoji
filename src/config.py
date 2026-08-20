@@ -141,6 +141,8 @@ config = {
         ["src.tasks.GoldYoukaiTask", "GoldYoukaiTask"],
         ["src.tasks.ExperienceYoukaiTask", "ExperienceYoukaiTask"],
         ["src.tasks.DemonEncounter", "DemonEncounter"],
+        # ── 日常-寮内 ──
+        ["src.tasks.HuntTask", "HuntTask"],
 
         # ── 战斗 ──
         ["src.tasks.SoulZonesTask", "SoulZonesTask"],

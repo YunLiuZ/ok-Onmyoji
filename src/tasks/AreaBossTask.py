@@ -96,9 +96,9 @@ class AreaBossTask(BaseBattleTask):
             if self.config["Lock Team Enable"]:
                 self.Change_team(self.group, self.team)
             self.log_info("检测是否为自动")
-            self.change_auto()
+            self.change_auto(self.green,self.GreenNum)
 
-            self.click_green(self.GreenNum)
+            self.click_green(self.green,self.GreenNum)
             res = self.Find_finish(self.BattleTime)
             if res == 2:
                 self.log_warning("战斗失败！！")

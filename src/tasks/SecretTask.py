@@ -86,9 +86,9 @@ class SecretTask(BaseBattleTask):
                     self.Change_team(self.group, self.team)
 
                 self.log_info("检测是否为自动")
-                self.change_auto(self.GreenNum)
+                self.change_auto(self.green,self.GreenNum)
             else:
-                self.click_green(self.GreenNum)
+                self.click_green(self.green,self.GreenNum)
 
             res = self.secret_battle_find_finish()
             if res == 2:

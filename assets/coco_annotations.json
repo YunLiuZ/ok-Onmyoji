@@ -317,6 +317,18 @@
             "file_name": "images/9.png",
             "width": 1600,
             "height": 900
+        },
+        {
+            "id": 69,
+            "file_name": "images/8.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 70,
+            "file_name": "images/6.png",
+            "width": 1600,
+            "height": 900
         }
     ],
     "annotations": [
@@ -1502,6 +1514,45 @@
             ],
             "area": 850,
             "iscrowd": 0
+        },
+        {
+            "id": 92,
+            "image_id": 69,
+            "category_id": 92,
+            "bbox": [
+                1087,
+                787,
+                78,
+                60
+            ],
+            "area": 4680,
+            "iscrowd": 0
+        },
+        {
+            "id": 93,
+            "image_id": 70,
+            "category_id": 93,
+            "bbox": [
+                279,
+                604,
+                90,
+                84
+            ],
+            "area": 7560,
+            "iscrowd": 0
+        },
+        {
+            "id": 94,
+            "image_id": 70,
+            "category_id": 94,
+            "bbox": [
+                576,
+                308,
+                131,
+                76
+            ],
+            "area": 9956,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -1958,6 +2009,21 @@
         {
             "id": 91,
             "name": "Secret_Lock",
+            "supercategory": ""
+        },
+        {
+            "id": 92,
+            "name": "YinYang_Shrine",
+            "supercategory": ""
+        },
+        {
+            "id": 93,
+            "name": "YinYang_Hunt",
+            "supercategory": ""
+        },
+        {
+            "id": 94,
+            "name": "YinYang_Dokan",
             "supercategory": ""
         }
     ]

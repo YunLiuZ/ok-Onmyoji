@@ -148,7 +148,7 @@ class ExplorationTask(BuffBattleTask):
                 self.log_info("进入战斗")
                 if self.count == 1:
                     self.log_info("检测是否为自动")
-                    if not self.change_auto():
+                    if not self.change_auto(self.green,self.GreenNum):
                         self.log_info("战斗可能太快没检测到自动")
                 res = self.Find_finish(self.BattleTime)
                 if res == 2:
@@ -359,7 +359,7 @@ class ExplorationTask(BuffBattleTask):
                     self.log_info("进入战斗")
                     if self.count == 1:
                         self.log_info("检测是否为自动")
-                        self.change_auto()
+                        self.change_auto(self.green,self.GreenNum)
                     self.Find_finish(self.BattleTime)
                     self.log_info(
                         f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
@@ -371,7 +371,7 @@ class ExplorationTask(BuffBattleTask):
                     self.log_info("进入战斗")
                     if self.count == 1:
                         self.log_info("检测是否为自动")
-                        self.change_auto()
+                        self.change_auto(self.green,self.GreenNum)
                     self.Find_finish(self.BattleTime)
                     self.log_info(
                         f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")

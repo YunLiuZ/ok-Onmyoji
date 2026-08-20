@@ -192,7 +192,7 @@ class AwakeTask(BuffBattleTask):
                         self.log_info("检测是否为自动")
                         self.change_auto(self.GreenNum)
                     else:
-                        self.click_green(self.GreenNum)
+                        self.click_green(self.green,self.GreenNum)
 
                     res = self.Find_finish(self.BattleTime)
                     if res == 2:
@@ -243,8 +243,8 @@ class AwakeTask(BuffBattleTask):
                     self.Change_team(self.group, self.team)
 
                 self.log_info("检测是否为自动")
-                self.change_auto()
-            self.click_green(self.GreenNum)
+                self.change_auto(self.green,self.GreenNum)
+            self.click_green(self.green,self.GreenNum)
 
             res = self.Find_finish(self.BattleTime)
             if res == 2:

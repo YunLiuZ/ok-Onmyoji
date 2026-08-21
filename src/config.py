@@ -96,7 +96,7 @@ config = {
     },
     'adb': {  # Windows游戏请填写此设置, mumu模拟器使用原生截图和input,速度极快. 其他模拟器和真机使用adb,截图速度较慢
         # optional, if set, will start the pacakge and ensure installed
-        'packages': ['com.netease.onmyoji.wyzymnqsd_cps']
+        'packages': ['com.netease.onmyoji', 'com.netease.onmyoji.wyzymnqsd_cps']
     },
     'start_timeout': 60,  # default 60
     'window_size': { #ok-script窗口大小

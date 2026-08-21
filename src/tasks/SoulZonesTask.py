@@ -189,8 +189,9 @@ class SoulZonesTask(BuffBattleTask):
         """邀请单个好友：invite_xy=(x,y) 邀请按钮位置，confirm_box 确认区域。"""
         self.click_relative(*invite_xy, after_sleep=1)
         for tab in self._invite_tabs(first=self.config.get("FindMode")):
-            if self.ocr_and_click(tab,time_out=3,box=self.B("Friend_Index")):
-                if self.ocr_and_click(f,time_out=3, box=self.B("Friend")):
+            if self.wait_click_ocr(match=re.compile(tab),box=self.box_of_screen(0.25, 0.09, 0.62, 0.22),
+                                   time_out=6,raise_if_not_found=False):
+                if self.ocr_and_click(f,time_out=3, box=self.box_of_screen(0.26, 0.24, 0.74, 0.75)):
                     self.click_relative(0.60, 0.79, after_sleep=1)
                     self.log_info('寻找到一位')
                     if self.wait_click_ocr(match=re.compile(f),

@@ -30,7 +30,7 @@ class BaseBattleTask(BaseOmjTask):
 
         self.default_config.update({
             "RandomSleep":"1,3,10,30,60",
-            "Lock Team Enable": True,
+            "Lock Team Enable": False,
             "Preset Enable": False,
             "Preset Team": "1,1",
             "Team Name":"",
@@ -43,7 +43,7 @@ class BaseBattleTask(BaseOmjTask):
             "RandomSleep": "以1,3,10,30,60为例，1表示开启0关闭，3，10为在这个范围随机次数打多少次会休息，30，60为随机休息多少秒，建议大量的战斗都开启这个功能，模拟人操作",
             "Lock Team Enable": "不开启时默认锁定阵容，开启后第一次将切换阵容第二次锁定",
             "Preset Enable": "开启后战斗前自动切换到指定的预设队伍。",
-            "Preset Team": "预设队伍编号，格式：组,队  例如 1,5 表示第1组第4个队伍，最大支持7和4。和Team Name二选一填写",
+            "Preset Team": "预设队伍编号，格式：组,队  例如 1,5 表示第1组第4个队伍，最大支持8和4。和Team Name二选一填写",
             "Team Name": "此功能暂时没设置好不要使用，预设组，队伍名，理论上可以让队伍选择更多，但是推荐尽量用上面那个，因为更稳定",
             "BattleTime": "通过时间，一般情况下不用修改，但当战斗时长接近或者有可能超过180秒时，应该设置为大致的战斗时间加三十秒即可",
             "Green Enable": "是否绿标，从左到右填写1-6，6为阴阳师，0为不绿标"
@@ -109,6 +109,7 @@ class BaseBattleTask(BaseOmjTask):
             self._swipe(0.91, 0.22, 0.91, 0.77, 0.5)
             self.sleep(0.5)
 
+
         group_rows = {1: 0.17, 2: 0.27, 3: 0.35, 4: 0.47, 5: 0.56, 6: 0.67, 7: 0.75}
         self.click_nth('x', 0.91, group_rows, group, "预设组")
 
@@ -158,14 +159,30 @@ class BaseBattleTask(BaseOmjTask):
 
         if self.wait_click_ocr(match='预设',
                             box=self.B('Home_Shikigami_Presets'),time_out=6,after_sleep=1):
-            self._swipe(0.91,0.22,0.91,0.77,0.5)
+            self.sleep(1)
+            self._swipe(0.91, 0.22, 0.91, 0.77, 0.5)
             self.sleep(0.5)
 
-            group_rows = {1: 0.17, 2: 0.27, 3: 0.35, 4: 0.47, 5: 0.56, 6: 0.67, 7: 0.75}
-            self.click_nth('x', 0.91, group_rows, group, "预设组")
-
-            team_rows = {1: 0.22, 2: 0.44, 3: 0.64, 4: 0.85}
-            self.click_nth('x', 0.77, team_rows, team, "预设队伍")
+            group_rows = {
+                1: (0.87, 0.12, 0.96, 0.19),
+                2: (0.86, 0.22, 0.96, 0.28),
+                3: (0.87, 0.32, 0.96, 0.37),
+                4: (0.87, 0.41, 0.95, 0.47),
+                5: (0.87, 0.51, 0.96, 0.57),
+                6: (0.87, 0.6, 0.96, 0.66),
+                7: (0.87, 0.69, 0.96, 0.77),
+                8: (0.89, 0.82, 0.95, 0.84),
+            }
+            self.click_rect_random(group_rows[group])
+            self.sleep(1)
+            team_rows = {
+                1: (0.77, 0.2, 0.78, 0.23),
+                2: (0.77, 0.42, 0.78, 0.44),
+                3: (0.77, 0.63, 0.79, 0.66),
+                4: (0.77, 0.84, 0.78, 0.87),
+            }
+            self.click_rect_random(team_rows[team])
+            self.sleep(1)
 
             self.sleep(1)
             if text := self.ocr('确认',box=self.box_of_screen(0.50,0.53,0.66,0.63)):
@@ -221,8 +238,25 @@ class BaseBattleTask(BaseOmjTask):
                             box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
                             raise_if_not_found=False, time_out=120):
             self.sleep(2)
-            group_rows = {1: 0.36, 2: 0.45, 3: 0.54, 4: 0.63, 5: 0.72, 6: 0.81, 7: 0.90}
-            self.click_nth('x', 0.08, group_rows, group, "预设组")
+            group_rows = {
+                1: (0.04, 0.35, 0.11, 0.4),
+                2: (0.04, 0.43, 0.11, 0.49),
+                3: (0.04, 0.52, 0.11, 0.57),
+                4: (0.04, 0.61, 0.11, 0.66),
+                5: (0.04, 0.69, 0.11, 0.75),
+                6: (0.04, 0.78, 0.11, 0.83),
+                7: (0.04, 0.87, 0.11, 0.93),
+                8: (0.04, 0.95, 0.11, 0.96),
+            }
+            self.click_rect_random(group_rows[group])
+            self.sleep(1)
+            team_rows = {
+                1: (0.36, 0.33, 0.45, 0.43),
+                2: (0.36, 0.5, 0.45, 0.63),
+                3: (0.35, 0.67, 0.45, 0.78),
+                4: (0.35, 0.84, 0.45, 0.87),
+            }
+            self.click_rect_random(team_rows[team])
             self.sleep(0.5)
 
             team_rows = {1: 0.36, 2: 0.53, 3: 0.69, 4: 0.85}

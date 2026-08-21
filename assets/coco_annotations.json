@@ -329,6 +329,12 @@
             "file_name": "images/6.png",
             "width": 1600,
             "height": 900
+        },
+        {
+            "id": 71,
+            "file_name": "images/7.png",
+            "width": 1600,
+            "height": 900
         }
     ],
     "annotations": [
@@ -1553,6 +1559,19 @@
             ],
             "area": 9956,
             "iscrowd": 0
+        },
+        {
+            "id": 95,
+            "image_id": 71,
+            "category_id": 95,
+            "bbox": [
+                270,
+                589,
+                112,
+                96
+            ],
+            "area": 10752,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -2024,6 +2043,11 @@
         {
             "id": 94,
             "name": "YinYang_Dokan",
+            "supercategory": ""
+        },
+        {
+            "id": 95,
+            "name": "Gate",
             "supercategory": ""
         }
     ]

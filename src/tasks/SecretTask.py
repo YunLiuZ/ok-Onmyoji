@@ -6,10 +6,12 @@ class SecretTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "周常-秘闻竞速"
+        self.description = "本任务的初衷是给小号和不挑战竞速的玩家使用，组一个可以稳定通关的阵容即可，重点是稳定"
 
         self.default_config.update({
         })
         self.config_description.update({
+            "AttackNumber": "对于秘闻无需填写",
         })
     def run(self):
         self.in_home_and_back()
@@ -74,10 +76,11 @@ class SecretTask(BaseBattleTask):
                                                      box=self.box_of_screen(0.33, 0.21, 0.43, 0.89),
                                                      time_out=3,
                                                      raise_if_not_found=False)
-            if self.trigger_count >= 2:
+            if self.count >= 2:
                 self.log_info("进入第二次战斗锁住阵容")
-                self.Lock_team((0.50, 0.70, 0.70, 0.90), lock=True)
-            self.click_relative(0.9,0.82)
+                self.Lock_team((0.86, 0.93, 0.9, 1.0), lock=True)
+
+            self.click_rect_random((0.87, 0.77, 0.94, 0.89))
             self.log_info("进入战斗")
 
             if self.count == 1:
@@ -123,6 +126,19 @@ class SecretTask(BaseBattleTask):
                                        after_sleep=0.5):
                 if res1 := self.find_one('Battle_Finish', threshold=0.7,
                                          box=self.B('Battle_Finish')):
+                    self.click(res1)
+                    self.sleep(0.5)
+                    self.log_info("第一次没点到")
+                    return True
+                else:
+                    self.log_info("第一次点到")
+                    return True
+            if self.wait_click_feature('Battle_Success', threshold=0.9,
+                                       box=self.box_of_screen(0, 0, 0.49, 0.43),
+                                       raise_if_not_found=False, time_out=1,
+                                       after_sleep=0.5):
+                if res1 := self.find_one('Battle_Success', threshold=0.9,
+                                         box=self.box_of_screen(0,0,0.49,0.43)):
                     self.click(res1)
                     self.sleep(0.5)
                     self.log_info("第一次没点到")

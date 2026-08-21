@@ -8,7 +8,7 @@ class HuntTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "日常-寮内-狩猎战"
-        self.description = "暂时不支持换协战的式神"
+        self.description = "暂时不支持换协战的式神，每周的周一到周四"
         self.default_config.update({
 
         })

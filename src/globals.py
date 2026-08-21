@@ -21,6 +21,7 @@ from src.tasks.ExperienceYoukaiTask import ExperienceYoukaiTask
 from src.tasks.GoldYoukaiTask import GoldYoukaiTask
 from src.tasks.SecretTask import SecretTask
 from src.tasks.UberBossTask import UberBossTask
+from src.tasks.HuntTask import HuntTask
 
 TASK_MAP = {
     "日常-签到": DailyTask,
@@ -32,6 +33,7 @@ TASK_MAP = {
     "日常-战斗-个人突破": RealmRaidTask,
     "日常-战斗-经验妖怪": ExperienceYoukaiTask,
     "日常-战斗-金币妖怪": GoldYoukaiTask,
+    "日常-寮内-狩猎战": HuntTask,
     "战斗-魂土": SoulZonesTask,
     "战斗-困难二十八": ExplorationTask,
     "周常-秘闻竞速":SecretTask,

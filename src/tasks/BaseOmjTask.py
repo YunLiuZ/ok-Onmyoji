@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from typing import List
 
 import numpy as np
+from ok.gui.Communicate import communicate
 
 from ok import BaseTask, Logger, og, CannotFindException, TaskDisabledException
 

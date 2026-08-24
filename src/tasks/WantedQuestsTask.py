@@ -1,3 +1,5 @@
+from ok import communicate
+
 from src.tasks.BaseBattleTask import BaseBattleTask
 
 
@@ -6,7 +8,7 @@ class WantedQuestsTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "日常-悬赏封印"
-        self.description = "自动完成悬赏封印"
+        self.description = "自动完成悬赏封印，不会完成勾协，但会提示有勾协，勾协请手动完成"
     def run(self):
         self.in_home_and_back()
         self.wanted_page()
@@ -56,6 +58,7 @@ class WantedQuestsTask(BaseBattleTask):
                 friend = self.find_one(["Home_WantedQuests_Friend","Home_WantedQuests_Friend2"],
                                        threshold=0.75, box=self.box_of_screen(0.11, 0.23, 0.32, 0.83))
                 if jade and friend:
+                    communicate.notification.emit('有勾协请手动处理', '提示', False, True, None, None)
                     self.log_warning("有勾协请手动处理")
                     self.count += 1
                     continue

@@ -134,6 +134,8 @@ config = {
         ["src.tasks.DelegationTask", "DelegationTask"],
         ["src.tasks.UtilizeTask", "UtilizeTask"],
         ["src.tasks.OrchidsTask", "OrchidsTask"],
+        ["src.tasks.WantedQuestsTask", "WantedQuestsTask"],
+
 
 
         # ── 日常-战斗 ──

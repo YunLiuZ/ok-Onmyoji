@@ -213,9 +213,9 @@ class BaseBattleTask(BaseOmjTask):
         return tabs
 # region 预设
     def Lock_team(self, confirm_box: tuple,lock = True):
-        LOCK_NAMES = ["Soul_Lock", "Lock", "Areaboss_Lock", "RealmRaid_Lock","Secret_Lock"]
-        NOT_LOCK_NAMES = ["Soul_Not_Lock", "Not_Lock", "Areaboss_Not_Lock", "RealmRaid_Not_Lock","Secret_Not_Lock"]
-        if res := self.find_one(LOCK_NAMES, threshold=0.85, box=self.box_of_screen(*confirm_box)):
+        LOCK_NAMES = ["Soul_Lock", "Lock", "Areaboss_Lock", "RealmRaid_Lock","Secret_Lock","Challenge_Lock"]
+        NOT_LOCK_NAMES = ["Soul_Not_Lock", "Not_Lock", "Areaboss_Not_Lock", "RealmRaid_Not_Lock","Secret_Not_Lock","Challenge_Not_Lock"]
+        if res := self.find_one(LOCK_NAMES, threshold=0.8, box=self.box_of_screen(*confirm_box)):
             self.log_info("检查到上锁")
             if lock:
                 self.log_info("上锁")
@@ -224,7 +224,7 @@ class BaseBattleTask(BaseOmjTask):
                 self.click(res)
                 self.log_info("解锁")
                 return False
-        elif res := self.find_one(NOT_LOCK_NAMES, threshold=0.85, box=self.box_of_screen(*confirm_box)):
+        elif res := self.find_one(NOT_LOCK_NAMES, threshold=0.8, box=self.box_of_screen(*confirm_box)):
             if lock:
                 self.click(res)
                 self.log_info("上锁")
@@ -232,6 +232,7 @@ class BaseBattleTask(BaseOmjTask):
             else:
                 self.log_info("解锁")
                 return False
+        self.log_warning("无法识别开锁解锁")
     def Change_team(self,group:int,team:int):
         self.log_info("进入检测2")
         if self.wait_click_ocr(match=re.compile("预设"),

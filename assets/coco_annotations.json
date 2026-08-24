@@ -295,6 +295,12 @@
             "height": 1440
         },
         {
+            "id": 64,
+            "file_name": "images/3.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
             "id": 65,
             "file_name": "images/6.png",
             "width": 1600,
@@ -333,6 +339,18 @@
         {
             "id": 71,
             "file_name": "images/7.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 72,
+            "file_name": "images/6.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 74,
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         }
@@ -1572,6 +1590,71 @@
             ],
             "area": 10752,
             "iscrowd": 0
+        },
+        {
+            "id": 96,
+            "image_id": 64,
+            "category_id": 97,
+            "bbox": [
+                75,
+                79,
+                79,
+                63
+            ],
+            "area": 4977,
+            "iscrowd": 0
+        },
+        {
+            "id": 97,
+            "image_id": 64,
+            "category_id": 96,
+            "bbox": [
+                513,
+                76,
+                78,
+                74
+            ],
+            "area": 5772,
+            "iscrowd": 0
+        },
+        {
+            "id": 98,
+            "image_id": 64,
+            "category_id": 98,
+            "bbox": [
+                361,
+                79,
+                85,
+                63
+            ],
+            "area": 5355,
+            "iscrowd": 0
+        },
+        {
+            "id": 99,
+            "image_id": 72,
+            "category_id": 100,
+            "bbox": [
+                949,
+                180,
+                52,
+                77
+            ],
+            "area": 4004,
+            "iscrowd": 0
+        },
+        {
+            "id": 100,
+            "image_id": 74,
+            "category_id": 99,
+            "bbox": [
+                720,
+                606,
+                28,
+                31
+            ],
+            "area": 868,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -2048,6 +2131,31 @@
         {
             "id": 95,
             "name": "Gate",
+            "supercategory": ""
+        },
+        {
+            "id": 96,
+            "name": "Home_Idle_setting",
+            "supercategory": ""
+        },
+        {
+            "id": 97,
+            "name": "Home_Idle_Back",
+            "supercategory": ""
+        },
+        {
+            "id": 98,
+            "name": "Home_Idle_Chat",
+            "supercategory": ""
+        },
+        {
+            "id": 99,
+            "name": "Duel_Page_confirm",
+            "supercategory": ""
+        },
+        {
+            "id": 100,
+            "name": "Duel",
             "supercategory": ""
         }
     ]

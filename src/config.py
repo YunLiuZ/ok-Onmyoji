@@ -71,6 +71,7 @@ config = {
     'debug': False,  # Optional, default: False
     'use_gui': True, # 目前只支持True
     'config_folder': f'configs{_instance_suffix}',  # 多开时自动使用子目录（如 configs/instance_2）
+    'instance_id': _instance_id,  # 多开实例编号，用于日志等分目录
     'global_configs': [key_config_option, character_config],
     # 'screenshot_processor': make_bottom_right_black, # 在截图的时候对frame进行修改, 可选
     'gui_icon': 'icons/icon.png', #窗口图标, 最好不需要修改文件名
@@ -151,6 +152,7 @@ config = {
 
         # ── 周常 ──
         ["src.tasks.SecretTask", "SecretTask"],
+
         # ── 活动 ──
         ["src.tasks.GameEventsBattleTask", "GameEventsBattleTask"],
         ["src.tasks.UberBossTask", "UberBossTask"],

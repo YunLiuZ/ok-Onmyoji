@@ -47,15 +47,14 @@ class ExperienceYoukaiTask(BuffBattleTask):
                     self.log_warning("找不到页面")
                     return False
                 self.Alone_battle()
-                return True
             else:
-                if self.config["加成选择"] and self.count==1:
+                if self.config["Buff Enable"] and self.count==1:
                     if not self.wait_click_feature('Home_Explore', threshold=0.7,
                                                    box=self.B('Home_Explore'),
                                                    raise_if_not_found=False, time_out=6, after_sleep=1):
                         self.log_warning("找不到探索 Home_Sign")
                     self.info_set("步骤", "进入探索页面")
-                    if self.open_buff(self.config.get("加成选择", [])):
+                    if self.open_buff(self.config.get("Buff Enable", [])):
                         self.log_info("open buff")
                         self.Back_Home()
                 else:
@@ -63,22 +62,30 @@ class ExperienceYoukaiTask(BuffBattleTask):
                 if self.wait_click_feature('Invitation_Confirm', threshold=0.7,
                                            box=self.B('Invitation_Confirm'),
                                            raise_if_not_found=False, time_out=300, after_sleep=1):
-                    if self.Member_battle():
-                        return True
-                    else:
+                    if not self.Member_battle():
                         return False
                 else:
                     self.log_warning("等待邀请超时")
                     return False
-
-    def ExperienceYoukai_page(self):
-        if self.config["加成选择"] and self.count==1:
+        if self.config["Buff Enable"]:
+            self.Back_Home()
             if not self.wait_click_feature('Home_Explore', threshold=0.7,
                                            box=self.B('Home_Explore'),
                                            raise_if_not_found=False, time_out=6, after_sleep=1):
                 self.log_warning("找不到探索 Home_Sign")
             self.info_set("步骤", "进入探索页面")
-            if self.open_buff(self.config.get("加成选择", [])):
+            if self.open_buff(self.config.get("Buff Enable", []),True):
+                self.log_info("open buff")
+                self.Back_Home()
+
+    def ExperienceYoukai_page(self):
+        if self.config["Buff Enable"] and self.count==1:
+            if not self.wait_click_feature('Home_Explore', threshold=0.7,
+                                           box=self.B('Home_Explore'),
+                                           raise_if_not_found=False, time_out=6, after_sleep=1):
+                self.log_warning("找不到探索 Home_Sign")
+            self.info_set("步骤", "进入探索页面")
+            if self.open_buff(self.config.get("Buff Enable", [])):
                 self.log_info("open buff")
                 self.Back_Home()
         else:
@@ -88,12 +95,12 @@ class ExperienceYoukaiTask(BuffBattleTask):
                                    raise_if_not_found=False, time_out=6, after_sleep=1):
             self.log_warning("找不到探索 Home_Team")
         self.log_info("进入组队页面")
-        if self.wait_click_ocr(match=re.compile("经验"), threshold=0.7,
-                               box=self.box_of_screen(0.11, 0.18, 0.29, 0.87),
-                               raise_if_not_found=False, time_out=6, after_sleep=1):
-            self.click_relative(0.51,0.18)
-            self.log_info("经验妖怪")
-        else:
+        if self.wait_ocr(match=re.compile("组队"), time_out=3,
+                         box=self.box_of_screen(0, 0, 0.2, 0.2),
+                         raise_if_not_found=False):
+            self.sleep(1)
+            self._swipe(0.22, 0.22, 0.22, 0.82, 0.2)
+            self.sleep(1)
             self._swipe(0.22, 0.22, 0.22, 0.82, 0.2)
             self.sleep(0.5)
             self.log_info("滑到顶")
@@ -144,8 +151,9 @@ class ExperienceYoukaiTask(BuffBattleTask):
         """邀请单个好友：invite_xy=(x,y) 邀请按钮位置，confirm_box 确认区域。"""
         self.click_relative(*invite_xy, after_sleep=1)
         for tab in self._invite_tabs(first=self.config.get("FindMode")):
-            if self.ocr_and_click(tab, box=self.B("Friend_Index")):
-                if self.ocr_and_click(f, box=self.B("Friend")):
+            if self.wait_click_ocr(match=re.compile(tab), box=self.box_of_screen(0.25, 0.09, 0.62, 0.22),
+                                   time_out=6, raise_if_not_found=False):
+                if self.ocr_and_click(f, time_out=3, box=self.box_of_screen(0.26, 0.24, 0.74, 0.75)):
                     self.click_relative(0.60, 0.79, after_sleep=1)
                     self.log_info('寻找到一位')
                     if self.ocr_and_click(f, time_out=20,
@@ -181,7 +189,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
             else:
                 ok = self.ocr_and_click(f, time_out=30, box=self.box_of_screen(0.42, 0.17, 0.61, 0.32))
             if ok:
-                self.click_relative(0.95, 0.90, after_sleep=0.5)
+                self.click_rect_random((0.93, 0.85, 0.98, 0.94))
                 self.log_info("进入battle")
                 # 经验副本的success是独立的
                 if self.config["Lock Team Enable"]:
@@ -196,21 +204,27 @@ class ExperienceYoukaiTask(BuffBattleTask):
                         self.click_relative(0.91, 0.79)
                         self.log_info("检测是否为自动")
                         self.change_auto(self.green,self.GreenNum)
-                if self.wait_until(condition=lambda: self.base_scene(),
-                                   time_out=self.BattleTime,
-                                   pre_action=lambda: self.wait_click_feature('Youkai_Success', threshold=0.7,
-                                                                              box=self.box_of_screen(0.2, 0, 0.5, 0.43),
-                                                                              raise_if_not_found=False,
-                                                                              time_out=self.BattleTime,
-                                                                              after_sleep=0.5),
-                                   raise_if_not_found=False):
-                    self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
-                    self.count += 1
-                    self.trigger_count += 1
-                    return True
-                else:
-                    self.log_warning("没有检测到战斗结束")
-                    return False
+                if self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                           box=self.box_of_screen(0.2, 0, 0.5, 0.43),
+                                           raise_if_not_found=False,
+                                           time_out=self.BattleTime,
+                                           after_sleep=0.5):
+                    if (self.wait_feature('Home_Town', threshold=0.8,
+                                          time_out=3, box=self.B('Home_Town'),
+                                          raise_if_not_found=False)
+                            or
+                            self.wait_feature("Home_Explore", threshold=0.8,
+                                              time_out=3, box=self.B('Home_Exp'),
+                                              raise_if_not_found=False)):
+
+                        self.log_info(
+                            f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
+                        self.count += 1
+                        self.trigger_count += 1
+                        return True
+                    else:
+                        self.log_warning("没有检测到战斗结束")
+                        return False
             else:
                 self.log_info("队友不在了")
                 self.Back_Home()
@@ -218,7 +232,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
 
     def Alone_battle(self):
         self.sleep(0.5)
-        self.click_relative(0.95, 0.90, after_sleep=0.5)
+        self.click_rect_random((0.93, 0.85, 0.98, 0.94))
         # 经验副本的success是独立的
         if self.config["Lock Team Enable"]:
             self.Change_team(self.group, self.team)
@@ -232,49 +246,66 @@ class ExperienceYoukaiTask(BuffBattleTask):
                 self.click_relative(0.91, 0.79)
                 self.log_info("检测是否为自动")
                 self.change_auto(self.green,self.GreenNum)
-        if self.wait_until(condition=lambda: self.base_scene(),
-                           time_out=self.BattleTime,
-                           pre_action=lambda: self.wait_click_feature('Youkai_Success', threshold=0.7,
-                                                                      box=self.box_of_screen(0.2, 0, 0.5, 0.43),
-                                                                      raise_if_not_found=False,
-                                                                      time_out=self.BattleTime,
-                                                                      after_sleep=0.5),
-                           raise_if_not_found=False):
-            self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
-            self.count += 1
-            self.trigger_count += 1
-            return True
-        else:
-            self.log_warning("没有检测到战斗结束")
-            return False
+        if self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                   box=self.box_of_screen(0.2, 0, 0.5, 0.43),
+                                   raise_if_not_found=False,
+                                   time_out=self.BattleTime,
+                                   after_sleep=0.5):
+            if (self.wait_feature('Home_Town', threshold=0.8,
+                                  time_out=3, box=self.B('Home_Town'),
+                                  raise_if_not_found=False)
+                    or
+                    self.wait_feature("Home_Explore", threshold=0.8,
+                                      time_out=3, box=self.B('Home_Exp'),
+                                      raise_if_not_found=False)):
+
+                self.log_info(
+                    f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
+                self.count += 1
+                self.trigger_count += 1
+                return True
+            else:
+                self.log_warning("没有检测到战斗结束")
+                return False
 
     def Member_battle(self):
         # 经验副本的success是独立的
+        if self.wait_ocr(match=re.compile("预设"),
+                         box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
+                         raise_if_not_found=False, time_out=120):
+            self.log_info("开始战斗")
+        else:
+            self.log_warning("没有检测到战斗页面")
+            return False
         if self.config["Lock Team Enable"]:
             self.Change_team(self.group, self.team)
             self.log_info("检测是否为自动")
-            self.change_auto(self.green,self.GreenNum)
+            self.change_auto(self.green, self.GreenNum)
         else:
-            if self.wait_ocr(match=re.compile("预设"),
-                             box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
-                             raise_if_not_found=False, time_out=120):
-                self.sleep(0.5)
-                self.click_relative(0.91, 0.79)
-                self.change_auto(self.green,self.GreenNum)
-        if self.wait_until(condition=lambda: self.base_scene(),
-                           time_out=self.BattleTime,
-                           pre_action=lambda: self.wait_click_feature('Youkai_Success', threshold=0.7,
-                                                                      box=self.box_of_screen(0.2, 0, 0.5, 0.43),
-                                                                      raise_if_not_found=False,
-                                                                      time_out=self.BattleTime,
-                                                                      after_sleep=0.5),
-                           raise_if_not_found=False):
-            self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
-            self.count += 1
-            self.trigger_count += 1
-            return True
-        else:
-            self.log_warning("没有检测到战斗结束")
-            return False
+            self.sleep(1)
+            self.click_rect_random((0.93, 0.85, 0.98, 0.94))
+            self.log_info("检测是否为自动")
+            self.change_auto(self.green, self.GreenNum)
+        if self.wait_click_feature('Youkai_Success', threshold=0.7,
+                                   box=self.box_of_screen(0.2, 0, 0.5, 0.43),
+                                   raise_if_not_found=False,
+                                   time_out=self.BattleTime,
+                                   after_sleep=0.5):
+            if (self.wait_feature('Home_Town', threshold=0.8,
+                                  time_out=3, box=self.B('Home_Town'),
+                                  raise_if_not_found=False)
+                    or
+                    self.wait_feature("Home_Explore", threshold=0.8,
+                                      time_out=3, box=self.B('Home_Exp'),
+                                      raise_if_not_found=False)):
+
+                self.log_info(
+                    f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
+                self.count += 1
+                self.trigger_count += 1
+                return True
+            else:
+                self.log_warning("没有检测到战斗结束")
+                return False
 
 

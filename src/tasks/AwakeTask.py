@@ -58,7 +58,7 @@ class AwakeTask(BuffBattleTask):
                 self.log_warning("找不到探索 Home_Sign")
             self.info_set("步骤", "进入探索页面")
 
-            if self.open_buff(self.config.get("加成选择", [])):
+            if self.open_buff(self.config.get("Buff Enable", [])):
                 self.log_info("open buff")
             else:
                 self.log_info("not open buff")
@@ -81,7 +81,7 @@ class AwakeTask(BuffBattleTask):
             self.log_warning("找不到探索 Home_Sign")
         self.info_set("步骤", "进入探索页面")
 
-        if self.open_buff(self.config.get("加成选择", [])):
+        if self.open_buff(self.config.get("Buff Enable", [])):
             self.log_info("open buff")
         else:
             self.log_info("not open buff")

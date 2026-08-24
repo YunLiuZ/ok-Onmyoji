@@ -397,7 +397,7 @@ class BaseBattleTask(BaseOmjTask):
 
         self.log_warning("战斗结束超时")
         return 3
-    def open_buff(self, selected):
+    def open_buff(self, selected,close = False):
         """根据 selected（buff 名列表），先 OCR 定位加成文字位置，再检查/点击对应开关。
         不同用户加成数量不同，OCR 自适应。"""
         if not selected:
@@ -437,6 +437,10 @@ class BaseBattleTask(BaseOmjTask):
             )
             if on_ratio > 0.2:
                 self.log_info(f"{name} 加成已开启")
+                if close:
+                    self.click_relative(0.68, (rel_y_top + rel_y_bot) / 2, after_sleep=0.5)
+                    self.log_info(f"{name} 加成已关闭")
+
             else:
                 self.log_info(f"{name} 加成未开启，点击打开")
                 self.click_relative(0.68, (rel_y_top + rel_y_bot) / 2, after_sleep=0.5)

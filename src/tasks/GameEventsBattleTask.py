@@ -223,7 +223,7 @@ class GameEventsBattleTask(BaseBattleTask):
         else:
             self.click_green(self.GreenNum)
 
-        if self.wait_until(check, time_out=self.BattleTime, raise_if_not_found=False):
+        if self.wait_until(check, time_out=self.BattleTime, settle_time=0, raise_if_not_found=False):
             return True
 
         

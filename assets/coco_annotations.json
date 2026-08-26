@@ -389,6 +389,12 @@
             "file_name": "images/1.png",
             "width": 2560,
             "height": 1440
+        },
+        {
+            "id": 81,
+            "file_name": "images/6.png",
+            "width": 1600,
+            "height": 900
         }
     ],
     "annotations": [
@@ -1782,6 +1788,32 @@
             ],
             "area": 2120,
             "iscrowd": 0
+        },
+        {
+            "id": 108,
+            "image_id": 30,
+            "category_id": 107,
+            "bbox": [
+                711,
+                91,
+                166,
+                58
+            ],
+            "area": 9628,
+            "iscrowd": 0
+        },
+        {
+            "id": 109,
+            "image_id": 81,
+            "category_id": 109,
+            "bbox": [
+                399,
+                452,
+                165,
+                74
+            ],
+            "area": 12210,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -2316,8 +2348,18 @@
             "supercategory": ""
         },
         {
+            "id": 107,
+            "name": "RealmRaid_Feature",
+            "supercategory": ""
+        },
+        {
             "id": 108,
             "name": "Challenge_Lock",
+            "supercategory": ""
+        },
+        {
+            "id": 109,
+            "name": "RealmRaid_Attack",
             "supercategory": ""
         }
     ]

@@ -13,6 +13,7 @@ if __name__ == '__main__':
     config = config
     config['debug'] = True
 
+
     # 多开日志分离：按 instance_id 分目录 logs/{id}/ok-script.log
     import os
     _original_config_logger = ok.config_logger

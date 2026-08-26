@@ -147,20 +147,6 @@ class ExperienceYoukaiTask(BuffBattleTask):
             self.log_info('没有进入队伍')
             return False
 
-    def _invite_one(self, f: str, invite_xy: tuple, confirm_box: tuple) -> bool:
-        """邀请单个好友：invite_xy=(x,y) 邀请按钮位置，confirm_box 确认区域。"""
-        self.click_relative(*invite_xy, after_sleep=1)
-        for tab in self._invite_tabs(first=self.config.get("FindMode")):
-            if self.wait_click_ocr(match=re.compile(tab), box=self.box_of_screen(0.25, 0.09, 0.62, 0.22),
-                                   time_out=6, raise_if_not_found=False):
-                if self.ocr_and_click(f, time_out=3, box=self.box_of_screen(0.26, 0.24, 0.74, 0.75)):
-                    self.click_relative(0.60, 0.79, after_sleep=1)
-                    self.log_info('寻找到一位')
-                    if self.ocr_and_click(f, time_out=20,
-                                          box=self.box_of_screen(*confirm_box)):
-                        return True
-        return False
-
     def Invitation(self):
         if text := self.wait_ocr(match=re.compile("协战|召回"),
                                  box=self.box_of_screen(0, 0, 0.17, 0.1), time_out=6):
@@ -172,9 +158,9 @@ class ExperienceYoukaiTask(BuffBattleTask):
 
         for i, f in enumerate(targets):
             if i == 0:
-                ok = self._invite_one(f, (0.33, 0.4), (0.22, 0.14, 0.42, 0.28))
+                ok = self._invite_one(f, (0.33, 0.4), (0.22, 0.14, 0.42, 0.28),findmode=self.config.get("FindMode"))
             else:
-                ok = self._invite_one(f, (0.52, 0.43), (0.42, 0.17, 0.61, 0.32))
+                ok = self._invite_one(f, (0.52, 0.43), (0.42, 0.17, 0.61, 0.32),findmode=self.config.get("FindMode"))
             if not ok:
                 return False
         return True

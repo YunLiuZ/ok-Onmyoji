@@ -33,6 +33,21 @@ if __name__ == '__main__':
 
     hwnd_mod.HwndWindow.do_update_window_size = patched_do_update
 
+    # 修复 multi_selection 排版挤：调大 FlowLayout 列数
+    try:
+        from ok.ui.qt.tasks.LabelAndMultiSelection import LabelAndMultiSelection
+        _original_ms_init = LabelAndMultiSelection.__init__
+
+        def patched_ms_init(self, config_desc, options, config, key):
+            _original_ms_init(self, config_desc, options, config, key)
+            if hasattr(self, 'content_layout'):
+                self.content_layout.max_columns = 3
+                self.content_layout._rebuild()
+
+        LabelAndMultiSelection.__init__ = patched_ms_init
+    except Exception:
+        pass
+
     config = config
 
     # 多开日志分离：按 instance_id 分目录 logs/{id}/ok-script.log

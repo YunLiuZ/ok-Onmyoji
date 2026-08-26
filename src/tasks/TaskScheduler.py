@@ -20,7 +20,7 @@ class TaskScheduler(BaseOmjTask):
             "任务列表": self.ALL_TASKS.copy(),
         })
         for name in self.ALL_TASKS:
-            self.default_config.update({f"{name}": "20"})
+            self.default_config.update({f"{name}": 20})
 
         self.config_description.update({
             "任务列表": "勾选要执行的任务，数字越小，越快执行。",

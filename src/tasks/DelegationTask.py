@@ -143,7 +143,7 @@ class DelegationTask(BaseOmjTask):
             # self.click_relative(0.89, 0.44, after_sleep=1) ？？？
             self.wait_until(condition=lambda:self.wait_click_ocr(match=re.compile("完成"),time_out=1,
                                                                  box=self.box_of_screen(0.73, 0.35, 0.93, 0.53)),
-                                            time_out=20, pre_action= click
+                                            time_out=20, pre_action= click, settle_time=0
                                             , raise_if_not_found=False)
 
             if not self.ocr_and_click(['顺利', "达成"], 1,

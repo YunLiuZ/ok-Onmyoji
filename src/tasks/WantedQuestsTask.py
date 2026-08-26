@@ -15,15 +15,14 @@ class WantedQuestsTask(BaseBattleTask):
         if not self.wanted_battle():
             self.log_warning("悬赏失败")
     def wanted_page(self):
-
-        if btns := self.find_feature('Wanted',
-                                     box=self.box_of_screen(0.16, 0.17, 0.27, 0.6), threshold=0.8):
-            self.click_rect_random(btns[0])
+        if self.wait_click_feature('Wanted', threshold=0.7,
+                             box=self.box_of_screen(0.16, 0.17, 0.27, 0.6),
+                             raise_if_not_found=False, time_out=3):
             self.log_info('点击悬赏封印')
-        self.sleep(1)
-        if btns := self.find_feature('Wanted2',
-                                     box=self.box_of_screen(0.16, 0.17, 0.27, 0.6), threshold=0.8):
-            self.click_rect_random(btns[0])
+
+        if self.wait_click_feature('Wanted2', threshold=0.7,
+                             box=self.box_of_screen(0.16, 0.17, 0.27, 0.6),
+                             raise_if_not_found=False, time_out=3):
             self.log_info('点击悬赏封印')
         self.sleep(1)
 
@@ -75,6 +74,12 @@ class WantedQuestsTask(BaseBattleTask):
                 self.sleep(0.5)
                 self.log_info("式神碎片挑战")
                 self.click_rect_random((0.77, 0.35, 0.83, 0.4))
+            elif self.wait_feature('Wanted_Todo_Feature', threshold=0.7,
+                                     box=self.box_of_screen(0.41, 0.43, 0.52, 0.52),
+                                     raise_if_not_found=False, time_out=3):
+                    self.sleep(0.5)
+                    self.log_info("式神碎片挑战")
+                    self.click_rect_random((0.77, 0.45, 0.83, 0.49))
             else:
                 self.log_info("不是式神碎片挑战或者已经完成，跳过，")
                 self.click_rect_random((0.09, 0.09, 0.87, 0.17))
@@ -85,14 +90,16 @@ class WantedQuestsTask(BaseBattleTask):
                                  box=self.box_of_screen(0.37, 0.0, 0.42, 0.09),
                                  raise_if_not_found=False, time_out=3):
                 self.log_info("进入式神碎片挑战页面")
+                self.sleep(2)
                 if self.config["Lock Team Enable"]:
                     # 解锁状态 准备换队伍
 
-                    self.Lock_team((0.83, 0.6, 0.93, 0.78), lock=False)
+                    self.Lock_team((0.82, 0.66, 0.96, 0.8), lock=False)
                 else:
                     # 不换
-                    self.Lock_team((0.83, 0.6, 0.93, 0.78), lock=True)
-                self.click_rect_random((0.85, 0.82, 0.92, 0.92)) #开始战斗
+                    self.Lock_team((0.82, 0.66, 0.96, 0.8), lock=True)
+                self.sleep(1)
+                self.click_rect_random((0.85, 0.84, 0.91, 0.9)) #开始战斗
 
                 if self.trigger_count == 1:
                     self.log_info("进入检测1")
@@ -117,18 +124,19 @@ class WantedQuestsTask(BaseBattleTask):
                                                time_out=6):
                     self.log_warning("找不到返回")
                     return False
-                if self.count !=4:
+                if self.count <=4:
                     if self.In_Home():
-                        self.sleep(1)
-                        if btns := self.find_feature('Wanted',
-                                                     box=self.box_of_screen(0.16, 0.17, 0.27, 0.6), threshold=0.8):
-                            self.click_rect_random(btns[0])
+                        self.sleep(2)
+                        if self.wait_click_feature('Wanted', threshold=0.7,
+                                             box=self.box_of_screen(0.16, 0.17, 0.27, 0.6),
+                                             raise_if_not_found=False, time_out=3):
                             self.log_info('点击悬赏封印')
                             self.sleep(1)
-                        elif btns := self.find_feature('Wanted2',
-                                                     box=self.box_of_screen(0.16, 0.17, 0.27, 0.6), threshold=0.8):
-                            self.click_rect_random(btns[0])
+                        elif self.wait_click_feature('Wanted2', threshold=0.7,
+                                             box=self.box_of_screen(0.16, 0.17, 0.27, 0.6),
+                                             raise_if_not_found=False, time_out=3):
                             self.log_info('点击悬赏封印')
+                            self.sleep(1)
                         self.sleep(1)
                     if not self.wait_feature('WantedQuests_Feature', threshold=0.7,
                                              box=self.box_of_screen(0.42, 0.05, 0.59, 0.18),
@@ -137,9 +145,6 @@ class WantedQuestsTask(BaseBattleTask):
                         return False
                     self.log_info("进入悬赏")
                     self.sleep(0.5)
-                    self.click_rect_random(click_rows2[self.count])
-                    self.log_info("点击领取")
-                    self.sleep(1)
                     self.click_rect_random((0.09, 0.09, 0.87, 0.17))
         return True
 

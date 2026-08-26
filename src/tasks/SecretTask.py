@@ -153,7 +153,7 @@ class SecretTask(BaseBattleTask):
             else:
                 return False
 
-        if self.wait_until(check, time_out=self.BattleTime, raise_if_not_found=False):
+        if self.wait_until(check, time_out=self.BattleTime, settle_time=0, raise_if_not_found=False):
             return result
 
         self.log_warning("战斗结束超时")

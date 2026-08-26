@@ -30,8 +30,6 @@ class ExplorationTask(BuffBattleTask):
                 "options": ["好友", "跨区", "寮友"],
             },
         })
-    def _invite_tabs(self, base_tabs=None, first=None):
-        return super()._invite_tabs(["好友", "跨区", "寮友"], first=first)
     def run(self):
         self.in_home_and_back()
         if self.config["Preset Enable"]:
@@ -110,23 +108,14 @@ class ExplorationTask(BuffBattleTask):
         else:
             return False
         
-        
-    def _invite_one(self, f: str, invite_xy: tuple, confirm_box: tuple) -> bool:
-        """邀请单个好友：invite_xy=(x,y) 邀请按钮位置，confirm_box 确认区域。"""
-        self.click_relative(*invite_xy, after_sleep=1)
-        for tab in self._invite_tabs(first=self.config.get("FindMode")):
-            if self.ocr_and_click(tab,time_out=3, box=self.B("Exp_Friend_Index")):
-                if self.ocr_and_click(f,time_out=3, box=self.B("Friend")):
-                    self.click_relative(0.60, 0.79, after_sleep=1)
-                    self.log_info('寻找到一位')
-                    return True
-        return False
+
     
     def Invitation(self):#完成了 应该从点击挑战开始重新思考
         if text := self.wait_ocr(['协战', '队伍'],
                                   box=self.box_of_screen(0, 0, 0.17, 0.1), time_out=6,):
             self.log_info(f"OCR: {text}")
-        if self._invite_one(self.config["Friend 1"], (0.83, 0.34), (0.73, 0.09, 0.94, 0.24)):
+        if self._invite_one(self.config["Friend 1"], (0.83, 0.34), (0.73, 0.09, 0.94, 0.24),
+                            findmode=self.config.get("FindMode"),base_tabs=["好友", "跨区", "寮友"]):
             return True
             
            
@@ -211,7 +200,7 @@ class ExplorationTask(BuffBattleTask):
                 battle()
             if not self.wait_until(
             final_battle,
-            time_out=600,
+            time_out=600, settle_time=0,
             pre_action=battle,
             raise_if_not_found=False,
             ):
@@ -312,7 +301,7 @@ class ExplorationTask(BuffBattleTask):
                     if not battle():
                         return False
                 if not self.wait_until(final_battle,
-                                    time_out=600,
+                                    time_out=600, settle_time=0,
                                     pre_action=battle,
                                     raise_if_not_found=False,
                                     ):
@@ -415,7 +404,7 @@ class ExplorationTask(BuffBattleTask):
                 battle()
             if not self.wait_until(
                     final_battle,
-                    time_out=600,
+                    time_out=600, settle_time=0,
                     pre_action=battle,
                     raise_if_not_found=False,
             ):

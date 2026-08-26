@@ -90,10 +90,9 @@ class RealmRaidTask(BaseBattleTask):
                                         raise_if_not_found=False, time_out=6, after_sleep=1):
             self.log_info("探索 RealmRaid")
             self.info_set("步骤", "进入RealmRaid")
-
-        if self.wait_ocr(match=re.compile("结界|突破"),
-                                   time_out=6,
-                                   box=self.box_of_screen(0.43, 0.08, 0.57, 0.18)):
+        if self.wait_feature('RealmRaid_Feature', threshold=0.7,
+                                   box=self.box_of_screen(0.40, 0, 0.65, 0.25),
+                                   raise_if_not_found=False, time_out=6):
             self.log_info("进入突破页面")
             return True
         else:
@@ -173,9 +172,14 @@ class RealmRaidTask(BaseBattleTask):
             #退四
             if(self.forward and self.count == 9):
                 for i in range(4):
-                    if self.ocr_and_click(["结界","突破"],box=self.box_of_screen(0.45, 0.09, 0.55, 0.18)):
+                    if self.wait_feature('RealmRaid_Feature', threshold=0.7,
+                                         box=self.box_of_screen(0.40, 0, 0.65, 0.25),
+                                         raise_if_not_found=False, time_out=6):
                         self.click_relative(x, y, after_sleep=1)
-                        self.ocr_and_click("进攻",box=self.box_of_screen(*group_rows_2[8]))
+                        if not self.wait_click_feature('RealmRaid_Attack', threshold=0.7,
+                                          box=self.box_of_screen(0.22, 0.42, 0.99, 0.98),
+                                          raise_if_not_found=False, time_out=6):
+                            self.log_info("没有识别到进攻")
 
                     if  self.wait_click_feature('Battle_Back', threshold=0.7,
                                     box=self.box_of_screen(0,0,0.1,0.1),
@@ -193,7 +197,9 @@ class RealmRaidTask(BaseBattleTask):
                         else:
                             self.info_set("确认弹窗", "无")
                             self.log_warning("找不到Battle_Finish")
-            if self.ocr_and_click(["结界","突破"],box=self.box_of_screen(0.45, 0.09, 0.55, 0.18)):
+            if self.wait_feature('RealmRaid_Feature', threshold=0.7,
+                                 box=self.box_of_screen(0.40, 0, 0.65, 0.25),
+                                 raise_if_not_found=False, time_out=6):
                 if self.config["Lock Team Enable"] and self.trigger_count == 2:
                     self.log_info("进入第二次战斗锁住阵容")
                     self.Lock_team((0.50, 0.70, 0.70, 0.90), lock=True)
@@ -201,7 +207,9 @@ class RealmRaidTask(BaseBattleTask):
                 self.click_relative(x, y, after_sleep=0.5)
                 self.log_info(f"click: {x}, {y}")
                 self.log_info("进攻")
-            if self.ocr_and_click("进攻",box=self.box_of_screen(*group_rows_2[target-1])):
+            if self.wait_click_feature('RealmRaid_Attack', threshold=0.7,
+                                           box=self.box_of_screen(0.22, 0.42, 0.99, 0.98),
+                                           raise_if_not_found=False, time_out=6):
                 self.log_info(f"点击第 {target} 个")
 
                 if self.trigger_count == 1:
@@ -271,9 +279,9 @@ class RealmRaidTask(BaseBattleTask):
             self.Lock_team((0.14, 0.82, 0.2, 0.9), lock=True)
 
         while True:
-            if self.wait_ocr(match=re.compile("结界|突破"),
-                               time_out=6,
-                               box=self.box_of_screen(0.43, 0.08, 0.57, 0.18)):
+            if self.wait_feature('RealmRaid_Feature', threshold=0.7,
+                                 box=self.box_of_screen(0.40, 0, 0.65, 0.25),
+                                 raise_if_not_found=False, time_out=6):
                 self.log_info("进入突破页面")
             else:
                 self.log_info('找不到突破')
@@ -294,9 +302,9 @@ class RealmRaidTask(BaseBattleTask):
             x, y = self._rect_random_point(group_rows[target])
             self.sleep(1)
             self.click_relative(x, y, after_sleep=0.5)
-            if self.wait_click_ocr(match=re.compile("进攻"),
-                                time_out=6,
-                                box=self.box_of_screen(0.32, 0.18, 0.87, 0.92)):
+            if self.wait_click_feature('RealmRaid_Attack', threshold=0.7,
+                                           box=self.box_of_screen(0.32, 0.18, 0.87, 0.92),
+                                           raise_if_not_found=False, time_out=6):
                 self.log_info(f"挑战第 {target} 个")
                 self.sleep(0.3)
                 if datetime.now() < datetime.now().replace(hour=21, minute=0, second=0, microsecond=0) \

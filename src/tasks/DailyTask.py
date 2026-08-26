@@ -59,7 +59,7 @@ class DailyTask(BaseOmjTask):
                 return True
             return False
 
-        if not self.wait_until(check, time_out=5, raise_if_not_found=False):
+        if not self.wait_until(check, time_out=5, settle_time=0, raise_if_not_found=False):
             self.log_warning("没有签到或者签到失败")
         # 跳过
         if not self.wait_click_feature('Sign_Daily_Skip', threshold=0.7,

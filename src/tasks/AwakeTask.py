@@ -130,18 +130,6 @@ class AwakeTask(BuffBattleTask):
             self.click_relative(0.68, 0.80, after_sleep=1)
             return True
         return False
-    def _invite_one(self, f: str, invite_xy: tuple, confirm_box: tuple) -> bool:
-        """邀请单个好友：invite_xy=(x,y) 邀请按钮位置，confirm_box 确认区域。"""
-        self.click_relative(*invite_xy, after_sleep=1)
-        for tab in self._invite_tabs(first=self.config.get("FindMode")):
-            if self.ocr_and_click(tab, box=self.B("Friend_Index")):
-                if self.ocr_and_click(f, box=self.B("Friend")):
-                    self.click_relative(0.60, 0.79, after_sleep=1)
-                    self.log_info('寻找到一位')
-                    if self.ocr_and_click(f, time_out=20,
-                                           box=self.box_of_screen(*confirm_box)):
-                        return True
-        return False
     def invitation(self):
         if text := self.wait_ocr(['协战', '队伍'],
                                   box=self.box_of_screen(0, 0, 0.17, 0.1), time_out=6,):
@@ -153,9 +141,9 @@ class AwakeTask(BuffBattleTask):
 
         for i, f in enumerate(targets):
             if i == 0:
-                ok = self._invite_one(f, (0.50, 0.34), (0.43, 0.15, 0.53, 0.19))
+                ok = self._invite_one(f, (0.50, 0.34), (0.43, 0.15, 0.53, 0.19),findmode=self.config["FindMode"])
             else:
-                ok = self._invite_one(f, (0.83, 0.34), (0.77, 0.14, 0.88, 0.19))
+                ok = self._invite_one(f, (0.83, 0.34), (0.77, 0.14, 0.88, 0.19),findmode=self.config["FindMode"])
             if not ok:
                 return False
         return True

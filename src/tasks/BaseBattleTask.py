@@ -19,6 +19,7 @@ class BaseBattleTask(BaseOmjTask):
         self.group = 0
         self.team = 0
 
+
         self.trigger_count = 1 #想法是 多次启动多次记录
         self.count = 1 #每次启动战斗的次数 每次启动刷新的
 
@@ -200,17 +201,7 @@ class BaseBattleTask(BaseOmjTask):
 
 
 
-    def _invite_tabs(self, base_tabs=None, first=None):
-        """返回按优先搜索重排后的标签页列表。"""
-        if base_tabs is None:
-            base_tabs = ["最近", "好友", "跨区", "寮友"]
-        tabs = list(base_tabs)
-        if first is None:
-            first = tabs[0]
-        if first in tabs:
-            tabs.remove(first)
-            tabs.insert(0, first)
-        return tabs
+
 # region 预设
     def Lock_team(self, confirm_box: tuple,lock = True):
         LOCK_NAMES = ["Soul_Lock", "Lock", "Areaboss_Lock", "RealmRaid_Lock","Secret_Lock","Challenge_Lock"]
@@ -393,7 +384,7 @@ class BaseBattleTask(BaseOmjTask):
                     return True
             return False
 
-        if self.wait_until(check, time_out=battle_time, raise_if_not_found=False):
+        if self.wait_until(check, time_out=battle_time, settle_time=0, raise_if_not_found=False):
             return result
 
         self.log_warning("战斗结束超时")
@@ -473,7 +464,7 @@ class BaseBattleTask(BaseOmjTask):
                     self.click_relative(x, y, after_sleep=1)
                 return False
             return False
-        if self.wait_until(check, time_out=5, raise_if_not_found=False):
+        if self.wait_until(check, time_out=5, settle_time=0, raise_if_not_found=False):
             return True
     def click_green(self,green,GreenNum=0):
         self.log_info("进入绿标")
@@ -488,4 +479,31 @@ class BaseBattleTask(BaseOmjTask):
                 self.log_info(x,y)
                 self.click_relative(x, y, after_sleep=1)
                 return True
+        return False
+    def _invite_tabs(self, base_tabs=None, first=None):
+        """返回按优先搜索重排后的标签页列表。"""
+        if base_tabs is None:
+            base_tabs = ["最近", "好友", "跨区", "寮友"]
+        tabs = list(base_tabs)
+        if first is None:
+            first = tabs[0]
+        if first in tabs:
+            tabs.remove(first)
+            tabs.insert(0, first)
+        return tabs
+    def _invite_one(self, f: str, invite_xy: tuple, confirm_box: tuple,findmode,base_tabs = None) -> bool:
+        """邀请单个好友：invite_xy=(x,y) 邀请按钮位置，confirm_box 确认区域。"""
+        for attempt in range(3):
+            self.click_relative(*invite_xy, after_sleep=1)
+            for tab in self._invite_tabs(base_tabs,findmode):
+                if self.wait_click_ocr(match=re.compile(tab), box=self.box_of_screen(0.25, 0.09, 0.62, 0.22),
+                                       time_out=6, raise_if_not_found=False):
+                    if self.ocr_and_click(f, time_out=3, box=self.box_of_screen(0.26, 0.24, 0.74, 0.75)):
+                        self.click_relative(0.60, 0.79, after_sleep=1)
+                        self.log_info('寻找到一位')
+                        if self.wait_click_ocr(match=re.compile(f),
+                                               time_out=20,
+                                               box=self.box_of_screen(*confirm_box)):
+                            return True
+            self.log_warning(f"第 {attempt + 1} 次邀请 {f} 失败")
         return False

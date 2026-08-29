@@ -395,6 +395,48 @@
             "file_name": "images/6.png",
             "width": 1600,
             "height": 900
+        },
+        {
+            "id": 82,
+            "file_name": "images/5.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 83,
+            "file_name": "images/5.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 84,
+            "file_name": "images/5.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 85,
+            "file_name": "images/5.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 86,
+            "file_name": "images/5.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 87,
+            "file_name": "images/6.png",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "id": 88,
+            "file_name": "images/5.png",
+            "width": 1600,
+            "height": 900
         }
     ],
     "annotations": [
@@ -1807,12 +1849,116 @@
             "image_id": 81,
             "category_id": 109,
             "bbox": [
-                399,
-                452,
-                165,
-                74
+                437,
+                458,
+                89,
+                55
             ],
-            "area": 12210,
+            "area": 4895,
+            "iscrowd": 0
+        },
+        {
+            "id": 110,
+            "image_id": 82,
+            "category_id": 111,
+            "bbox": [
+                30,
+                169,
+                78,
+                43
+            ],
+            "area": 3354,
+            "iscrowd": 0
+        },
+        {
+            "id": 111,
+            "image_id": 83,
+            "category_id": 115,
+            "bbox": [
+                1215,
+                630,
+                90,
+                43
+            ],
+            "area": 3870,
+            "iscrowd": 0
+        },
+        {
+            "id": 112,
+            "image_id": 84,
+            "category_id": 113,
+            "bbox": [
+                904,
+                519,
+                90,
+                46
+            ],
+            "area": 4140,
+            "iscrowd": 0
+        },
+        {
+            "id": 113,
+            "image_id": 85,
+            "category_id": 112,
+            "bbox": [
+                553,
+                515,
+                94,
+                42
+            ],
+            "area": 3948,
+            "iscrowd": 0
+        },
+        {
+            "id": 114,
+            "image_id": 85,
+            "category_id": 114,
+            "bbox": [
+                806,
+                624,
+                96,
+                45
+            ],
+            "area": 4320,
+            "iscrowd": 0
+        },
+        {
+            "id": 115,
+            "image_id": 86,
+            "category_id": 110,
+            "bbox": [
+                1483,
+                766,
+                84,
+                78
+            ],
+            "area": 6552,
+            "iscrowd": 0
+        },
+        {
+            "id": 116,
+            "image_id": 87,
+            "category_id": 116,
+            "bbox": [
+                1394,
+                710,
+                125,
+                76
+            ],
+            "area": 9500,
+            "iscrowd": 0
+        },
+        {
+            "id": 117,
+            "image_id": 88,
+            "category_id": 117,
+            "bbox": [
+                1429,
+                569,
+                106,
+                33
+            ],
+            "area": 3498,
             "iscrowd": 0
         }
     ],
@@ -2360,6 +2506,46 @@
         {
             "id": 109,
             "name": "RealmRaid_Attack",
+            "supercategory": ""
+        },
+        {
+            "id": 110,
+            "name": "Challenge_Featrue",
+            "supercategory": ""
+        },
+        {
+            "id": 111,
+            "name": "Trueorochi",
+            "supercategory": ""
+        },
+        {
+            "id": 112,
+            "name": "Private_Ocr",
+            "supercategory": ""
+        },
+        {
+            "id": 113,
+            "name": "Confirm_Ocr",
+            "supercategory": ""
+        },
+        {
+            "id": 114,
+            "name": "Create_Ocr",
+            "supercategory": ""
+        },
+        {
+            "id": 115,
+            "name": "Trueorochi_Attack_Ocr",
+            "supercategory": ""
+        },
+        {
+            "id": 116,
+            "name": "Ready_Ocr",
+            "supercategory": ""
+        },
+        {
+            "id": 117,
+            "name": "Trueorochi_Auto_Ready",
             "supercategory": ""
         }
     ]

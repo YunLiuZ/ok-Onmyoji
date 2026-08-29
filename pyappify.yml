@@ -3,7 +3,7 @@ uac: true
 icon: "icons/icon.png"
 profiles:
   - name: "China"
-    git_url: "https://gitee.com/yunliu123/ok-onmyoji.git"
+    git_url: "https://cnb.cool/YunLiuZ/Ok-Onmyoji.git"
     admin: true
     main_script: "main.py"
     requires_python: "3.12"

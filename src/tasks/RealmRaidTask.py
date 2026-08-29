@@ -164,7 +164,7 @@ class RealmRaidTask(BaseBattleTask):
             #不换
             self.Lock_team((0.50, 0.70, 0.70, 0.90), lock=True)
 
-        while(attack_num):
+        while(self.trigger_count<=attack_num):
 
             target = self.count if self.forward else (10 - self.count)
             x, y = self._rect_random_point(group_rows[target])

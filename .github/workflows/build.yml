@@ -57,6 +57,7 @@ jobs:
         uses: ok-oldking/partial-sync-repo@master
         with:
           repos: |
+            https://cnb:${{ secrets.CNB_TOKEN }}@cnb.cool/YunLiuZ/Ok-Onmyoji.git
             https://${{ secrets.GITEE_USERNAME }}:${{ secrets.GITEE_TOKEN }}@gitee.com/yunliu123/ok-onmyoji.git
             https://x-access-token:${{ secrets.OMJ }}@github.com/YunLiuZ/ok-Onmyoji-update.git
           sync_list: 'deploy.txt'

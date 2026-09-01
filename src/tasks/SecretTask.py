@@ -68,14 +68,15 @@ class SecretTask(BaseBattleTask):
         else:
             #不换
             self.Lock_team((0.86, 0.93, 0.9, 1.0), lock=True)
-        while self.count <= 10 and self.wait_click_ocr(match=re.compile("未通关"),
-                               box=self.box_of_screen(0.33, 0.21, 0.43, 0.89),
-                               time_out=3,
-                               raise_if_not_found=False) :
-            self.count <= 10 and self.wait_click_ocr(match=re.compile("未通关"),
+        while self.count <= 10:
+            if self.wait_click_ocr(match=re.compile("未通关"),
                                                      box=self.box_of_screen(0.33, 0.21, 0.43, 0.89),
-                                                     time_out=3,
-                                                     raise_if_not_found=False)
+                                                     time_out=6,
+                                                     raise_if_not_found=False):
+                self.log_info("有未通关")
+            else:
+                self.log_info("挑战完成")
+                break
             if self.count >= 2:
                 self.log_info("进入第二次战斗锁住阵容")
                 self.Lock_team((0.86, 0.93, 0.9, 1.0), lock=True)
@@ -93,7 +94,7 @@ class SecretTask(BaseBattleTask):
             else:
                 self.click_green(self.green,self.GreenNum)
 
-            res = self.secret_battle_find_finish()
+            res = self.Find_finish(self.BattleTime)
             if res == 2:
                 self.log_warning("战斗失败！！")
                 return False

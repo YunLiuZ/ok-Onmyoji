@@ -422,13 +422,13 @@
         },
         {
             "id": 86,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "width": 1600,
             "height": 900
         },
         {
             "id": 87,
-            "file_name": "images/6.png",
+            "file_name": "images/7.png",
             "width": 1600,
             "height": 900
         },
@@ -437,6 +437,18 @@
             "file_name": "images/5.png",
             "width": 1600,
             "height": 900
+        },
+        {
+            "id": 90,
+            "file_name": "images/0.png",
+            "width": 2560,
+            "height": 1440
+        },
+        {
+            "id": 91,
+            "file_name": "images/3.png",
+            "width": 2560,
+            "height": 1440
         }
     ],
     "annotations": [
@@ -1960,6 +1972,45 @@
             ],
             "area": 3498,
             "iscrowd": 0
+        },
+        {
+            "id": 118,
+            "image_id": 74,
+            "category_id": 118,
+            "bbox": [
+                1449,
+                720,
+                95,
+                93
+            ],
+            "area": 8835,
+            "iscrowd": 0
+        },
+        {
+            "id": 119,
+            "image_id": 90,
+            "category_id": 121,
+            "bbox": [
+                60,
+                244,
+                93,
+                101
+            ],
+            "area": 9393,
+            "iscrowd": 0
+        },
+        {
+            "id": 120,
+            "image_id": 91,
+            "category_id": 120,
+            "bbox": [
+                70,
+                1291,
+                117,
+                70
+            ],
+            "area": 8190,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -2546,6 +2597,21 @@
         {
             "id": 117,
             "name": "Trueorochi_Auto_Ready",
+            "supercategory": ""
+        },
+        {
+            "id": 118,
+            "name": "Duel_Battle_Start",
+            "supercategory": ""
+        },
+        {
+            "id": 120,
+            "name": "Duel_Auto_Battle",
+            "supercategory": ""
+        },
+        {
+            "id": 121,
+            "name": "Duel_Auto_Choose",
             "supercategory": ""
         }
     ]

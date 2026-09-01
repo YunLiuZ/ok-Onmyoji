@@ -65,6 +65,7 @@ An image-recognition-based automation tool for Onmyoji, with background mode sup
 
 1. **游戏选择**
 - 请使用MuMu模拟器，并在初始页面的游戏中心，搜索阴阳师，第一个应用下载安装即可
+- 请注意不要直接使用mumu安卓15，请先使用安卓12
 
    <img src="docs/images/MuMuOnm.png" width="600" />
 

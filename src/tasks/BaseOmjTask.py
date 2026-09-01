@@ -129,6 +129,20 @@ class BaseOmjTask(BaseTask):
             self.log_error(f"[{self.name}] 异常: {e}，fail_count={og.my_app.fail_count.get(self.name, 0)}")
             return False
 
+    def _rect_random_point(self, rect, margin=0.1):
+        """在矩形内取随机点（默认中间 80% 区域）。支持相对坐标元组 (x1,y1,x2,y2) 或 Box 对象。"""
+        if hasattr(rect, 'x'):  # Box 对象，转相对坐标
+            h, w = self.frame.shape[:2]
+            rect = (rect.x / w, rect.y / h, (rect.x + rect.width) / w, (rect.y + rect.height) / h)
+        x1, y1, x2, y2 = rect
+        x = random.uniform(x1 + (x2 - x1) * margin, x2 - (x2 - x1) * margin)
+        y = random.uniform(y1 + (y2 - y1) * margin, y2 - (y2 - y1) * margin)
+        return x, y
+    def click_rect_random(self, rect, margin=0.1, after_sleep=1):
+        """在矩形内随机点击。"""
+        x, y = self._rect_random_point(rect, margin)
+        self.click_relative(x, y, after_sleep=after_sleep)
+        self.log_info(f"点击{x:.2f},{y:.2f}")
 # region Logged
     def wait_home(self):
         if not self.logged_in:
@@ -348,25 +362,31 @@ class BaseOmjTask(BaseTask):
         """快速路径：Home_Button → Back → Home_Button。"""
         self.log_info('进入backhome')
         if btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
-            self.click(btns[0], after_sleep=2)
+            self.click_rect_random(btns[0])
+            # self.click(btns[0], after_sleep=2)
             self.log_info('点击 Home_Button')
             if self.In_Home():
                 return True
             else:
-                if self.ocr_and_click('确定', time_out=6, box=self.box_of_screen(0.27, 0.5, 0.73, 0.65)):
-                    self.log_info('点击确认')
+                if self.wait_click_feature('Confirm_Ocr', threshold=0.8,
+                                               time_out=3, box=self.box_of_screen(0.45, 0.41, 0.74, 0.75),
+                                               raise_if_not_found=False):
+                    self.log_warning("点击确认")
         self.sleep(0.3)
         if btns := self.find_feature('Back', box=self.B('Back'), threshold=0.8):
-            self.click(btns[0], after_sleep=0.5)
+            self.click_rect_random(btns[0])
+            # self.click(btns[0], after_sleep=0.5)
             self.log_info('点击 Back')
             if self.In_Home():
                 return True
             else:
-                if self.ocr_and_click('确定', time_out=6, box=self.box_of_screen(0.27, 0.5, 0.73, 0.65)):
-                    self.log_info('点击确认')
+                if self.wait_click_feature('Confirm_Ocr', threshold=0.8,
+                                           time_out=3, box=self.box_of_screen(0.45, 0.41, 0.74, 0.75),
+                                           raise_if_not_found=False):
+                    self.log_warning("点击确认")
         self.sleep(0.3)
         if btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
-            self.click(btns[0], after_sleep=2)
+            self.click_rect_random(btns[0])
             self.log_info('点击 Home_Button')
             if self.In_Home():
                 return True
@@ -402,20 +422,20 @@ class BaseOmjTask(BaseTask):
         def try_back():
             if btns := self.find_feature('Daily_New_Cancel',
                                           box=cancel_box, threshold=0.8):
-                self.click(btns[0], after_sleep=0.2)
+                self.click_rect_random(btns[0])
                 self.log_info('关闭弹窗')
                 return
             elif btns := self.find_feature( 'Cancel_Old',
                                           box=cancel_box, threshold=0.8):
-                self.click(btns[0], after_sleep=0.2)
+                self.click_rect_random(btns[0])
                 self.log_info('关闭弹窗')
                 return
             elif btns := self.find_feature('Back', box=self.B('Back'), threshold=0.8):
-                self.click(btns[0], after_sleep=0.5)
+                self.click_rect_random(btns[0])
                 self.log_info('点击 Back')
                 return
             elif btns := self.find_feature('Home_Button', box=self.B('Home_Button'), threshold=0.8):
-                self.click(btns[0], after_sleep=0.3)
+                self.click_rect_random(btns[0])
                 self.log_info('点击 Home_Button')
             else:
                 #如果卡在战斗失败 点击应该有用

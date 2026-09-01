@@ -154,6 +154,7 @@ config = {
 
         # ── 周常 ──
         ["src.tasks.SecretTask", "SecretTask"],
+        ["src.tasks.DuelTask", "DuelTask"],
 
         # ── 活动 ──
         ["src.tasks.GameEventsBattleTask", "GameEventsBattleTask"],

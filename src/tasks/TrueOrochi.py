@@ -47,14 +47,33 @@ class TrueOrochiTask(BaseBattleTask):
             if not self.trueorochi_page():
                 self.log_warning("SoulZones_page 失败")
                 return False
-            if not self.Leader_page():
-                self.log_warning("Leader_page 失败")
-                return False
-            if not self.Invitation():
+
+            if not self.invitation():
                 self.log_warning("Invitation 失败")
                 return False
+            if not self.leader_battle():
+                self.log_warning("Leader_page 失败")
+                return False
             self.log_info("进入battle")
-            self.Leader_battle()
+            self.battle()
+            return True
+        elif self.config["UserStatus"] == "单人":
+            if not self.trueorochi_page():
+                self.log_warning("SoulZones_page 失败")
+                return False
+            if not self.leader_battle():
+                self.log_warning("Leader_page 失败")
+                return False
+            self.log_info("进入battle")
+            self.battle()
+            return True
+        else:
+            self.log_info("等待邀请")
+            if self.wait_click_feature('Invitation_Confirm', threshold=0.7,
+                                       box=self.B('Invitation_Confirm'),
+                                       raise_if_not_found=False, time_out=300, after_sleep=1):
+                self.log_info("进入battle")
+                self.battle()
             return True
 
     def trueorochi_page(self):
@@ -197,6 +216,19 @@ class TrueOrochiTask(BaseBattleTask):
                     return True
                 else:
                     return False
+            if self.wait_click_feature('Confirm_Ocr', threshold=0.8,
+                                 box=self.box_of_screen(0.44, 0.56, 0.58, 0.75),
+                                 raise_if_not_found=False, time_out=1,):
+                self.log_info("出蛇框了")
+                self.sleep(0.2)
+                if res1 := self.find_one('Confirm_Ocr', threshold=0.8,
+                                                          box=self.box_of_screen(0.44, 0.56, 0.58, 0.75)):
+                    self.click_rect_random((0.1, 0.1, 0.9, 0.47))
+                    self.sleep(0.5)
+                    self.log_info("第一次没点到蛇框")
+                else:
+                    self.log_info("第一次点到蛇框")
+
             if res := self.find_one('Battle_Finish', threshold=0.7,
                                         box=self.B('Battle_Finish')):
                 self.click_rect_random(res)

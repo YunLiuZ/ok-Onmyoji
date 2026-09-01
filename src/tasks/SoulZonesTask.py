@@ -350,7 +350,7 @@ class SoulZonesTask(BuffBattleTask):
                     self.click_relative(0.1,0.1,after_sleep=0.5)
                 if not self.wait_click_feature('Member_Confirm', threshold=0.7,
                                         box=self.B('Member_Confirm'),
-                                        raise_if_not_found=False, time_out=10, after_sleep=1):
+                                        raise_if_not_found=False, time_out=30, after_sleep=1):
                     self.log_warning("找不到Member_Confirm")
                 if  self.wait_click_feature('Leader_Invitation', threshold=0.7,
                                         box=self.B('Leader_Invitation'),

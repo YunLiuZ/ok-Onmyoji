@@ -77,21 +77,9 @@ class BaseBattleTask(BaseOmjTask):
                     [int(parts[3].strip()), int(parts[4].strip())])
         return 0,[0,0],[0,0]
 
-    def _rect_random_point(self, rect, margin=0.1):
-        """在矩形内取随机点（默认中间 80% 区域）。支持相对坐标元组 (x1,y1,x2,y2) 或 Box 对象。"""
-        if hasattr(rect, 'x'):  # Box 对象，转相对坐标
-            h, w = self.frame.shape[:2]
-            rect = (rect.x / w, rect.y / h, (rect.x + rect.width) / w, (rect.y + rect.height) / h)
-        x1, y1, x2, y2 = rect
-        x = random.uniform(x1 + (x2 - x1) * margin, x2 - (x2 - x1) * margin)
-        y = random.uniform(y1 + (y2 - y1) * margin, y2 - (y2 - y1) * margin)
-        return x, y
 
-    def click_rect_random(self, rect, margin=0.1, after_sleep=1):
-        """在矩形内随机点击。"""
-        x, y = self._rect_random_point(rect, margin)
-        self.click_relative(x, y, after_sleep=after_sleep)
-        self.log_info(f"点击{x:.2f},{y:.2f}")
+
+
 
     def SwitchSoul_by_name(self,group:int,team:int,team_name:str):
         if self.wait_click_feature('Home_Shikigami_Chronicles', threshold=0.7,

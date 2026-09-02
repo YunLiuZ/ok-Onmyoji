@@ -90,21 +90,18 @@ class UtilizeTask(BaseOmjTask):
         
 
     def KekkaiActivation(self):
-        if not self.wait_ocr(match=re.compile("界卡"),
-                         time_out=6,
-                         box=self.box_of_screen(0.67, 0.36, 0.75, 0.58),
-                         raise_if_not_found=False,):
-            self.log_warning("没有进入结界")
+        if not self.wait_feature('Kekkai_Activation', threshold=0.7,
+                                        box=self.box_of_screen(0.67, 0.36, 0.75, 0.59),
+                                        raise_if_not_found=False, time_out=6):
+            self.log_warning("找不到Kekkai_Activation")
             return False
         self.log_info("进入结界")
         self.sleep(0.5)
         self.click_relative(0.72, 0.27)
         self.log_info("收取奖励")
-        if not self.wait_click_ocr(match=re.compile("界卡"),
-                               time_out=6,
-                               box=self.box_of_screen(0.67, 0.36, 0.75, 0.58),
-                               raise_if_not_found=False,
-                               ):
+        if not self.wait_click_feature('Kekkai_Activation', threshold=0.7,
+                                       box=self.box_of_screen(0.67, 0.36, 0.75, 0.59),
+                                       raise_if_not_found=False, time_out=6, after_sleep=1):
             self.log_warning("没有进入挂卡")
         if not self.wait_ocr(match=re.compile("结界"),
                          time_out=6,
@@ -160,9 +157,11 @@ class UtilizeTask(BaseOmjTask):
         # 找到合适的星级并寄养 可以选择私有或者公开寄养 激活会变亮
 
     def KekkaiUtilize(self):
-        if text := self.ocr_and_click(['育成'],
-                                  box=self.box_of_screen(0.44, 0.36, 0.52, 0.57), time_out=6):
-            self.log_info(f"OCR: {text}")
+        if not self.wait_click_feature('Kekkai_Utilize', threshold=0.7,
+                                       box=self.box_of_screen(0.43, 0.36, 0.53, 0.6),
+                                       raise_if_not_found=False, time_out=6, after_sleep=1):
+            self.log_warning("没有进入寄养")
+            return False
 
 
         if text := self.ocr_and_click(['智能','放入'],2,
@@ -170,16 +169,19 @@ class UtilizeTask(BaseOmjTask):
             self.sleep(1)
             self.log_info("式神经验已满 切换式神")
             self.log_info(f"OCR: {text}")
-        if self.wait_click_feature('Utilize_Select', threshold=0.7,
+        if self.wait_click_feature('Utilize_Select', threshold=0.8,
                                     box=self.box_of_screen(0.87, 0.04, 0.98, 0.24),
                                     raise_if_not_found=False, time_out=6, after_sleep=1):
-            self.log_warning("找到Utilize_Select")
-        elif self.wait_ocr(match=re.compile("式神|寄养"),box=self.box_of_screen(0.05, 0.04, 0.19, 0.11)):
-            self.log_warning("找到Utilize_Select")
+            self.log_info("找到Utilize_Select")
         else:
+            self.log_info("式神寄养世界未到，返回")
+            self.sleep(1)
+            self.click_rect_random((0.02, 0.04, 0.05, 0.09))
+            return True
+
             # if results := self.ocr(box=self.box_of_screen(0.88, 0.13, 0.97, 0.22)):
             #     self._extract_kekkai_time(results)
-            self.log_warning("找不到Utilize_Select")
+
 
         tabs = ['好友', '跨区'] if self.config.get("UtilizeConfig", "好友优先") == "好友优先" else ['跨区', '好友']
 

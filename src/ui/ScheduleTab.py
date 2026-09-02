@@ -3,6 +3,7 @@ import json
 import os
 from datetime import datetime, timedelta
 
+from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget
 from qfluentwidgets import (
     BodyLabel, CheckBox, FluentIcon, LineEdit,
@@ -73,6 +74,10 @@ class ScheduleTab(CustomTab):
         self.icon = FluentIcon.SYNC
         self._rows = {}
         self._setup_ui()
+        # 定时刷新：任务运行后 last_run/next_run 实时更新
+        self._timer = QTimer(self)
+        self._timer.timeout.connect(self._refresh)
+        self._timer.start(3000)
 
     def _setup_ui(self):
         self.add_widget(TitleLabel("调度面板"))
@@ -178,6 +183,22 @@ class ScheduleTab(CustomTab):
         if show_toast:
             InfoBar.success("已保存", "调度配置已更新", duration=1500,
                             position=InfoBarPosition.TOP, parent=self)
+
+    def _refresh(self):
+        """定时重新加载配置文件，刷新 last_run/next_run 显示（不触发编辑回调）。"""
+        cfg = _load_cfg()
+        schedules = cfg.get("schedules", _default_schedules())
+        for name, r in self._rows.items():
+            s = schedules.get(name, _default_schedules()[name])
+            enabled = s.get("enabled", False)
+            for w in (r["enabled"], r["last_run"], r["interval"]):
+                w.blockSignals(True)
+            r["enabled"].setChecked(enabled)
+            r["last_run"].setText(str(s.get("last_run", "2000.1.1 0:0")))
+            r["interval"].setText(str(s.get("interval", "24:00")))
+            r["next"].setText(s.get("next_run", "2000.1.1 0:0") if enabled else "—")
+            for w in (r["enabled"], r["last_run"], r["interval"]):
+                w.blockSignals(False)
 
     @property
     def name(self):

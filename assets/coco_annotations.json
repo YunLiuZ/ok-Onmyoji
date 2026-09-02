@@ -449,6 +449,12 @@
             "file_name": "images/3.png",
             "width": 2560,
             "height": 1440
+        },
+        {
+            "id": 92,
+            "file_name": "images/0.png",
+            "width": 2560,
+            "height": 1440
         }
     ],
     "annotations": [
@@ -2011,6 +2017,32 @@
             ],
             "area": 8190,
             "iscrowd": 0
+        },
+        {
+            "id": 121,
+            "image_id": 92,
+            "category_id": 119,
+            "bbox": [
+                1198,
+                592,
+                60,
+                200
+            ],
+            "area": 12000,
+            "iscrowd": 0
+        },
+        {
+            "id": 122,
+            "image_id": 92,
+            "category_id": 122,
+            "bbox": [
+                1792,
+                599,
+                39,
+                179
+            ],
+            "area": 6981,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -2605,6 +2637,11 @@
             "supercategory": ""
         },
         {
+            "id": 119,
+            "name": "Kekkai_Utilize",
+            "supercategory": ""
+        },
+        {
             "id": 120,
             "name": "Duel_Auto_Battle",
             "supercategory": ""
@@ -2612,6 +2649,11 @@
         {
             "id": 121,
             "name": "Duel_Auto_Choose",
+            "supercategory": ""
+        },
+        {
+            "id": 122,
+            "name": "Kekkai_Activation",
             "supercategory": ""
         }
     ]

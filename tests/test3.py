@@ -17,7 +17,7 @@ task.feature_set = ok_test.feature_set
 task.after_init(executor=ok_test.task_executor, scene=ok_test.task_executor.scene)
 
 # ---- 设置测试图片 ----
-IMAGE = "tests\img/2.png"
+IMAGE = "tests\img/3.png"
 ok_test.device_manager.capture_method.set_images([IMAGE])
 frame = task.next_frame()
 h, w = frame.shape[:2]
@@ -26,8 +26,8 @@ h, w = frame.shape[:2]
 # 修改 box= 参数即可，蓝色区域会自动跟着变
 searches = [
     # ("Lock",  task.box_of_screen(0.86, 0.93, 0.9, 1.0)),
-    ("Confirm_Ocr",  task.box_of_screen(0.51, 0.53, 0.68, 0.67)),
-    ("Create_Ocr",  task.box_of_screen(0.41, 0.65, 0.6, 0.78)),
+    ("Kekkai_Utilize",  task.box_of_screen(0.43, 0.36, 0.53, 0.6)),
+    ("Kekkai_Activation",  task.box_of_screen(0.67, 0.36, 0.75, 0.59)),
     # ("Exploration_GoryouRealm",  task.box_of_screen(0.86, 0.93, 0.9, 1.0)),
     
     # ("Areaboss_Not_Lock",   task.box_of_screen(0.86,0.88,1,1)),

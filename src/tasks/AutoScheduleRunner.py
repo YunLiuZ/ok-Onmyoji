@@ -134,19 +134,38 @@ class ScheduleRunner(TriggerTask,BaseOmjTask):
                 if not og.my_app.logged_in:
                     self.log_info(f"  {name}: 未登录，跳过（等待 AutoLoginTask）")
                     continue                                     # 不更新 next_run，下一轮再试
-                ok = self._execute_task(name)                     # → 执行
-                if ok:                                           # 成功才更新
-                    s["last_run"] = fmt_time(now)
-                    s["next_run"] = fmt_time(now + timedelta(
-                        minutes=parse_interval(s.get("interval", "6:0"))))
-                    changed = True
-                elif og.my_app.fail_count.get(name, 0) >= 2:
-                    self.log_warning(f"[{name}] 第二次执行失败，取消调度")
-                    s["enabled"] = False
-                    og.my_app.fail_count[name] = 0
-                    changed = True
-                else:
-                    self.log_info(f"  {name}: 执行失败，next_run 保持不变，下轮重试")
+                s["last_run"] = fmt_time(now)
+
+                next_time = now + timedelta(
+                    minutes=parse_interval(
+                        s.get("interval", "6:0")
+                    )
+                )
+
+                s["next_run"] = fmt_time(next_time)
+
+                changed = True
+                ok = self._execute_task(name)
+                if not ok:
+                    self.log_warning(
+                        f"[{name}] 执行失败"
+                    )
+
+                # 立即保存，让UI马上看到
+                _save_cfg(cfg)
+                # ok = self._execute_task(name)                     # → 执行
+                # if ok:                                           # 成功才更新
+                #     s["last_run"] = fmt_time(now)
+                #     s["next_run"] = fmt_time(now + timedelta(
+                #         minutes=parse_interval(s.get("interval", "6:0"))))
+                #     changed = True
+                # elif og.my_app.fail_count.get(name, 0) >= 2:
+                #     self.log_warning(f"[{name}] 第二次执行失败，取消调度")
+                #     s["enabled"] = False
+                #     og.my_app.fail_count[name] = 0
+                #     changed = True
+                # else:
+                #     self.log_info(f"  {name}: 执行失败，next_run 保持不变，下轮重试")
 
         if changed:
             _save_cfg(cfg)                                         # 持久化

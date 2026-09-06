@@ -104,7 +104,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
             self._swipe(0.22, 0.22, 0.22, 0.82, 0.2)
             self.sleep(0.5)
             self.log_info("滑到顶")
-            self._swipe(0.22, 0.82, 0.22, 0.22, 0.7)
+            self._swipe(0.22, 0.40, 0.22, 0.22, 1)
             self.sleep(1)
             if self.wait_click_ocr(match=re.compile("经验"),
                                    box=self.box_of_screen(0.11, 0.18, 0.29, 0.87),

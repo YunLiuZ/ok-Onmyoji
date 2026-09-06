@@ -326,14 +326,35 @@ class BaseOmjTask(BaseTask):
             self.Back_Home()
         return True
     def In_Home(self):
+        want = self.find_one(["Daily_New_Cancel"], threshold=0.8, box=self.box_of_screen(0.57, 0.12, 0.66, 0.24))
+        if want:
+            self.log_info("悬赏封印")
+            if self.wait_click_feature('Daily_New_Cancel', threshold=0.7,
+                                       box=self.box_of_screen(0.57, 0.12, 0.66, 0.24),
+                                       raise_if_not_found=False, time_out=3, after_sleep=1):
+                self.log_info("关闭悬赏封印")
+                self.sleep(1)
+        idle = self.find_one(["Home_Idle_setting", "Home_Idle_Back", "Home_Idle_Chat"], threshold=0.75,
+                             box=self.box_of_screen(0.01, 0.02, 0.26, 0.15))
+        if idle:
+            self.log_info("闲庭模式")
+            if self.wait_click_feature('Home_Idle_Back', threshold=0.7,
+                                           box=self.box_of_screen(0.01, 0.02, 0.26, 0.15),
+                                           raise_if_not_found=False, time_out=3, after_sleep=1):
+                self.log_info("退出闲庭模式")
+                self.sleep(1)
         self.log_info("寻找町中")
         if not (town := self.wait_feature('Home_Town', threshold=0.8,
-                          time_out=6,box=self.B('Home_Town'),
+                          time_out=3,box=self.B('Home_Town'),
                           raise_if_not_found=False)):
             town = self.find_feature('Home_Explore', threshold=0.8, box=self.B('Home_Explore'))
         town1 = self.find_one(["Home_Town", "Home_Explore"], threshold=0.8, box=self.B('Home_Exp'))
         self.sleep(1)
         home = self.find_one(["Home_Store","Home_Shikigami_Chronicles","YinYang_Lodge"], threshold=0.75, box=self.B('bottom'))
+
+
+
+
         if town and home:
             self.log_info("主页")
             return True
@@ -443,7 +464,7 @@ class BaseOmjTask(BaseTask):
                 self.click_relative(0.2, 0.2, after_sleep=0.1)
         return self.wait_until(
             self.In_Home,
-            time_out=20,
+            time_out=40,
             post_action=try_back,
             raise_if_not_found=False,
         )

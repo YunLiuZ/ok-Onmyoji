@@ -197,9 +197,9 @@ class SoulZonesTask(BuffBattleTask):
 
         for i, f in enumerate(targets):
             if i == 0:
-                ok = self._invite_one(f, (0.50, 0.34), (0.43, 0.15, 0.53, 0.19),findmode=self.config["FindMode"])
+                ok = self._invite_one(f, (0.50, 0.34), (0.39, 0.07, 0.62, 0.28),findmode=self.config["FindMode"])
             else:
-                ok = self._invite_one(f, (0.83, 0.34), (0.77, 0.14, 0.88, 0.19),findmode=self.config["FindMode"])
+                ok = self._invite_one(f, (0.83, 0.34), (0.72, 0.1, 0.94, 0.29),findmode=self.config["FindMode"])
             if not ok:
                 return False
         return True
@@ -225,9 +225,9 @@ class SoulZonesTask(BuffBattleTask):
         while(self.count <= self.AttackNumber):
              for i, f in enumerate(targets):
                 if i == 0:
-                    ok = self.ocr_and_click(f, time_out=30,box=self.box_of_screen (0.43, 0.15, 0.53, 0.19))
+                    ok = self.ocr_and_click(f, time_out=30,box=self.box_of_screen (0.39, 0.07, 0.62, 0.28))
                 else:
-                    ok = self.ocr_and_click(f, time_out=30,box=self.box_of_screen (0.77, 0.14, 0.88, 0.19))
+                    ok = self.ocr_and_click(f, time_out=30,box=self.box_of_screen (0.72, 0.1, 0.94, 0.29))
                 if ok:
                     self.click_relative(0.95,0.90,after_sleep=0.5)
                     self.log_info("进入battle")

@@ -94,7 +94,7 @@ class SecretTask(BaseBattleTask):
             else:
                 self.click_green(self.green,self.GreenNum)
 
-            res = self.Find_finish(self.BattleTime)
+            res = self.secret_battle_find_finish()
             if res == 2:
                 self.log_warning("战斗失败！！")
                 return False

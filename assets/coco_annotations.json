@@ -455,6 +455,12 @@
             "file_name": "images/0.png",
             "width": 2560,
             "height": 1440
+        },
+        {
+            "id": 93,
+            "file_name": "images/2.png",
+            "width": 2560,
+            "height": 1440
         }
     ],
     "annotations": [
@@ -2043,6 +2049,32 @@
             ],
             "area": 6981,
             "iscrowd": 0
+        },
+        {
+            "id": 123,
+            "image_id": 93,
+            "category_id": 123,
+            "bbox": [
+                843,
+                569,
+                120,
+                124
+            ],
+            "area": 14880,
+            "iscrowd": 0
+        },
+        {
+            "id": 124,
+            "image_id": 93,
+            "category_id": 124,
+            "bbox": [
+                962,
+                333,
+                635,
+                138
+            ],
+            "area": 87630,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -2654,6 +2686,16 @@
         {
             "id": 122,
             "name": "Kekkai_Activation",
+            "supercategory": ""
+        },
+        {
+            "id": 123,
+            "name": "Event_Finish",
+            "supercategory": ""
+        },
+        {
+            "id": 124,
+            "name": "Event_Finish_2",
             "supercategory": ""
         }
     ]

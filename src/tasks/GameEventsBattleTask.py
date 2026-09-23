@@ -45,7 +45,14 @@ class GameEventsBattleTask(BaseBattleTask):
         self.Battle()
 
     def Battle_page(self):
-        self.click_rect_random((0.35, 0.33, 0.38, 0.37))
+        self.click_rect_random((0.93, 0.19, 0.96, 0.2))
+
+        if self.wait_ocr(match=re.compile("活动|总览"),
+                         time_out=3,
+                         box=self.box_of_screen(0.01, 0.02, 0.27, 0.12),
+                         raise_if_not_found=False):
+            self.sleep(2)
+            self.click_rect_random((0.84, 0.88, 0.96, 0.94))
         self.sleep(3)
         if self.wait_ocr(match=re.compile("战斗|回响|日地"),
                              time_out=3,

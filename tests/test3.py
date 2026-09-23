@@ -26,8 +26,8 @@ h, w = frame.shape[:2]
 # 修改 box= 参数即可，蓝色区域会自动跟着变
 searches = [
     # ("Lock",  task.box_of_screen(0.86, 0.93, 0.9, 1.0)),
-    ("Event_Finish",  task.box_of_screen(0.34, 0.22, 0.65, 0.44)),
-    ("Event_Finish_2",  task.box_of_screen(0.34, 0.22, 0.65, 0.44)),
+    # ("Home_Shikigami_Chronicles",  task.box_of_screen(0.26, 0.81, 0.94, 0.97)),
+    ("YinYang_Lodge",  task.box_of_screen(0.26, 0.81, 0.94, 0.97)),
     # ("Exploration_GoryouRealm",  task.box_of_screen(0.86, 0.93, 0.9, 1.0)),
     
     # ("Areaboss_Not_Lock",   task.box_of_screen(0.86,0.88,1,1)),

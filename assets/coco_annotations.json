@@ -461,6 +461,12 @@
             "file_name": "images/2.png",
             "width": 2560,
             "height": 1440
+        },
+        {
+            "id": 94,
+            "file_name": "images/3.png",
+            "width": 2560,
+            "height": 1440
         }
     ],
     "annotations": [
@@ -547,12 +553,12 @@
             "image_id": 3,
             "category_id": 7,
             "bbox": [
-                1075,
+                1083,
                 1216,
-                118,
-                99
+                103,
+                40
             ],
-            "area": 11682,
+            "area": 4120,
             "iscrowd": 0
         },
         {
@@ -2075,6 +2081,19 @@
             ],
             "area": 87630,
             "iscrowd": 0
+        },
+        {
+            "id": 125,
+            "image_id": 94,
+            "category_id": 125,
+            "bbox": [
+                1452,
+                461,
+                58,
+                86
+            ],
+            "area": 4988,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -2696,6 +2715,11 @@
         {
             "id": 124,
             "name": "Event_Finish_2",
+            "supercategory": ""
+        },
+        {
+            "id": 125,
+            "name": "Fox_Home_Explore",
             "supercategory": ""
         }
     ]

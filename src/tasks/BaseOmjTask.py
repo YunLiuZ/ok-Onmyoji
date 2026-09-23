@@ -6,7 +6,6 @@ from datetime import datetime, timedelta
 from typing import List
 
 import numpy as np
-from ok.gui.Communicate import communicate
 
 from ok import BaseTask, Logger, og, CannotFindException, TaskDisabledException
 
@@ -45,6 +44,13 @@ class BaseOmjTask(BaseTask):
             "User": "当前控制哪个角色，帮助多开时识别",
         })
 # region global
+    @property
+    def home_ui(self):
+        return og.my_app.home_ui
+
+    @home_ui.setter
+    def home_ui(self, value):
+        og.my_app.home_ui = value
     @property
     def logged_in(self):
         return og.my_app.logged_in

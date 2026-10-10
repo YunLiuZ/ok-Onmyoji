@@ -17,7 +17,7 @@ task.feature_set = ok_test.feature_set
 task.after_init(executor=ok_test.task_executor, scene=ok_test.task_executor.scene)
 
 # ---- 设置测试图片 ----
-IMAGE = "tests\img/2.png"
+IMAGE = "tests\img/7.png"
 ok_test.device_manager.capture_method.set_images([IMAGE])
 frame = task.next_frame()
 h, w = frame.shape[:2]
@@ -27,7 +27,7 @@ h, w = frame.shape[:2]
 searches = [
     # ("Lock",  task.box_of_screen(0.86, 0.93, 0.9, 1.0)),
     # ("Home_Shikigami_Chronicles",  task.box_of_screen(0.26, 0.81, 0.94, 0.97)),
-    ("YinYang_Lodge",  task.box_of_screen(0.26, 0.81, 0.94, 0.97)),
+    ("Battle_Finish",  task.box_of_screen(0.41, 0.55, 0.62, 0.88)),
     # ("Exploration_GoryouRealm",  task.box_of_screen(0.86, 0.93, 0.9, 1.0)),
     
     # ("Areaboss_Not_Lock",   task.box_of_screen(0.86,0.88,1,1)),

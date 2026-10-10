@@ -467,6 +467,12 @@
             "file_name": "images/3.png",
             "width": 2560,
             "height": 1440
+        },
+        {
+            "id": 95,
+            "file_name": "images/9.png",
+            "width": 1920,
+            "height": 1080
         }
     ],
     "annotations": [
@@ -2094,6 +2100,32 @@
             ],
             "area": 4988,
             "iscrowd": 0
+        },
+        {
+            "id": 126,
+            "image_id": 95,
+            "category_id": 126,
+            "bbox": [
+                199,
+                179,
+                118,
+                95
+            ],
+            "area": 11210,
+            "iscrowd": 0
+        },
+        {
+            "id": 127,
+            "image_id": 95,
+            "category_id": 127,
+            "bbox": [
+                401,
+                188,
+                121,
+                90
+            ],
+            "area": 10890,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -2720,6 +2752,16 @@
         {
             "id": 125,
             "name": "Fox_Home_Explore",
+            "supercategory": ""
+        },
+        {
+            "id": 126,
+            "name": "Soul_1",
+            "supercategory": ""
+        },
+        {
+            "id": 127,
+            "name": "Soul_2",
             "supercategory": ""
         }
     ]

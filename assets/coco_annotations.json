@@ -2126,6 +2126,19 @@
             ],
             "area": 10890,
             "iscrowd": 0
+        },
+        {
+            "id": 128,
+            "image_id": 52,
+            "category_id": 128,
+            "bbox": [
+                1462,
+                1294,
+                118,
+                74
+            ],
+            "area": 8732,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -2762,6 +2775,11 @@
         {
             "id": 127,
             "name": "Soul_2",
+            "supercategory": ""
+        },
+        {
+            "id": 128,
+            "name": "Exploration_Youkai",
             "supercategory": ""
         }
     ]

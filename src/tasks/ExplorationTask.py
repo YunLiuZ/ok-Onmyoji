@@ -389,6 +389,12 @@ class ExplorationTask(BuffBattleTask):
             if not self.wait_click_ocr(match=re.compile("探索"), time_out=6,
                                        box=self.box_of_screen(0.68, 0.79, 0.93, 0.94)):
                 self.log_info('找不到探索')
+            elif (text:=self.ocr_and_click(['二十八'],1,box=self.box_of_screen(0.82, 0.62, 0.92, 0.68))):
+                self.log_info('回到探索页面 困二十八')
+                if not self.wait_click_ocr(match=re.compile("探索"), time_out=6,
+                                           box=self.box_of_screen(0.68, 0.79, 0.93, 0.94)):
+                    self.log_info('找不到探索')
+
             if self.wait_ocr(match=re.compile('轮换'),
                              box=self.box_of_screen(0.09, 0.9, 0.2, 0.97), time_out=10):
                 self.sleep(1)
@@ -414,7 +420,9 @@ class ExplorationTask(BuffBattleTask):
                                            box=self.B('Back'),
                                            raise_if_not_found=False, time_out=5, after_sleep=1):
                 self.log_warning("找不到Back")
-            self.ocr_and_click("确认", 1, box=self.box_of_screen(0.53, 0.5, 0.68, 0.62))
+            if self.ocr_and_click("确认", 1, box=self.box_of_screen(0.53, 0.5, 0.68, 0.62)):
+                self.log_info("点击确认")
+
         if self.ocr_and_click("取消", box=self.box_of_screen(0.33, 0.55, 0.48, 0.66)):
             self.Back_Home()
             return True

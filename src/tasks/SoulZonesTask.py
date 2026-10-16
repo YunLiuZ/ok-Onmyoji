@@ -176,15 +176,15 @@ class SoulZonesTask(BuffBattleTask):
         if self.ocr_and_click(['组队'],box=self.box_of_screen(0.74,0.82,0.83,0.92)):
             self.log_info('点击组队')
         self.sleep(0.5)
-    
-        self.click_relative(0.84,0.87,after_sleep=1) #组队  
+        self.wait_click_ocr(match=re.compile("创建|队伍"),box=self.box_of_screen(0.75, 0.8, 0.93, 0.94),time_out=6,
+                            raise_if_not_found=False)
 
         if text:=self.ocr_and_click(['不公开','仅邀请',],box=self.box_of_screen(0.61,0.67,0.78,0.74)):
             self.log_info(f"OCR: {text}")
             self.click_relative(0.68,0.80,after_sleep=1)
             return True
         return False
-        
+
 
     def Invitation(self):
         if text := self.wait_ocr(match = re.compile("协战|队伍"),
@@ -212,10 +212,10 @@ class SoulZonesTask(BuffBattleTask):
             targets.append(self.config["Friend 2"])
         if self.config["Lock Team Enable"]:
             # 解锁状态 准备换队伍
-            self.Lock_team((0.07,0.87,0.12,0.97), lock=False)
+            self.Lock_team((0.02, 0.87, 0.27, 0.96), lock=False)
         else:
             # 不换
-            self.Lock_team((0.07,0.87,0.12,0.97), lock=True)
+            self.Lock_team((0.02, 0.87, 0.27, 0.96), lock=True)
 
     
         self.count = 1
@@ -223,7 +223,7 @@ class SoulZonesTask(BuffBattleTask):
             self.next_sleep_count = random.randrange(*(self.count_range))
 
         while(self.count <= self.AttackNumber):
-             for i, f in enumerate(targets):
+            for i, f in enumerate(targets):
                 if i == 0:
                     ok = self.ocr_and_click(f, time_out=30,box=self.box_of_screen (0.39, 0.07, 0.62, 0.28))
                 else:
@@ -250,13 +250,12 @@ class SoulZonesTask(BuffBattleTask):
                         self.log_warning("战斗超时！！")
                         return False
 
-                    if self.count == 1:      
+                    if self.count == 1:
                         if self.wait_ocr("发现宝藏",time_out=1,box=self.box_of_screen(0.36,0.18,0.65,0.33)):
                             self.click_relative(0.1,0.1,after_sleep=1)
-                        if  self.wait_click_feature('Leader_Invitation', threshold=0.7,
-                                            box=self.B('Leader_Invitation'),
-                                            raise_if_not_found=False, time_out=6, after_sleep=1):
-                            if not (self.ocr_and_click('确定',time_out=6,box=self.box_of_screen(0.51,0.53,0.67,0.63))):
+                        self.sleep(1)
+                        if self.wait_click_ocr(match=re.compile("默认"),box=self.box_of_screen(0.43, 0.45, 0.6, 0.56),raise_if_not_found=False, time_out=6):
+                            if not (self.ocr_and_click('确定',time_out=6,box=self.box_of_screen(0.31, 0.5, 0.69, 0.79))):
                                 self.log_warning("找不到确定")
                         else:
                             self.log_warning("找不到Leader_Invitation")
@@ -327,10 +326,10 @@ class SoulZonesTask(BuffBattleTask):
         self.count = 1
         if self.config["Lock Team Enable"]:
             # 解锁状态 准备换队伍
-            self.Lock_team((0.07, 0.87, 0.12, 0.97), lock=False)
+            self.Lock_team((0.02, 0.87, 0.27, 0.96), lock=False)
         else:
             # 不换
-            self.Lock_team((0.07, 0.87, 0.12, 0.97), lock=True)
+            self.Lock_team((0.02, 0.87, 0.27, 0.96), lock=True)
         while self.count <= self.AttackNumber :
             if self.count == 1:
                 self.log_info("进入检测1")

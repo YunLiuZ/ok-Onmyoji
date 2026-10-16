@@ -184,7 +184,7 @@ class RealmRaidTask(BaseBattleTask):
                     if  self.wait_click_feature('Battle_Back', threshold=0.7,
                                     box=self.box_of_screen(0,0,0.1,0.1),
                                     raise_if_not_found=False, time_out=5, after_sleep=0.5):
-                        if res := self.ocr_and_click('确认',box=self.box_of_screen(0.54,0.55,0.62,0.70)):
+                        if res := self.ocr_and_click('确定',box=self.box_of_screen(0.54,0.55,0.62,0.70)):
                             self.info_set("步骤", "点击 确认")
                             if  self.wait_click_feature('Battle_Failure', threshold=0.7,
                                         box=self.B('Battle_Failure'),

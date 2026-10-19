@@ -180,7 +180,7 @@ class ExperienceYoukaiTask(BuffBattleTask):
 
     def Alone_battle(self):
         self.count = 1
-        while self.count < self.AttackNumber:
+        while self.count <= self.AttackNumber:
             if self.wait_ocr(match=re.compile("妖气|探索"), box=self.box_of_screen(0.11, 0, 0.17, 0.1)):
                 self.log_info("进入妖气探索页面")
                 self.click_rect_random((0.16, 0.28, 0.25, 0.36))
@@ -211,17 +211,17 @@ class ExperienceYoukaiTask(BuffBattleTask):
                     self.click_rect_random((0.89, 0.79, 0.95, 0.85))
                     self.log_info("检测是否为自动")
                     self.change_auto(self.green, self.GreenNum)
-            if self.wait_click_feature('Youkai_Success', threshold=0.7,
+            if self.wait_feature('Youkai_Success', threshold=0.7,
                                        box=self.box_of_screen(0.2, 0, 0.5, 0.43),
                                        raise_if_not_found=False,
-                                       time_out=self.BattleTime,
-                                       after_sleep=0.5):
+                                       time_out=self.BattleTime):
                 self.sleep(2)
-                if self.wait_click_feature('Youkai_Success', threshold=0.7,
+                self.click_rect_random((0.32, 0.05, 0.66, 0.2))
+                if self.wait_feature('Youkai_Success', threshold=0.7,
                                            box=self.box_of_screen(0.2, 0, 0.5, 0.43),
                                            raise_if_not_found=False,
-                                           time_out=2,
-                                           after_sleep=0.5):
+                                           time_out=2):
+                    self.click_rect_random((0.32, 0.05, 0.66, 0.2))
                     self.log_info("第一次没点到")
                     self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber}次战斗")
                     self.count += 1

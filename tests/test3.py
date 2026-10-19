@@ -27,7 +27,7 @@ h, w = frame.shape[:2]
 searches = [
     # ("Lock",  task.box_of_screen(0.86, 0.93, 0.9, 1.0)),
     # ("Home_Shikigami_Chronicles",  task.box_of_screen(0.26, 0.81, 0.94, 0.97)),
-    ("Soul_Not_Lock",  task.box_of_screen(0.01, 0.87, 0.09, 0.96)),
+    ("Youkai_Success",  task.box_of_screen(0.2, 0, 0.5, 0.43)),
     # ("Exploration_GoryouRealm",  task.box_of_screen(0.86, 0.93, 0.9, 1.0)),
     
     # ("Areaboss_Not_Lock",   task.box_of_screen(0.86,0.88,1,1)),

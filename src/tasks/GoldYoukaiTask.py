@@ -83,6 +83,8 @@ class GoldYoukaiTask(BuffBattleTask):
                                    box=self.B('bottom'),
                                    raise_if_not_found=False, time_out=6, after_sleep=1):
             self.log_info("进入妖气探索")
+            return True
+        return False
     def Invitation(self):
         # if text := self.wait_ocr(match=re.compile("协战|召回"),
         #                           box=self.box_of_screen(0, 0, 0.17, 0.1), time_out=6):
@@ -104,7 +106,7 @@ class GoldYoukaiTask(BuffBattleTask):
         return True
     def Leader_battle(self):
         self.count = 1
-        while self.count < self.AttackNumber:
+        while self.count <= self.AttackNumber:
             if self.wait_ocr(match=re.compile("妖气|探索"), box=self.box_of_screen(0.11, 0, 0.17, 0.1)):
                 self.log_info("进入妖气探索页面")
                 self.click_rect_random((0.16, 0.66, 0.25, 0.75))
@@ -171,9 +173,10 @@ class GoldYoukaiTask(BuffBattleTask):
         return True
     def Alone_battle(self):
         self.count = 1
-        while self.count < self.AttackNumber:
+        while self.count <= self.AttackNumber:
             if self.wait_ocr(match=re.compile("妖气|探索"), box=self.box_of_screen(0.11, 0, 0.17, 0.1)):
                 self.log_info("进入妖气探索页面")
+                self.sleep(1)
                 self.click_rect_random((0.16, 0.66, 0.25, 0.75))
             if self.wait_click_ocr(match=re.compile("不公开|仅邀请"), threshold=0.7,
                                    box=self.box_of_screen(0.3457, 0.5653, 0.5074, 0.6243)):

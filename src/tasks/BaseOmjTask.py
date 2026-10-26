@@ -252,9 +252,6 @@ class BaseOmjTask(BaseTask):
     def restart_game(self, wait_load=True):
         """通过 ADB 强制停止并重新启动游戏。返回 True 表示重启成功。"""
         pkg = self.executor.config.get('adb', {}).get('packages', [''])[0]
-        self.log_info("1111111111111111111111111111111111")
-        self.log_info(f"pkg: {pkg}")
-        self.log_info("1111111111111111111111111111111111")
         if not pkg:
             self.log_error("未配置 ADB packages，无法重启游戏")
             return False

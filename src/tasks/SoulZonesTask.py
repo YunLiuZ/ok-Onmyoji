@@ -223,58 +223,69 @@ class SoulZonesTask(BuffBattleTask):
             self.next_sleep_count = random.randrange(*(self.count_range))
 
         while(self.count <= self.AttackNumber):
+            ok = False
+            # if i == 0:
+            #     ok = self.wait_feature("Is_Friend", threshold=0.9,
+            #                            box=self.box_of_screen(0.48, 0.33, 0.53, 0.38),
+            #                            raise_if_not_found=False, time_out=30)
+            # else:
+            #     ok = self.wait_feature("Is_Friend", threshold=0.9,
+            #                            box=self.box_of_screen(0.81, 0.33, 0.86, 0.38),
+            #                            raise_if_not_found=False, time_out=30)
             for i, f in enumerate(targets):
                 if i == 0:
-                    ok = self.ocr_and_click(f, time_out=30,box=self.box_of_screen (0.39, 0.07, 0.62, 0.28))
+                    ok = self.wait_ocr(box=self.box_of_screen(0.39, 0.07, 0.62, 0.28),time_out=30,
+                                       raise_if_not_found=False)
                 else:
-                    ok = self.ocr_and_click(f, time_out=30,box=self.box_of_screen (0.72, 0.1, 0.94, 0.29))
-                if ok:
-                    self.click_relative(0.95,0.90,after_sleep=0.5)
-                    self.log_info("进入battle")
+                    ok = self.wait_ocr(box=self.box_of_screen(0.72, 0.1, 0.94, 0.29), time_out=30,
+                                       raise_if_not_found=False)
+            if ok:
+                self.click_relative(0.95,0.90,after_sleep=0.5)
+                self.log_info("进入battle")
 
-                    if self.count == 1:
-                        self.log_info("进入检测1")
-                        if self.config["Lock Team Enable"]:
-                            self.Change_team(self.group, self.team)
+                if self.count == 1:
+                    self.log_info("进入检测1")
+                    if self.config["Lock Team Enable"]:
+                        self.Change_team(self.group, self.team)
 
-                        self.log_info("检测是否为自动")
-                        self.change_auto(self.green,self.GreenNum)
-                    else:
-                        self.click_green(self.GreenNum)
-
-                    res = self.Find_finish(self.BattleTime)
-                    if res == 2:
-                        self.log_warning("战斗失败！！")
-                        return False
-                    elif res == 3:
-                        self.log_warning("战斗超时！！")
-                        return False
-
-                    if self.count == 1:
-                        if self.wait_ocr("发现宝藏",time_out=1,box=self.box_of_screen(0.36,0.18,0.65,0.33)):
-                            self.click_relative(0.1,0.1,after_sleep=1)
-                        self.sleep(1)
-                        if self.wait_click_ocr(match=re.compile("默认"),box=self.box_of_screen(0.43, 0.45, 0.6, 0.56),raise_if_not_found=False, time_out=6):
-                            if not (self.ocr_and_click('确定',time_out=6,box=self.box_of_screen(0.31, 0.5, 0.69, 0.79))):
-                                self.log_warning("找不到确定")
-                        else:
-                            self.log_warning("找不到Leader_Invitation")
-
-                    self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
-                    if self.is_sleep:
-                        self.log_info(f"会在第{self.next_sleep_count}次休息")
-                        if self.count >= self.next_sleep_count:
-                            self.next_sleep_count = self.count + random.randrange(*(self.count_range))
-                            a = random.randrange(*(self.time_range))
-                            self.log_info(
-                                f"第 {self.count} 次战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
-                            self.sleep(a)
-                    self.count+=1
-                    self.trigger_count+=1
+                    self.log_info("检测是否为自动")
+                    self.change_auto(self.green,self.GreenNum)
                 else:
-                    self.log_info("队友不在了")
-                    self.Back_Home()
+                    self.click_green(self.GreenNum)
+
+                res = self.Find_finish(self.BattleTime)
+                if res == 2:
+                    self.log_warning("战斗失败！！")
                     return False
+                elif res == 3:
+                    self.log_warning("战斗超时！！")
+                    return False
+
+                if self.count == 1:
+                    if self.wait_ocr("发现宝藏",time_out=1,box=self.box_of_screen(0.36,0.18,0.65,0.33)):
+                        self.click_relative(0.1,0.1,after_sleep=1)
+                    self.sleep(1)
+                    if self.wait_click_ocr(match=re.compile("默认"),box=self.box_of_screen(0.43, 0.45, 0.6, 0.56),raise_if_not_found=False, time_out=6):
+                        if not (self.ocr_and_click('确定',time_out=6,box=self.box_of_screen(0.31, 0.5, 0.69, 0.79))):
+                            self.log_warning("找不到确定")
+                    else:
+                        self.log_warning("找不到Leader_Invitation")
+
+                self.log_info(f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
+                if self.is_sleep:
+                    self.log_info(f"会在第{self.next_sleep_count}次休息")
+                    if self.count >= self.next_sleep_count:
+                        self.next_sleep_count = self.count + random.randrange(*(self.count_range))
+                        a = random.randrange(*(self.time_range))
+                        self.log_info(
+                            f"第 {self.count} 次战斗结束,休息{a}秒，下次休息{self.next_sleep_count}")
+                        self.sleep(a)
+                self.count+=1
+                self.trigger_count+=1
+            else:
+                self.log_info("队友不在了")
+                self.Back_Home()
+                return False
         if not self.wait_click_feature('Back', threshold=0.7,
                                             box=self.B('Back'),
                                             raise_if_not_found=False, time_out=5, after_sleep=1):

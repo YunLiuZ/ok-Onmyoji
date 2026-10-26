@@ -286,10 +286,10 @@ class BaseBattleTask(BaseOmjTask):
                     self.click(res1, after_sleep=0.1)
                     self.click(res1, after_sleep=0.1)
                     self.click(res1, after_sleep=0.1)
-                    self.log_info("第一次没点到")
+                    self.log_info("第一次没点到Battle_Finish")
                     return True
                 else:
-                    self.log_info("第一次点到")
+                    self.log_info("第一次点到Battle_Finish")
                 return True
             elif res :=self.wait_feature('Battle_Finish_Soul', threshold=0.7,
                                         box=self.B('Battle_Finish_Soul'),
@@ -304,10 +304,10 @@ class BaseBattleTask(BaseOmjTask):
                     self.click(res1, after_sleep=0.1)
                     self.click(res1, after_sleep=0.1)
                     self.click(res1, after_sleep=0.1)
-                    self.log_info("第一次没点到")
+                    self.log_info("第一次没点到Battle_Finish_Soul")
                     return True
                 else:
-                    self.log_info("第一次点到")
+                    self.log_info("第一次点到Battle_Finish_Soul")
                     return True
             return False
 
@@ -322,9 +322,9 @@ class BaseBattleTask(BaseOmjTask):
                                                           box=self.B('success_box')):
                     self.click_rect_random((0.1, 0.1, 0.9, 0.47))
                     self.sleep(0.5)
-                    self.log_info("第一次没点到")
+                    self.log_info("第一次没点到Battle_Success")
                 else:
-                    self.log_info("第一次点到")
+                    self.log_info("第一次点到Battle_Success")
                 if finish():
                     return True
                 else:
@@ -336,25 +336,31 @@ class BaseBattleTask(BaseOmjTask):
                 if res1 := self.find_one('Battle_Finish', threshold=0.7,
                                           box=self.B('Battle_Finish')):
                     self.click_rect_random(res1)
-                    self.log_info("第一次没点到")
+                    self.log_info("第一次没点到1")
                     self.sleep(1)
                     return True
                 else:
-                    self.log_info("第一次点到")
+                    self.log_info("第一次点到1")
                     return True
-            if res := self.find_one('Battle_Finish_Soul', threshold=0.7,
-                                        box=self.B('Battle_Finish_Soul')):
-                self.click(res)
+            if self.wait_ocr(match=re.compile("通关|时间"),box=self.box_of_screen(0.1, 0.77, 0.24, 0.86),
+                             time_out=1,raise_if_not_found=False):
                 self.sleep(1)
-                if res1 := self.find_one('Battle_Finish_Soul', threshold=0.7,
-                                          box=self.B('Battle_Finish_Soul')):
-                    self.click(res1)
-                    self.log_info("第一次没点到")
-                    self.sleep(1)
-                    return True
-                else:
-                    self.log_info("第一次点到")
-                    return True
+                self.click_rect_random((0.36, 0.07, 0.61, 0.18))
+                self.log_info("通关")
+                return True
+            # if res := self.find_one('Battle_Finish_Soul', threshold=0.7,
+            #                             box=self.B('Battle_Finish_Soul')):
+            #     self.click(res)
+            #     self.sleep(1)
+            #     if res1 := self.find_one('Battle_Finish_Soul', threshold=0.7,
+            #                               box=self.B('Battle_Finish_Soul')):
+            #         self.click(res1)
+            #         self.log_info("第一次没点到2")
+            #         self.sleep(1)
+            #         return True
+            #     else:
+            #         self.log_info("第一次点到2")
+            #         return True
             if res := self.find_one('Battle_Failure', threshold=0.9,
                                         box=self.B('Battle_Failure')):
                 self.click_rect_random(res)
@@ -382,9 +388,14 @@ class BaseBattleTask(BaseOmjTask):
         不同用户加成数量不同，OCR 自适应。"""
         if not selected:
             return True
-        if not self.ocr_and_click('成',box=self.box_of_screen(0.31, 0.03, 0.35, 0.11)):
+        if not self.find_one(["Exploration_AreaBoss", "Exploration_Hero", "Exploration_Soul"], threshold=0.75,
+                             box=self.B('bottom')):
             self.log_info("不在探索页面，跳过加成")
             return False
+
+        self.sleep(1)
+        self.click_rect_random((0.32, 0.04, 0.34, 0.1))
+
 
         # 1. OCR 定位屏幕上实际存在的加成文字
         buff_pattern = '|'.join(selected)

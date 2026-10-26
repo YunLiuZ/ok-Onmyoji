@@ -154,6 +154,7 @@ config = {
         ["src.tasks.ExplorationTask", "ExplorationTask"],
         ["src.tasks.AwakeTask", "AwakeTask"],
         ["src.tasks.GoryouRealmTask", "GoryouRealmTask"],
+        ["src.tasks.HeroTask", "HeroTask"],
 
         # ── 周常 ──
         ["src.tasks.SecretTask", "SecretTask"],

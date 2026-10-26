@@ -2139,6 +2139,19 @@
             ],
             "area": 8732,
             "iscrowd": 0
+        },
+        {
+            "id": 129,
+            "image_id": 63,
+            "category_id": 129,
+            "bbox": [
+                1240,
+                501,
+                104,
+                17
+            ],
+            "area": 1768,
+            "iscrowd": 0
         }
     ],
     "categories": [
@@ -2780,6 +2793,11 @@
         {
             "id": 128,
             "name": "Exploration_Youkai",
+            "supercategory": ""
+        },
+        {
+            "id": 129,
+            "name": "Is_Friend",
             "supercategory": ""
         }
     ]

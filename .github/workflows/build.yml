@@ -82,6 +82,10 @@ jobs:
               * [ok-Onmyoji-win32-global-setup.exe](https://github.com/YunLiuZ/ok-Onmyoji/releases/download/${{ github.ref_name }}/ok-Onmyoji-win32-global-setup.exe) Github 源完整安装包（适合全球用户，依赖从GitHub下载）/ Github source whole setup (for global users, dependencies from GitHub)
               * [ok-Onmyoji-win32-online-setup.exe](https://github.com/YunLiuZ/ok-Onmyoji/releases/download/${{ github.ref_name }}/ok-Onmyoji-win32-online-setup.exe) 在线安装包（体积小，需联网下载依赖，建议先使用完整安装包）/ Online installer (small size, downloads dependencies online, recommended to use the full installer first)
               * 不要下载SourceCode, Do Not Download the SourceCode
+            ### 其他下载源 / Alternative download sources
+              * [Mirror酱](https://mirrorchyan.com/zh/projects?rid=ok-Onmyoji), 国内镜像，可能需要购买 CD-KEY / China mirror, may require a CD-KEY purchase
+              * [夸克网盘](https://pan.quark.cn/s/80730a808d0e), 免费下载 / Free download
+              * [百度网盘](https://pan.baidu.com/s/102Mh1djq2B1T-cIJhct9Gg?pwd=okww), 免费下载，提取码：okww / Free download, extraction code: okww
           files: pyappify_dist/*
 
       - name: Trigger MirrorChyanUploading

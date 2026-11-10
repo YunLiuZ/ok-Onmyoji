@@ -33,7 +33,7 @@ class ExplorationTask(BuffBattleTask):
     def run(self):
         self.in_home_and_back()
         if self.config["Preset Enable"]:
-            self.group, self.team = self._parse_preset(self.config["RealmRaid_Team"])
+            self.group, self.team = self._parse_preset(self.config["Preset Team"])
             self.SwitchSoul_by_num(self.group, self.team)
 
         if self.config["UserStatus"] == "队长":
@@ -386,14 +386,18 @@ class ExplorationTask(BuffBattleTask):
                 return False
 
         while self.count <= self.AttackNumber:
-            if not self.wait_click_ocr(match=re.compile("探索"), time_out=6,
+            if self.wait_click_ocr(match=re.compile("探索"), time_out=6,
                                        box=self.box_of_screen(0.68, 0.79, 0.93, 0.94)):
-                self.log_info('找不到探索')
-            elif (text:=self.ocr_and_click(['二十八'],1,box=self.box_of_screen(0.82, 0.62, 0.92, 0.68))):
+                self.log_info('点击探索')
+            elif (self.ocr_and_click(['二十八'],1,box=self.box_of_screen(0.82, 0.62, 0.92, 0.68))):
                 self.log_info('回到探索页面 困二十八')
-                if not self.wait_click_ocr(match=re.compile("探索"), time_out=6,
+                if  self.wait_click_ocr(match=re.compile("探索"), time_out=6,
                                            box=self.box_of_screen(0.68, 0.79, 0.93, 0.94)):
-                    self.log_info('找不到探索')
+                    self.log_info('点击探索')
+            elif self.Back_Home():
+                self.Exploration_page()
+            else:
+                return False
 
             if self.wait_ocr(match=re.compile('轮换'),
                              box=self.box_of_screen(0.09, 0.9, 0.2, 0.97), time_out=10):

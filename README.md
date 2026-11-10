@@ -44,6 +44,8 @@ An image-recognition-based automation tool for Onmyoji, with background mode sup
 
 * **[GitHub](https://github.com/YunLiuZ/ok-Onmyoji/releases)**: 官方发布页。（**请下载 `7z` 压缩包，而不是 `Source Code` 源码压缩包**）
 * **[Mirror酱](https://mirrorchyan.com/zh/projects?rid=ok-Onmyoji)**: 国内镜像，下载可能需要购买其平台的 CD-KEY。
+* **[夸克网盘](https://pan.quark.cn/s/80730a808d0e)**: 免费下载。
+* **[百度网盘](https://pan.baidu.com/s/102Mh1djq2B1T-cIJhct9Gg?pwd=okww)**: 免费下载（提取码：`okww`）。
 
 ## 运行要求与推荐设置
 

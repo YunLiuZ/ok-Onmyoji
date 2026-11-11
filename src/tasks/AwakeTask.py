@@ -14,15 +14,24 @@ class AwakeTask(BuffBattleTask):
             "Friend 1": "",
             "Friend 2": "",
             "Awake": "火",
+            "Awake Zones": "拾层",
         })
         self.config_description.update({
             "UserStatus": "队伍角色：队长创建的队伍，队员加入队伍，单人独自挑战。",
             "Friend 1": "邀请几位就填几位，不邀请请不要填写",
         })
         self.config_type.update({
+            "UserStatus": {
+                "type": "drop_down",
+                "options": ["队长", "队员", "单人"],
+            },
             "Awake": {
                 "type": "drop_down",
                 "options": ["火", "风", "水", "雷"],
+            },
+            "Awake Zones": {
+                "type": "drop_down",
+                "options": ["拾层", "壹层"],
             },
         })
     def run(self):
@@ -108,15 +117,26 @@ class AwakeTask(BuffBattleTask):
             if self.config["Awake"] == "雷":
                 self.click_relative(0.86,0.34)
                 self.sleep(1)
-        self._swipe(0.11, 0.69, 0.11, 0.22, 0.5)
-        self._swipe(0.11, 0.69, 0.11, 0.22, 0.5)
-        self.sleep(0.5)
-        if text:=self.ocr_and_click('拾层',1,box=self.box_of_screen(0.06,0.43,0.16,0.94),time_out=6,):
-                self.log_info('拾层')
+        if self.config["Awake Zones"] == "壹层":
+            self._swipe(0.11, 0.22,0.11, 0.69,  0.5)
+            self._swipe(0.11, 0.22,0.11, 0.69,  0.5)
+            self.sleep(0.5)
+            if text := self.ocr_and_click('壹层', 1, box=self.box_of_screen(0.05, 0.1, 0.21, 0.26), time_out=6, ):
+                self.log_info('壹层')
                 return True
-        else:
-            self.log_info('找不到十层')
-            return False
+            else:
+                self.log_info('找不到壹层')
+                return False
+        elif self.config["Awake Zones"] == "拾层":
+            self._swipe(0.11, 0.69, 0.11, 0.22, 0.5)
+            self._swipe(0.11, 0.69, 0.11, 0.22, 0.5)
+            self.sleep(0.5)
+            if text:=self.ocr_and_click('拾层',1,box=self.box_of_screen(0.05, 0.67, 0.21, 0.96),time_out=6,):
+                    self.log_info('拾层')
+                    return True
+            else:
+                self.log_info('找不到十层')
+                return False
 
     def leader_page(self):
         if self.ocr_and_click(['组队'], box=self.box_of_screen(0.74, 0.82, 0.83, 0.92)):
@@ -163,49 +183,54 @@ class AwakeTask(BuffBattleTask):
         self.count = 1
 
         while (self.count <= self.AttackNumber):
+            ok = False
             for i, f in enumerate(targets):
                 if i == 0:
-                    ok = self.ocr_and_click(f, time_out=30, box=self.box_of_screen(0.43, 0.15, 0.53, 0.19))
+                    ok = self.wait_ocr(box=self.box_of_screen(0.39, 0.07, 0.62, 0.28), time_out=30,
+                                       raise_if_not_found=False)
                 else:
-                    ok = self.ocr_and_click(f, time_out=30, box=self.box_of_screen(0.77, 0.14, 0.88, 0.19))
-                if ok:
-                    self.click_relative(0.95, 0.90, after_sleep=0.5)
-                    self.log_info("进入battle")
+                    ok = self.wait_ocr(box=self.box_of_screen(0.72, 0.1, 0.94, 0.29), time_out=30,
+                                       raise_if_not_found=False)
+            if ok:
+                if self.wait_ocr(match=re.compile("协战|队伍"), box=self.box_of_screen(0.03, 0.02, 0.22, 0.14),
+                                       raise_if_not_found=False, time_out=6):
+                    self.log_info("进入战斗准备页面")
+                    self.sleep(1)
+                    self.click_rect_random((0.92, 0.85, 0.98, 0.95))
 
-                    if self.count == 1:
-                        self.log_info("进入检测1")
-                        if self.config["Lock Team Enable"]:
-                            self.Change_team(self.group, self.team)
+                if self.count == 1:
+                    self.log_info("进入检测1")
+                    if self.config["Lock Team Enable"]:
+                        self.Change_team(self.group, self.team)
 
-                        self.log_info("检测是否为自动")
-                        self.change_auto(self.GreenNum)
-                    else:
-                        self.click_green(self.green,self.GreenNum)
-
-                    res = self.Find_finish(self.BattleTime)
-                    if res == 2:
-                        self.log_warning("战斗失败！！")
-                        return False
-                    elif res == 3:
-                        self.log_warning("战斗超时！！")
-                        return False
-                    if self.count == 1:
-                        if  self.wait_click_feature('Leader_Invitation', threshold=0.7,
-                                            box=self.B('Leader_Invitation'),
-                                            raise_if_not_found=False, time_out=6, after_sleep=1):
-                            if not (self.ocr_and_click('确定',time_out=6,box=self.box_of_screen(0.51,0.53,0.67,0.63))):
-                                self.log_warning("找不到确定")
-                        else:
-                            self.log_warning("找不到Leader_Invitation")
-
-                    self.log_info(
-                        f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
-                    self.count += 1
-                    self.trigger_count += 1
+                    self.log_info("检测是否为自动")
+                    self.change_auto(self.GreenNum)
                 else:
-                    self.log_info("队友不在了")
-                    self.Back_Home()
+                    self.click_green(self.green,self.GreenNum)
+
+                res = self.Find_finish(self.BattleTime)
+                if res == 2:
+                    self.log_warning("战斗失败！！")
                     return False
+                elif res == 3:
+                    self.log_warning("战斗超时！！")
+                    return False
+                if self.count == 1:
+                    if self.wait_click_ocr(match=re.compile("默认"), box=self.box_of_screen(0.43, 0.45, 0.6, 0.56),
+                                           raise_if_not_found=False, time_out=6):
+                        if not (self.ocr_and_click('确定', time_out=6, box=self.box_of_screen(0.31, 0.5, 0.69, 0.79))):
+                            self.log_warning("找不到确定")
+                    else:
+                        self.log_warning("找不到Leader_Invitation")
+
+                self.log_info(
+                    f"第 {self.count} 次战斗结束 总共{self.AttackNumber} 第 {self.trigger_count} 次战斗")
+                self.count += 1
+                self.trigger_count += 1
+            else:
+                self.log_info("队友不在了")
+                self.Back_Home()
+                return False
         if not self.wait_click_feature('Back', threshold=0.7,
                                        box=self.B('Back'),
                                        raise_if_not_found=False, time_out=5, after_sleep=1):
@@ -259,5 +284,56 @@ class AwakeTask(BuffBattleTask):
         else:
             return False
     def Alone_battle(self):
-        pass
+        if self.config["Lock Team Enable"]:
+            # 解锁状态 准备换队伍
+            self.Lock_team((0.01, 0.88, 0.05, 0.95), lock=False)
+        else:
+            # 不换
+            self.Lock_team((0.01, 0.88, 0.05, 0.95), lock=True)
+        self.count = 1
+        while (self.count <= self.AttackNumber):
+            if self.wait_click_ocr(match=re.compile("挑战"),box=self.box_of_screen(0.88, 0.8, 0.98, 0.96),
+                                   raise_if_not_found=False,time_out=6):
+                self.log_info("进入挑战")
+
+            if self.count == 1:
+                self.log_info("进入检测1")
+                if self.config["Lock Team Enable"]:
+                    self.Change_team(self.group, self.team)
+
+                self.log_info("检测是否为自动")
+                self.change_auto(self.GreenNum)
+            else:
+                self.click_green(self.green, self.GreenNum)
+
+            res = self.Find_finish(self.BattleTime)
+            if res == 2:
+                self.log_warning("战斗失败！！")
+                return False
+            elif res == 3:
+                self.log_warning("战斗超时！！")
+                return False
+            if self.count == 1:
+                if self.wait_click_feature('Leader_Invitation', threshold=0.7,
+                                           box=self.B('Leader_Invitation'),
+                                           raise_if_not_found=False, time_out=6, after_sleep=1):
+                    if not (self.ocr_and_click('确定', time_out=6, box=self.box_of_screen(0.51, 0.53, 0.67, 0.63))):
+                        self.log_warning("找不到确定")
+                else:
+                    self.log_warning("找不到Leader_Invitation")
+
+            self.log_info(
+                f"第 {self.count} 次战斗结束 总共{self.AttackNumber}次战斗")
+            self.count += 1
+        if not self.wait_click_feature('Back', threshold=0.7,
+                                       box=self.B('Back'),
+                                       raise_if_not_found=False, time_out=5, after_sleep=1):
+            self.log_warning("找不到Battle_Finish")
+        if self.ocr_and_click("确定", box=self.box_of_screen(0.54, 0.57, 0.63, 0.62)):
+            self.wait_click_feature("Home_Button", box=self.B("Home_Button"), threshold=0.8, time_out=6, after_sleep=2)
+        if self.in_home_and_back():
+            return True
+        else:
+            return False
+
 

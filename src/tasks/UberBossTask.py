@@ -10,18 +10,12 @@ class UberBossTask(BaseBattleTask):
         self.name = "活动-战斗-超鬼王"
         self.description = "2026.8.12武道大会,每日清票,本任务暂时只支持打合训，爬塔暂时没写，并且只支持一套阵容打所有Boss"
         self.default_config.update({
-            "ApMode": True,
-            "GeneralClimb": True,
-            "GeneralTickets":"0",
-            "ApTickets":"0"
+            "Tickets":"0,0,0,0,0,0",
+            "Level":"4",
         })
         self.config_description.update({
-            "ApMode": "注灵票战斗是否开启",
-            "GeneralClimb": "普通票战斗是否开启",
-            "Lock Team Enable":"考虑到借式神，暂时只支持一个预设队伍一直打，请手动设置每个boss的战斗队伍",
-            "AttackNumber": "无需填写",
-            "GeneralTickets": "普通票数量",
-            "ApTickets": "注灵票数量"
+            "ApTickets": "当前拥有鬼王票数量",
+            "Level": "自动打多少星以下的鬼王",
         })
         self.green = {
             1: (0.19, 0.75),
@@ -31,18 +25,247 @@ class UberBossTask(BaseBattleTask):
             5: (0.71, 0.8),
             6: (0.44, 0.86),
         }
-
-        self.general_tickets = 0
-        self.ap_tickets = 0
-        self.isap = True
+        self.ap = 0
+        self.one = 0
+        self.two = 0
+        self.three = 0
+        self.four = 0
+        self.five = 0
+        self.six = 0
+        self.level = 0
+        self.battle_mode = "consume"
     def run(self):
         self.in_home_and_back()
+        self.level = int(self.config["Level"])
         self.is_sleep,self.count_range , self.time_range = self._random_sleep(self.config["RandomSleep"])
         self.group, self.team = self._parse_preset(self.config["Preset Team"])
+        self.one,self.two,self.three,self.four,self.five,self.six = self._parse_preset(self.config["Tickets"])
         if self.config["Preset Enable"]:
             self.SwitchSoul_by_num(self.group, self.team)
 
-        self.Battle_page()
+        self.page()
+        self.battle()
+
+    def get_ap(self):
+        if self.wait_ocr(match=re.compile("祸主|降临"),
+                         time_out=6,
+                         box=self.box_of_screen(0.08, 0.01, 0.25, 0.12),
+                         raise_if_not_found=False):
+            self.log_info("超鬼王页面")
+        else:
+            return False
+
+        if text := self.wait_ocr(threshold=0.8,box=self.box_of_screen(0.84, 0.01, 0.97, 0.1),
+                                 time_out=6):
+            nums = re.findall(r'\d+', text[0].name)
+            self.ap = int(nums[0]) if nums else 0
+            self.log_info(f"当前体力值为：{self.ap}")
+            return True
+        else:
+            return False
+
+    def page(self):
+        self.click_rect_random((0.35, 0.35, 0.38, 0.4))
+        if self.wait_ocr(match=re.compile("祸主|降临|鬼王"),
+                         time_out=3,
+                         box=self.box_of_screen(0.68, 0.04, 0.81, 0.41),
+                         raise_if_not_found=False):
+            self.sleep(2)
+            self.click_rect_random((0.69, 0.06, 0.8, 0.38))
+        if self.wait_ocr(match=re.compile("祸主|降临"),
+                         time_out=3,
+                         box=self.box_of_screen(0.08, 0.01, 0.25, 0.12),
+                         raise_if_not_found=False):
+            self.log_info("进入超鬼王页面")
+        else:
+            return False
+        self.get_ap()
+
+    def select_boss(self):
+        # 进入恢复模式
+        if self.battle_mode == "consume" and self.ap >= 90:
+            self.battle_mode = "recover"
+            self.log_info("体力消耗达到90，进入恢复模式")
+
+        # 恢复模式退出条件
+        if self.battle_mode == "recover":
+            if self.ap <= 50 or self.four <= 0 or self.level < 4:
+                self.battle_mode = "consume"
+                self.log_info("体力恢复到阈值或四星票数耗尽，退出恢复模式")
+
+        # 恢复模式：优先打四星
+        if self.battle_mode == "recover":
+            if self.ap <= 90 and self.four > 0:
+                return 4
+
+            return None
+
+        # 消耗模式：优先三星、二星、一星
+        costs = {3: 5, 2: 7, 1: 9}
+        tickets = {
+            3: self.three,
+            2: self.two,
+            1: self.one
+        }
+
+        for star in (3, 2, 1):
+            if (
+                    self.level >= star
+                    and tickets[star] > 0
+                    and self.ap + costs[star] <= 90
+            ):
+                return star
+
+        # 低星无法继续挑战，切换四星
+        if self.level >= 4 and self.four > 0 and self.ap <= 90:
+            self.battle_mode = "recover"
+            self.log_info("低星暂时无法挑战，切换四星恢复体力")
+            return 4
+
+        return None
+
+    def fight_boss(self, star):
+        boss_features = {
+            1: "Boss_One",
+            2: "Boss_Two",
+            3: "Boss_Three",
+            4: "Boss_Four",
+        }
+
+        ticket_attrs = {
+            1: "one",
+            2: "two",
+            3: "three",
+            4: "four",
+        }
+
+        if star not in boss_features:
+            return False
+
+        attr = ticket_attrs[star]
+
+        # 判断是否还有票
+        if getattr(self, attr) <= 0:
+            self.log_info(f"{star}星鬼王票数不足")
+            return False
+        if self.wait_ocr(match=re.compile("召唤|鬼王"),
+                         time_out=15,
+                         box=self.box_of_screen(0.87, 0.79, 0.98, 0.96),
+                         raise_if_not_found=False):
+            self.sleep(2)
+            self.log_info("未发现鬼王")
+        if self.wait_click_ocr(match=re.compile("全部|队列"),
+                               time_out=3,
+                               box=self.box_of_screen(0.85, 0.68, 0.99, 0.75),
+                               raise_if_not_found=False):
+            self.log_info("点击鬼王选择")
+        else:
+            self.log_info("没有寻找到鬼王选择")
+
+        # 1. 选择鬼王
+        if self.wait_click_feature(
+                boss_features[star],
+                time_out=6,
+                threshold=0.95,
+                box=self.box_of_screen(0.25, 0.37, 0.76, 0.62),
+                raise_if_not_found=False
+        ):
+            self.log_info(f"寻找到对应{star}星鬼王")
+        else:
+            self.log_info(f"未找到对应{star}星鬼王")
+            return False
+        self.sleep(1)
+
+        # 2. 立即召唤
+        self.click_rect_random((0.45, 0.63, 0.55, 0.68))
+
+        # 3. 等待挑战界面
+        if not self.wait_click_ocr(
+                match=re.compile("挑战"),
+                time_out=3,
+                box=self.box_of_screen(0.87, 0.79, 0.98, 0.96),
+                raise_if_not_found=False
+        ):
+            self.log_info("未进入挑战界面")
+            return False
+
+        self.sleep(2)
+        self.log_info(f"开始挑战{star}星鬼王")
+
+        # 4. 点击预设并准备
+        if not self.wait_ocr(
+                match=re.compile("预设"),
+                box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
+                raise_if_not_found=False,
+                time_out=6
+        ):
+            self.log_info("未找到预设")
+            return False
+
+        self.sleep(2)
+        self.click_rect_random((0.88, 0.75, 0.95, 0.85))
+
+        # 5. 等待战斗成功
+        if self.wait_feature(
+                "Battle_Success",
+                time_out=self.BattleTime,
+                threshold=0.8,
+                box=self.box_of_screen(0.29, 0.06, 0.47, 0.34),
+                raise_if_not_found=False
+        ):
+            self.sleep(2)
+            self.click_rect_random((0.35, 0.16, 0.42, 0.27))
+        else:
+            self.log_info(f"{star}星鬼王战斗未确认成功")
+            return False
+
+        self.sleep(1)
+
+        # 6. 再次尝试点击战斗成功界面
+        if self.wait_feature(
+                "Battle_Success",
+                time_out=3,
+                threshold=0.8,
+                box=self.box_of_screen(0.29, 0.06, 0.47, 0.34),
+                raise_if_not_found=False
+        ):
+            self.click_rect_random((0.35, 0.16, 0.42, 0.27))
+            self.log_info("第一次没点到")
+        else:
+            self.log_info("第一次点到")
+
+        # 7. 更新剩余票数
+        remaining = getattr(self, attr) - 1
+        setattr(self, attr, remaining)
+
+        self.log_info(f"{star}星鬼王战斗结束，剩余票数：{remaining}")
+
+        # 8. 重新识别体力
+        self.sleep(4)
+        if self.get_ap():
+            self.log_info("体力识别成功")
+        else:
+            self.log_info("体力识别失败")
+        return True
+
+    def battle(self):
+        while True:
+            star = self.select_boss()
+
+            if star is None:
+                self.log_info("当前没有满足条件的鬼王")
+                break
+
+            if not self.fight_boss(star):
+                self.log_info(f"{star}星鬼王战斗失败")
+                break
+
+
+
+
+
+
+
 
 
     def Battle_page(self):

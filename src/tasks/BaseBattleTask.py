@@ -69,6 +69,8 @@ class BaseBattleTask(BaseOmjTask):
         parts = preset.split(",")
         if len(parts) == 2:
             return int(parts[0].strip()), int(parts[1].strip())
+        if len(parts) == 6:
+            return int(parts[0].strip()), int(parts[1].strip()), int(parts[2].strip()),int(parts[3].strip()), int(parts[4].strip()),int(parts[5].strip())
         return 1, 1
     def _random_sleep(self,randomsleep):
         parts = randomsleep.split(",")

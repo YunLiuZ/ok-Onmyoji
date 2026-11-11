@@ -8,7 +8,7 @@ class UberBossTask(BaseBattleTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "活动-战斗-超鬼王"
-        self.description = "2026.8.12武道大会,每日清票,本任务暂时只支持打合训，爬塔暂时没写，并且只支持一套阵容打所有Boss"
+        self.description = "2026.11.11超鬼王,暂时只支持一只四星鬼王的普通战斗，并且只支持一套阵容打所有Boss"
         self.default_config.update({
             "Tickets":"0,0,0,0,0,0",
             "Level":"4",

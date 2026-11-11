@@ -1,9 +1,12 @@
 
 #
 # Python 3.12
-# Manually adjusted from pip-compile output
+# Manually adjusted from pip-compile output; restored missing packages from legacy requirements
 # Use full PySide6 instead of ok-pyside-minimal
 #
+
+adbutils==2.12.0
+    # restored from old requirements.txt; emulator ADB connection
 
 annotated-types==0.8.0
     # via pydantic
@@ -37,6 +40,15 @@ comtypes==1.4.16
 
 cryptography==50.0.2
     # via pyjwt
+
+darkdetect==0.8.0
+    # restored from old requirements.txt; PySide6-Fluent-Widgets
+
+decorator==5.3.1
+    # via retry2
+
+deprecation==2.1.0
+    # via adbutils
 
 dulwich==1.2.21
     # via
@@ -96,6 +108,9 @@ onnxocr-ppocrv5==0.0.23
     #   ok-script
     #   ok-ww (pyproject.toml)
 
+opencc==1.3.1
+    # restored from old requirements.txt; text conversion
+
 opencv-python==5.0.0.93
     # via ok-ww (pyproject.toml)
 
@@ -107,6 +122,9 @@ openvino==2026.3.0
 
 openvino-telemetry==2025.2.0
     # via openvino
+
+packaging==26.2
+    # via deprecation
 
 pillow==12.3.0
     # via onnxocr-ppocrv5
@@ -154,6 +172,9 @@ python-multipart==0.0.33
 PySide6==6.12.0
 PySide6-Addons==6.12.0
 PySide6-Essentials==6.12.0
+retry2==0.9.5
+    # via adbutils
+
 shiboken6==6.12.0
 
 # Fluent UI components

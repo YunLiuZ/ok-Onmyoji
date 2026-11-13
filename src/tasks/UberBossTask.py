@@ -10,11 +10,11 @@ class UberBossTask(BaseBattleTask):
         self.name = "活动-战斗-超鬼王"
         self.description = "2026.11.11超鬼王,暂时只支持一只四星鬼王的普通战斗，并且只支持一套阵容打所有Boss"
         self.default_config.update({
-            "Tickets":"0,0,0,0,0,0",
+            "ApTickets":"0,0,0,0,0,0",
             "Level":"4",
         })
         self.config_description.update({
-            "ApTickets": "当前拥有鬼王票数量",
+            "ApTickets": "当前拥有鬼王票数量,请从一星到六星准确的填写",
             "Level": "自动打多少星以下的鬼王",
         })
         self.green = {
@@ -39,7 +39,7 @@ class UberBossTask(BaseBattleTask):
         self.level = int(self.config["Level"])
         self.is_sleep,self.count_range , self.time_range = self._random_sleep(self.config["RandomSleep"])
         self.group, self.team = self._parse_preset(self.config["Preset Team"])
-        self.one,self.two,self.three,self.four,self.five,self.six = self._parse_preset(self.config["Tickets"])
+        self.one,self.two,self.three,self.four,self.five,self.six = self._parse_preset(self.config["ApTickets"])
         if self.config["Preset Enable"]:
             self.SwitchSoul_by_num(self.group, self.team)
 
@@ -67,7 +67,7 @@ class UberBossTask(BaseBattleTask):
     def page(self):
         self.click_rect_random((0.35, 0.35, 0.38, 0.4))
         if self.wait_ocr(match=re.compile("祸主|降临|鬼王"),
-                         time_out=3,
+                         time_out=8,
                          box=self.box_of_screen(0.68, 0.04, 0.81, 0.41),
                          raise_if_not_found=False):
             self.sleep(2)
@@ -166,7 +166,7 @@ class UberBossTask(BaseBattleTask):
         if self.wait_click_feature(
                 boss_features[star],
                 time_out=6,
-                threshold=0.95,
+                threshold=0.90,
                 box=self.box_of_screen(0.25, 0.37, 0.76, 0.62),
                 raise_if_not_found=False
         ):
@@ -192,18 +192,18 @@ class UberBossTask(BaseBattleTask):
         self.sleep(2)
         self.log_info(f"开始挑战{star}星鬼王")
 
-        # 4. 点击预设并准备
-        if not self.wait_ocr(
-                match=re.compile("预设"),
-                box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
-                raise_if_not_found=False,
-                time_out=6
-        ):
-            self.log_info("未找到预设")
-            return False
-
-        self.sleep(2)
-        self.click_rect_random((0.88, 0.75, 0.95, 0.85))
+        # # 4. 点击预设并准备
+        # if not self.wait_ocr(
+        #         match=re.compile("预设"),
+        #         box=self.box_of_screen(0.02, 0.87, 0.14, 1.0),
+        #         raise_if_not_found=False,
+        #         time_out=6
+        # ):
+        #     self.log_info("未找到预设")
+        #     return False
+        #
+        # self.sleep(2)
+        # self.click_rect_random((0.88, 0.75, 0.95, 0.85))
 
         # 5. 等待战斗成功
         if self.wait_feature(

@@ -224,6 +224,8 @@ class SoulZonesTask(BuffBattleTask):
 
         while(self.count <= self.AttackNumber):
             ok = False
+            ok1 = False
+            ok2 = False
             # if i == 0:
             #     ok = self.wait_feature("Is_Friend", threshold=0.9,
             #                            box=self.box_of_screen(0.48, 0.33, 0.53, 0.38),
@@ -234,11 +236,20 @@ class SoulZonesTask(BuffBattleTask):
             #                            raise_if_not_found=False, time_out=30)
             for i, f in enumerate(targets):
                 if i == 0:
-                    ok = self.wait_ocr(box=self.box_of_screen(0.39, 0.07, 0.62, 0.28),time_out=30,
-                                       raise_if_not_found=False)
+                    self.log_info("等待队友1")
+                    if self.wait_ocr(box=self.box_of_screen(0.39, 0.07, 0.62, 0.28),time_out=60,
+                                       raise_if_not_found=False):
+                        ok1 = True
+                        ok = True
+                        self.log_info("队友1进入队伍")
+
                 else:
-                    ok = self.wait_ocr(box=self.box_of_screen(0.72, 0.1, 0.94, 0.29), time_out=30,
-                                       raise_if_not_found=False)
+                    self.log_info("等待队友2")
+                    if self.wait_ocr(box=self.box_of_screen(0.72, 0.07, 0.94, 0.29), time_out=60,
+                                       raise_if_not_found=False):
+                        ok2 = True
+                        ok = True
+                        self.log_info("队友2进入队伍")
             if ok:
                 self.click_relative(0.95,0.90,after_sleep=0.5)
                 self.log_info("进入battle")
@@ -283,7 +294,10 @@ class SoulZonesTask(BuffBattleTask):
                 self.count+=1
                 self.trigger_count+=1
             else:
-                self.log_info("队友不在了")
+                if not ok1:
+                    self.log_info("队友1不在了")
+                if not ok2:
+                    self.log_info("队友2不在了")
                 self.Back_Home()
                 return False
         if not self.wait_click_feature('Back', threshold=0.7,

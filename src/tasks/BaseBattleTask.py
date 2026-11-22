@@ -400,7 +400,11 @@ class BaseBattleTask(BaseOmjTask):
             return False
 
         self.sleep(1)
-        self.click_rect_random((0.32, 0.04, 0.34, 0.1))
+        if not self.wait_click_feature('Open_Buff', threshold=0.8,
+                                       box=self.box_of_screen(0.15, 0.01, 0.47, 0.14),
+                                       raise_if_not_found=False, time_out=6):
+            self.log_warning("找不到探索 Home_Sign")
+            return False
 
 
         # 1. OCR 定位屏幕上实际存在的加成文字

@@ -207,7 +207,7 @@ class UtilizeTask(BaseOmjTask):
 
                 found_kaiko = False
 
-                for attempt in range(2):  # 最多下拉2次
+                for attempt in range(4):  # 最多下拉2次
                     # 一次性查找所有目标特征，按优先级排序
                     self.sleep(1)
                     if res := self.find_feature(feature_list, threshold=0.8,

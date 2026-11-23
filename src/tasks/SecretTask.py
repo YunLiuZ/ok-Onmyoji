@@ -25,10 +25,7 @@ class SecretTask(BaseBattleTask):
             self.log_warning("秘闻失败")
             return False
     def secret_page(self):
-        if not self.wait_click_feature('Home_Explore', threshold=0.7,
-                                        box=self.B('Home_Explore'),
-                                        raise_if_not_found=False, time_out=6, after_sleep=1):
-            self.log_warning("找不到探索 Home_Sign")
+        self.into_explore()
         self.info_set("步骤", "进入探索页面")
 
         if self.wait_click_feature('Exploration_Secret', threshold=0.7,

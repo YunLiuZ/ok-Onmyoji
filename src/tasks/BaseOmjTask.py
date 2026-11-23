@@ -10,6 +10,32 @@ import numpy as np
 from ok import BaseTask, Logger, og, CannotFindException, TaskDisabledException
 
 class BaseOmjTask(BaseTask):
+    def into_explore(self):
+        if self.home_ui == 1:
+            if not self.wait_click_feature('Home_Explore', threshold=0.7,
+                                            box=self.B('Home_Explore'),
+                                            raise_if_not_found=False, time_out=6, after_sleep=1):
+                self.log_warning("找不到探索")
+                return False
+        elif self.home_ui == 2:
+            if not self.wait_click_feature('Fox_Home_Explore', threshold=0.7,
+                                            box=self.box_of_screen(0.55, 0.27, 0.63, 0.44),
+                                            raise_if_not_found=False, time_out=6, after_sleep=1):
+                self.log_warning("找不到fox探索")
+                return False
+    def into_town(self):
+        if self.home_ui == 1:
+            if not self.wait_click_feature('Home_Town', threshold=0.8,
+                                           time_out=6, box=self.B('Home_Town'),
+                                           raise_if_not_found=False):
+                self.log_warning("找不到町中")
+                return False
+        elif self.home_ui == 2:
+            self.sleep(1)
+            self.click_rect_random((0.79, 0.45, 0.81, 0.53))
+            self.log_info("进入町中")
+
+
 
     def wait_click_feature(self, feature, *args, relative_x=None, relative_y=None, **kwargs):
         """重写框架方法：默认在匹配框内随机位置点击，而非固定中心。"""
@@ -51,6 +77,7 @@ class BaseOmjTask(BaseTask):
     @home_ui.setter
     def home_ui(self, value):
         og.my_app.home_ui = value
+
     @property
     def logged_in(self):
         return og.my_app.logged_in
@@ -337,7 +364,7 @@ class BaseOmjTask(BaseTask):
                                        raise_if_not_found=False, time_out=3, after_sleep=1):
                 self.log_info("关闭悬赏封印")
                 self.sleep(1)
-        idle = self.find_one(["Home_Idle_setting", "Home_Idle_Back", "Home_Idle_Chat"], threshold=0.75,
+        idle = self.find_one(["Home_Idle_setting","Home_Idle_Chat"], threshold=0.75,
                              box=self.box_of_screen(0.01, 0.02, 0.26, 0.15))
         if idle:
             self.log_info("闲庭模式")
@@ -347,11 +374,35 @@ class BaseOmjTask(BaseTask):
                 self.log_info("退出闲庭模式")
                 self.sleep(1)
         self.log_info("寻找町中")
-        if not (town := self.wait_feature('Home_Town', threshold=0.8,
+        fox_town = self.wait_feature('Fox_Home_Explore', threshold=0.8,
+                                     time_out=3, box=self.box_of_screen(0.55, 0.27, 0.63, 0.44),
+                                     raise_if_not_found=False)
+        # fox_town = self.wait_feature('Fox_Home_Feature', threshold=0.9,
+        #                   time_out=3,box=self.box_of_screen(0.22, 0.24, 0.34, 0.57),
+        #                   raise_if_not_found=False)
+        fox_town1 = None
+        if not fox_town:
+            fox_town1 = self.wait_feature('Fox_Home_Explore', threshold=0.8,
+                                          time_out=3, box=self.box_of_screen(0.39, 0.18, 0.91, 0.63),
+                                          raise_if_not_found=False)
+            # fox_town1 = self.wait_feature('Fox_Home_Feature', threshold=0.9,
+            #                           time_out=3,box=self.box_of_screen(0.11, 0.16, 0.62, 0.7),
+            #                           raise_if_not_found=False)
+        town = town1 = None
+        if fox_town or fox_town1:
+            self.home_ui = 2
+            self.log_info("Fox")
+            town, town1 = fox_town, fox_town1
+        else:
+            if not (town := self.wait_feature('Home_Town', threshold=0.8,
                           time_out=3,box=self.B('Home_Town'),
                           raise_if_not_found=False)):
-            town = self.find_feature('Home_Explore', threshold=0.8, box=self.B('Home_Explore'))
-        town1 = self.find_one(["Home_Town", "Home_Explore"], threshold=0.8, box=self.B('Home_Exp'))
+                town = self.find_feature('Home_Explore', threshold=0.8, box=self.B('Home_Explore'))
+            if not town:
+                town1 = self.find_one(["Home_Town", "Home_Explore"], threshold=0.8, box=self.B('Home_Exp'))
+            if town or town1:
+                self.home_ui = 1
+                self.log_info("Home")
         self.sleep(1)
         home = self.find_one(["Home_Store","Home_Shikigami_Chronicles","YinYang_Lodge"], threshold=0.75, box=self.B('bottom'))
 

@@ -77,11 +77,7 @@ class TrueOrochiTask(BaseBattleTask):
             return True
 
     def trueorochi_page(self):
-        if not self.wait_click_feature('Home_Explore', threshold=0.7,
-                                        box=self.B('Home_Explore'),
-                                        raise_if_not_found=False, time_out=6, after_sleep=1):
-            self.log_warning("找不到探索 Home_Sign")
-        self.info_set("步骤", "进入探索页面")
+        self.into_explore()
         if self.wait_click_feature('Trueorochi', threshold=0.7,
                                         box=self.box_of_screen(0.01, 0.13, 0.11, 0.34),
                                         raise_if_not_found=False, time_out=6, after_sleep=1):

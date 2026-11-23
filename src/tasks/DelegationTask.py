@@ -59,12 +59,7 @@ class DelegationTask(BaseOmjTask):
 
     def Delegation_page(self):
         """导航到式神委派页面"""
-        self.log_info('导航')
-
-        if not self.wait_click_feature('Home_Explore', threshold=0.7,
-                                        box=self.B('Home_Explore'),
-                                        raise_if_not_found=False, time_out=6, after_sleep=1):
-            self.log_warning("找不到探索 Home_Sign")
+        self.into_explore()
         self.info_set("步骤", "进入探索页面")
         if self.wait_click_feature('Exploration_Delegation', threshold=0.7,
                                         box=self.B('bottom'),

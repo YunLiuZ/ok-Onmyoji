@@ -56,7 +56,7 @@ class Globals(QObject):
         self.failed_task = ""       # 是哪个任务挂了
         self.fail_count = {}        # {task_name: int} 连续失败计数
         self.pending_tasks = []     # [(order, name), ...] 待续跑的任务列表
-        self.home_ui = "unknown"  # unknown / normal / fox
+        self.home_ui = 2            # 庭院皮肤：1=旧皮肤，2=新皮肤（默认）
 
         from src.state import StateManager
         self.state = StateManager(

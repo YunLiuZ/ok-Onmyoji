@@ -59,10 +59,7 @@ class DuelTask(BaseBattleTask):
         self.duel_page()
         self.battle()
     def duel_page(self):
-        if not self.wait_click_feature('Home_Town', threshold=0.8,
-                                          time_out=6, box=self.B('Home_Town'),
-                                          raise_if_not_found=False):
-            self.log_warning("没有进入町中")
+        self.into_town()
         if self.wait_click_feature('Duel', threshold=0.8,
                                           time_out=6, box=self.box_of_screen(0.57, 0.16, 0.65, 0.34),
                                           raise_if_not_found=False):
